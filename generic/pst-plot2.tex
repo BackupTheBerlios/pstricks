@@ -1,0 +1,1365 @@
+%% BEGIN pst-plot.tex
+%%
+%% Plots and axes with PSTricks
+%% See the PSTricks User's Guide for documentation.
+%%
+%%
+%% COPYRIGHT 1993, 1994, 1999 by Timothy Van Zandt, <tvz@nwu.edu>.
+%% COPYRIGHT 2004 by Herbert Voss, <voss _at_ PSTricks.de>.
+%%
+%% This program can be redistributed and/or modified under the terms
+%% of the LaTeX Project Public License Distributed from CTAN
+%% archives in directory macros/latex/base/lppl.txt.
+%%
+
+\csname PSTplotLoaded\endcsname
+\let\PSTplotLoaded\endinput
+\ifx\PSTricksLoaded\endinput\else\input pstricks \fi
+\ifx\MultidoLoaded\endinput\else\input multido \fi
+\ifx\PSTXKeyLoaded\endinput\else\input pst-xkey \fi
+%
+\def\fileversion{2.00}
+\def\filedate{2004/11/23}
+\message{ v\fileversion, \filedate}
+\message{`pst-plot2' v\fileversion, \filedate\space (tvz,hv)}
+%
+\edef\PstAtCode{\the\catcode`\@} \catcode`\@=11\relax
+\SpecialCoor
+%\pst@addfams{pst-plot}
+%
+%% prologue for postcript
+\pstheader{pst-eqdf.pro}%
+%
+\newcount\@zero\@zero=0\relax
+%
+\newif\ifPst@plot@comma
+\define@key[psset]{}{comma}[true]{\@nameuse{Pst@plot@comma#1}}
+%
+\newif\ifPst@plot@xAxis
+\newif\ifPst@plot@yAxis
+\newif\ifPst@plot@xyAxes
+\define@key[psset]{}{xAxis}[true]{\@nameuse{Pst@plot@xAxis#1}}
+\define@key[psset]{}{yAxis}[true]{\@nameuse{Pst@plot@yAxis#1}}
+\define@key[psset]{}{xyAxes}[true]{\psset{xAxis=true,yAxis=true}}%
+%
+\define@key[psset]{}{xyDecimals}{\def\psk@xDecimals{#1}\def\psk@yDecimals{#1}}
+\define@key[psset]{}{xDecimals}{\def\psk@xDecimals{#1}}
+\define@key[psset]{}{yDecimals}{\def\psk@yDecimals{#1}}
+%
+\define@key[psset]{}{xyLabel}{\def\psk@xLabel{#1}\def\psk@yLabel{#1}}
+\define@key[psset]{}{xLabel}{\def\psk@xLabel{#1}}
+\define@key[psset]{}{yLabel}{\def\psk@yLabel{#1}}
+%
+\define@key[psset]{}{xlogBase}{\edef\psk@xlogBase{#1}}
+\define@key[psset]{}{ylogBase}{\edef\psk@ylogBase{#1}}
+\define@key[psset]{}{xylogBase}{\edef\psk@xlogBase{#1}\edef\psk@ylogBase{#1}}%
+%
+%logLines=all|x|y|none  (0,1,2,3)
+\define@key[psset]{}{logLines}{\pst@expandafter\logLines@ii{#1}\@nil\psk@logLines}
+\def\logLines@ii#1#2\@nil#3{%
+  \ifx#1a\let#3\z@\else
+    \ifx#1x\let#3\@ne\else
+      \ifx#1y\let#3\tw@\else
+        \ifx#1n\let#3\thr@@\else
+          \@pstrickserr{Bad argument: `#1#2'}\@ehpa
+  \fi\fi\fi\fi}
+%
+\define@key[psset]{}{ylabelFactor}{\edef\psk@ylabelFactor{#1}}
+\define@key[psset]{}{xlabelFactor}{\edef\psk@xlabelFactor{#1}}
+%
+% Using lists of data is optimized for \dataplot and \fileplot
+% Here is the tricky part. As each line is read from file,
+% we want to ignore trailing delimiters, and convert arbitrary
+% strings of non-trailing delimiters to _D_.
+% We end up with
+%   D x1 D y1 D x2 D y2 ... D xn D yn
+%
+\begingroup
+\catcode`\{=13
+\catcode`\}=13
+\catcode`\(=13
+\catcode`\)=13
+\catcode`\,=13
+\catcode`\!=1
+\catcode`\*=2
+\catcode`\ =13
+\catcode`\_=13
+\catcode`\^^M=13
+\gdef\pst@datadelimiters!% Begin def
+\catcode`\{=13%
+\catcode`\}=13%
+\catcode`\(=13%
+\catcode`\)=13%
+\catcode`\,=13%
+\catcode`\ =13%
+\catcode`\^^M=13%
+\def,##1!%
+\ifcat\noexpand,\noexpand##1%
+\expandafter##1%
+\else\space%
+D\space##1%
+\fi*%
+\let(,\let),\let{,\let},\let ,\let^^M,\let_\@empty*% End def
+\endgroup
+%
+\define@key[psset]{}{nStep}{\edef\psk@nStep{#1}}
+\define@key[psset]{}{nStart}{\edef\psk@nStart{#1}}
+\define@key[psset]{}{nEnd}{\edef\psk@nEnd{#1}}
+\define@key[psset]{}{xStep}{\edef\psk@xStep{#1}}
+\define@key[psset]{}{yStep}{\edef\psk@yStep{#1}}
+%
+\define@key[psset]{}{xStart}{\edef\psk@xStart{#1}}
+\define@key[psset]{}{xEnd}{\edef\psk@xEnd{#1}}
+\define@key[psset]{}{yStart}{\edef\psk@yStart{#1}}
+\define@key[psset]{}{yEnd}{\edef\psk@yEnd{#1}}
+%
+\define@key[psset]{}{plotNo}{\edef\psk@plotNo{#1}}
+\define@key[psset]{}{plotNoMax}{\edef\psk@plotNoMax{#1}}
+%
+\define@key[psset]{}{xAxisLabel}{\edef\psk@xAxisLabel{#1}}
+\define@key[psset]{}{yAxisLabel}{\edef\psk@yAxisLabel{#1}}
+\define@key[psset]{}{xAxisLabelPos}{\edef\psk@xAxisLabelPos{#1}}
+\define@key[psset]{}{yAxisLabelPos}{\edef\psk@yAxisLabelPos{#1}}
+%
+\newcount\linecnt
+\begingroup
+\catcode`\,=13
+\catcode`\_=13
+\gdef\savedata@#1[#2]{%
+  \xdef\pst@tempg{#2_}%
+  \endgroup
+  \let#1\pst@tempg
+  \global\let\pst@tempg\relax
+  \ignorespaces}
+\gdef\readdata@{%
+  \read1 to \pst@tempa
+  \ifnum\linecnt=\psk@nStep
+    \global\linecnt=0
+    \expandafter\readdata@@\pst@tempa_\@nil
+  \fi
+  \global\advance\linecnt by 1
+  \ifeof1\else\expandafter\readdata@\fi}
+\gdef\pst@@readfile#1#2\@nil{\addto@pscode{,#1#2}}%
+\gdef\readdata@@#1#2\@nil{\xdef\pst@tempg{\pst@tempg,#1#2}}%
+\endgroup
+%
+\def\readdata{\@ifnextchar[{\readdata@i}{\readdata@i[]}}
+\def\readdata@i[#1]#2#3{{%
+  \def\pst@tempa{#1}%
+  \ifx\pst@tempa\@empty\else\psset{#1}\fi
+  \openin1=#3
+  \begingroup
+  \edef\pst@tempg{}%
+  \ifeof1
+    \@pstrickserr{Data file `#3' not found.}\@ehpa
+  \else
+    \pst@datadelimiters
+    \catcode`\[=1
+    \catcode`\]=2
+    \global\linecnt=\psk@nStep
+    \readdata@%
+  \fi
+  \endgroup
+  \global\let#2\pst@tempg
+  \global\let\pst@tempg\relax
+  \ignorespaces%
+}\ignorespaces}
+%
+\def\pst@readfile#1{{\let\readdata@@\pst@@readfile\readdata\pst@tempg{#1}}}
+\def\pst@altreadfile#1{%
+  \openin1=#1
+  \ifeof1
+    \@pstrickserr{Data file `#1' not found.}\@ehpa
+  \else
+    \catcode`\{=10
+    \catcode`\}=10
+    \catcode`\(=10
+    \catcode`\)=10
+    \catcode`\,=10
+    \catcode`\^^M=10
+    \catcode`\[=1
+    \catcode`\]=2
+    \pst@@altreadfile
+  \fi}
+\def\pst@@altreadfile{%
+  \read1 to \pst@tempg
+  \expandafter\pst@@@altreadfile\pst@tempg\@empty\@nil
+  \ifeof1\else\expandafter\pst@@@altreadfile\fi}
+\def\pst@@@altreadfile#1#2\@nil{\addto@pscode{#1#2}}%
+
+\def\savedata#1{\begingroup\pst@datadelimiters\savedata@{#1}}
+
+\def\beginplot@line{\begin@OpenObj}
+\def\endplot@line{\psline@ii}
+\def\beginplot@polygon{\begin@ClosedObj}
+\def\endplot@polygon{\pspolygon@ii}
+\def\beginplot@curve{\begin@OpenObj}
+\def\endplot@curve{\pscurve@ii}
+\def\beginplot@ecurve{\begin@OpenObj}
+\def\endplot@ecurve{\psecurve@ii}
+\def\beginplot@ccurve{\begin@ClosedObj}
+\def\endplot@ccurve{\psccurve@ii}
+\def\beginplot@dots{\begin@SpecialObj}
+\def\endplot@dots{\psdots@ii}
+\def\beginplot@bezier{\begin@OpenObj}
+\def\endplot@bezier{\psbezier@ii}
+\def\beginplot@cbezier{\begin@ClosedObj}
+\def\endplot@cbezier{\pscbezier@ii}
+
+\define@key[psset]{}{plotstyle}{%
+  \@ifundefined{beginplot@#1}%
+    {\@pstrickserr{Plot style `#1' not defined}\@eha}%
+    {\edef\psplotstyle{#1}}}
+\define@key[psset]{}{plotpoints}{%
+  \pst@cntg=#1\relax
+  \ifnum\pst@cntg<2
+    \@pstrickserr{plotpoints parameter must be at least 2}\@ehpa
+  \else
+    \advance\pst@cntg-1
+    \edef\psk@plotpoints{\the\pst@cntg\space}%
+  \fi}
+%
+% For quick plots, define:
+%   \beginqp@<foo>   : What to do to first point (PS code only).
+%   \doqp@<foo>      : What to do to subsequent points (PS code only).
+%   \endqp@<foo>     : How to end plot.
+%   \testqp@<foo>    : Set \@psttrue if OK to use quick plot.
+
+\def\beginqp@line{\pst@oplineto}
+\def\doqp@line{L }
+\def\endqp@line{\end@OpenObj}%
+\def\testqp@line{%
+  \ifdim\pslinearc>\z@\else
+    \ifshowpoints\else
+      \ifx\psk@arrowA\@empty
+        \ifx\psk@arrowB\@empty
+          \@psttrue
+        \fi
+      \fi
+    \fi
+  \fi}
+
+\def\beginqp@polygon{moveto }
+\def\doqp@polygon{L }
+\def\endqp@polygon{%
+  \addto@pscode{closepath}%
+  \end@ClosedObj}
+\def\testqp@polygon{%
+  \ifdim\pslinearc>\z@\else
+    \ifshowpoints\else
+      \@psttrue
+    \fi
+  \fi}
+
+\def\beginqp@dots{%
+  \psk@dotsize
+  \@nameuse{psds@\psk@dotstyle}
+% DG/SR modification begin - Dec. 12, 1999 - Patch 2
+%  /TheDot { gsave \psk@dotangle \psk@dotscale Dot grestore } def
+%  TheDot }
+  Dot }
+%\def\doqp@dots{TheDot }
+\def\doqp@dots{Dot }
+% DG/SR modification end
+\def\endqp@dots{\end@SpecialObj}
+\def\testqp@dots{\@psttrue}
+
+\def\beginqp@bezier{/n 0 def \pst@oplineto}
+\def\doqp@bezier{/n n 1 add def n 3 mod 0 eq { curveto } if }
+\def\endqp@bezier{%
+  \addto@pscode{n 3 mod { pop pop } repeat}
+  \end@OpenObj}%
+\def\testqp@bezier{%
+  \ifshowpoints\else
+    \ifx\psk@arrowA\@empty
+      \ifx\psk@arrowB\@empty
+        \@psttrue
+      \fi
+    \fi
+  \fi}
+
+\def\beginqp@cbezier{/n 0 def moveto }
+\def\doqp@cbezier{\doqp@bezier}
+\def\endqp@cbezier{%
+  \addto@pscode{n 3 mod { pop pop } repeat closepath}
+  \end@ClosedObj}%
+\def\testqp@cbezier{\ifshowpoints\else\@psttrue\fi}
+%
+%
+\def\dataplot{\def\pst@par{}\pst@object{dataplot}}
+\def\dataplot@i#1{%
+  \pst@killglue
+  \begingroup
+    \use@par
+    \@pstfalse
+    \@nameuse{testqp@\psplotstyle}%
+    \if@pst
+      \dataplot@ii{\addto@pscode{#1}}%
+    \else
+      \listplot@ii{\addto@pscode{#1}}%
+    \fi
+  \endgroup
+  \ignorespaces}
+\def\dataplot@ii#1{%
+  \@nameuse{beginplot@\psplotstyle}%
+    \addto@pscode{%
+      /Dx { \pst@number\psxunit mul /D { Dy } def } def
+      /Dy { \pst@number\psyunit mul Do /D { Dx } def } def
+      /D { /D { Dx } def } def
+      /Do {
+        \@nameuse{beginqp@\psplotstyle}%
+        /Do { \@nameuse{doqp@\psplotstyle}} def
+      } def}%
+    #1%
+    \addto@pscode{D}%
+  \@nameuse{endqp@\psplotstyle}}
+
+\def\fileplot{\def\pst@par{}\pst@object{fileplot}}
+\def\fileplot@i#1{%
+  \pst@killglue
+  \begingroup
+    \use@par
+    \@pstfalse
+    \@nameuse{testqp@\psplotstyle}%
+    \if@pst
+      \dataplot@ii{\pst@readfile{#1}}%
+    \else
+      \listplot@ii{\pst@altreadfile{#1}}%
+    \fi
+  \endgroup
+  \ignorespaces}
+%
+\def\pstScalePoints(#1,#2)#3#4{%
+%  xScale | yScale | xOperator | yOperator  
+% the operators can be any Postscript code
+  \pst@def{ScalePoints}<%
+    /y ED /x ED
+    counttomark dup dup cvi eq not { exch pop } if
+    /m exch def /n m 2 div cvi def
+    n {
+      #4\space y mul #2\space mul m 1 roll
+      #3\space x mul #1\space mul m 1 roll
+      /m m 2 sub
+      def } repeat>
+}
+%\pstScalePoints(1,1){}{}% the default -> no special operators
+%
+\pst@def{ScalePoints}<%
+  /y ED /x ED
+  counttomark dup dup cvi eq not { exch pop } if
+  /m exch def /n m 2 div cvi def
+  n { y mul m 1 roll x mul m 1 roll /m m 2 sub def } repeat>
+
+\pst@def{PreparePoints}<{%
+  counttomark /m exch def
+  /n m \psk@plotNoMax\space 1 add div cvi def
+  \psk@plotNoMax\space 1 gt {% multiple data files?
+    n {
+      \psk@plotNoMax\space \psk@plotNo\space 1 sub neg roll % x yNo y y y ...
+      \psk@plotNoMax\space 1 sub { pop } repeat % x yNo
+      /m m \psk@plotNoMax\space 1 sub sub def
+      m 2 roll
+    } repeat
+  } if % no multiple data files
+%	counttomark /m exch def
+%	/n m 2 div cvi def
+  /xMax -99999 def /yMax -99999 def
+  /xP 0 def /yP 0 def
+  m copy
+  n {
+    /y exch def /x exch def
+    xMax x lt { /xMax x def } if
+    yMax y lt {/yMax y def } if
+    xP x gt { /xP x def } if
+    yP y gt { /yP y def } if
+  } repeat
+%	m 2 roll
+  \psk@xStep\space 0 gt \psk@yStep\space 0 gt or (\psk@xStart) length 0 gt or
+  (\psk@yStart) length 0 gt or (\psk@xEnd) length 0 gt or (\psk@yEnd) length 0 gt or {
+%
+    (\psk@xStart) length 0 gt {\psk@xStart\space }{ xP } ifelse /xStart exch def
+    (\psk@yStart) length 0 gt {\psk@yStart\space }{ yP } ifelse /yStart exch def
+    (\psk@xEnd) length 0 gt { \psk@xEnd\space }{ xMax } ifelse /xEnd exch def
+    (\psk@yEnd) length 0 gt { \psk@yEnd\space }{ yMax } ifelse /yEnd exch def
+    n {
+      m -2 roll
+      2 copy /yVal exch def /xVal exch def
+      xVal xP ge
+      yVal yP ge and
+      xVal xEnd le and
+      yVal yEnd le and
+      xVal xStart ge and
+      yVal yStart ge and {
+        /xP xP \psk@xStep\space add def
+        /yP yP \psk@yStep\space add def
+      }{%
+        pop pop
+        /m m 2 sub def
+      } ifelse
+    } repeat
+  }{%
+    /ncount 0 def
+    (\psk@nEnd) length 0 gt { \psk@nEnd\space }{ m } ifelse 
+    /nEnd exch def
+    n {
+      m -2 roll
+      \psk@nStep\space 1 gt {
+        ncount \psk@nStart\space sub \psk@nStep\space mod 0 eq }{ true } ifelse
+        ncount nEnd le and
+        ncount \psk@nStart\space ge and not {
+          pop pop
+          /m m 2 sub def
+        } if
+        /ncount ncount 1 add def
+      } repeat
+  } ifelse
+}>
+%
+
+\def\listplot{\def\pst@par{}\pst@object{listplot}}
+\def\listplot@i#1{\listplot@ii{\addto@pscode{#1}}}
+\def\listplot@ii#1{%
+  \@nameuse{beginplot@\psplotstyle}%
+  \addto@pscode{/D {} def mark}%
+  #1%
+  \addto@pscode{%
+    \tx@PreparePoints
+    \pst@number\psxunit
+    \pst@number\psyunit
+    \tx@ScalePoints%
+  }%
+  \@nameuse{endplot@\psplotstyle}%
+}
+%
+%
+% \psplot
+%
+% D.G. addition - Jun.  9, 1998 - Polar plots using the \psplot macro
+% Code added according the way suggested by Ulrich Dirr <udirr@das-team.com>
+%
+% For polar plots
+\newif\ifpolarplot
+\define@key[psset]{}{polarplot}{\@nameuse{polarplot#1}}
+%
+\define@key[psset]{}{method}{\edef\psk@method{#1}}%
+\define@key[psset]{}{whichabs}{\edef\psk@whichabs{#1}}%
+\define@key[psset]{}{whichord}{\edef\psk@whichord{#1}}%
+\define@key[psset]{}{plotfuncx}{\edef\psk@plotfuncx{#1}}%
+\define@key[psset]{}{plotfuncy}{\edef\psk@plotfuncy{#1}}%
+\define@key[psset]{}{expression}{\edef\psk@expression{#1}}%
+\define@key[psset]{}{VarStep}{\edef\psk@VarStep{#1}}%
+%
+\newif\ifPst@buildvector%
+\define@key[psset]{}{buildvector}[true]{\@nameuse{Pst@buildvector#1}}%
+%\newif\ifPst@algebraic%
+%\define@key[psset]{}{algebraic}[false]{\@nameuse{Pst@algebraic#1}}%
+%
+\def\@rkiv{rk4}%
+\def\@adams{adams}%
+\def\@undef{undef}%
+\def\@default{default}%
+%
+% none= 0 (postfix) , TeX=1 (conversion by TeX), PS=-1 (conversion by PostScript)
+\define@key[psset]{}{infix}{\pst@expandafter\pstinfix@i{#1}\@nil}
+\def\pstinfix@i#1#2\@nil{%
+  \ifx#1n\let\psk@infix\z@\else
+    \ifx#1T\let\psk@infix\@ne\else
+      \ifx#1P\let\psk@infix\m@ne\else
+        \@pstrickserr{Bad infix modus: `#1#2'}\@ehpa
+  \fi\fi\fi}
+%
+\def\psplotinit#1{\xdef\psplot@init{#1 }}
+\def\psplot@init{}
+%
+\def\psplot{\def\pst@par{}\pst@object{psplot}}
+\def\psplot@i#1#2#3{%
+  \pst@killglue
+  \begingroup
+    \use@par
+    \@nameuse{beginplot@\psplotstyle}%
+% D.G. modification begin - Jun.  9, 1998
+    \ifpolarplot
+      \addto@pscode{%
+        \psplot@init
+        /x #1 def
+        /x1 #2 def
+        /dx x1 x sub \psk@plotpoints div def
+        /F@pstplot \ifnum\psk@infix<\z@\space Pst@algebraic (#3) tx@EqdfDict begin AlgParser end cvx
+            \else { #3 } \fi  def 
+        /xy {% Adapted from \parametricplot@i
+          F@pstplot dup x cos mul exch x sin mul
+%          #3 dup x cos mul exch x sin mul
+          \pst@number\psxunit mul exch
+          \pst@number\psyunit mul exch
+        } def}%
+    \else
+% D.G. modification end
+    \addto@pscode{%
+      \psplot@init
+      /x #1 def
+      /x1 #2 def
+      /dx x1 x sub \psk@plotpoints div def
+      /F@pstplot \ifnum\psk@infix<\z@\space (#3) tx@EqdfDict begin AlgParser end cvx
+                 \else { #3 } \fi  def 
+      /xy {
+        x \pst@number\psxunit mul F@pstplot \pst@number\psyunit mul
+%       \ifPst@algebraic F@pstplot \else #3 \fi \pst@number\psyunit mul
+      } def}%
+    \fi
+    \gdef\psplot@init{}%
+    \@pstfalse
+    \@nameuse{testqp@\psplotstyle}%
+    \if@pst
+      \psplot@ii
+    \else
+      \psplot@iii
+    \fi
+  \endgroup
+  \ignorespaces}
+\def\psplot@ii{%
+  \ifx\psk@VarStep\@default
+    \addto@pscode{%
+      xy \@nameuse{beginqp@\psplotstyle}
+      \psk@plotpoints 1 sub {
+        /x x dx add def
+        xy \@nameuse{doqp@\psplotstyle}
+      } repeat
+      /x x1 def
+      xy \@nameuse{doqp@\psplotstyle}}%
+  \else
+    \addto@pscode{%
+      xy \@nameuse{beginqp@\psplotstyle}
+      /Olddt dx def /OldOlddt dx def /Oldy F@pstplot def /y 0 def
+      /Ndt dx def /Ny 0 def
+      { /Ndt Ndt 1.5 mul def %%new step is 50% larger
+        x1 x sub dup Ndt lt { /Ndt exch def } { pop } ifelse 
+        { /x x /Ny /x x Ndt add def tx@EqdfDict begin F@pstplot end def def
+          /x x /y /x x Ndt 2 div add def tx@EqdfDict begin F@pstplot end def def
+              /Oldy tx@EqdfDict begin F@pstplot end def
+         Ny y sub Ndt div y Oldy sub Ndt div dup 0 eq { pop pop exit } if div abs 
+         dup 1 gt { 1 exch div } if \psk@VarStep\space gt%%if greater than rate OK
+         { exit } { /Ndt Ndt 2 div def } ifelse
+          Ndt dx lt { exit } if
+       } loop
+        /x x Ndt add def xy \@nameuse{doqp@\psplotstyle}
+        x x1 eq { exit } if
+        /Olddt Ndt def
+        /OldOlddt Olddt def
+       /y Ny def} loop}%
+  \fi
+  \@nameuse{endqp@\psplotstyle}}
+\def\psplot@iii{%
+  \ifx\psk@VarStep\@default
+    \addto@pscode{%
+      mark
+      /n 2 def
+      \psk@plotpoints {
+        xy
+        n 2 roll
+        /n n 2 add def
+        /x x dx add def
+      } repeat
+      /x x1 def
+      xy
+      n 2 roll}%
+  \else\pst@killglue
+    \addto@pscode{%
+      /Olddt dx def /OldOlddt dx def /Oldy F@pstplot def /y 0 def
+      /Ndt dx def /Ny 0 def /n 2 def
+      mark xy
+      { /Ndt Ndt 1.5 mul def %%new step is 50% larger
+        x1 x sub dup Ndt lt { /Ndt exch def } { pop } ifelse 
+        { /x x /Ny /x x Ndt add def tx@EqdfDict begin F@pstplot end def def
+          /x x /y /x x Ndt 2 div add def tx@EqdfDict begin F@pstplot end def def
+              /Oldy tx@EqdfDict begin F@pstplot end def
+         Ny y sub Ndt div y Oldy sub Ndt div dup 0 eq { pop pop exit } if div abs 
+         dup 1 gt { 1 exch div } if \psk@VarStep\space gt%%if greater than rate OK
+         { exit } { /Ndt Ndt 2 div def } ifelse
+          Ndt dx lt { exit } if
+       } loop
+        /x x Ndt add def xy /n n 2 add def n 2 roll
+        x x1 eq { exit } if
+        /Olddt Ndt def
+        /OldOlddt Olddt def
+       /y Ny def} loop}%
+  \fi
+  \@nameuse{endplot@\psplotstyle}}
+\def\parametricplot@i#1#2#3{%
+  \pst@killglue%
+  \begingroup
+    \use@par
+    \@nameuse{beginplot@\psplotstyle}%
+    \addto@pscode{%
+      \psplot@init
+      /t #1 def
+      /t1 #2 def
+      /dt t1 t sub \psk@plotpoints div def
+      \ifnum\psk@infix<\z@\space /F@pstplot (#3) tx@EqdfDict begin AlgParser end cvx def \fi
+      /xy {
+        \ifnum\psk@infix<\z@\space  F@pstplot \else #3 \fi
+        \pst@number\psyunit mul exch
+        \pst@number\psxunit mul exch
+      } def}%
+    \gdef\psplot@init{}%
+    \@pstfalse
+    \@nameuse{testqp@\psplotstyle}%
+    \if@pst
+      \parametricplot@ii
+    \else
+      \parametricplot@iii
+    \fi
+  \endgroup
+  \ignorespaces}
+%
+\def\parametricplot@ii{%
+    \addto@pscode{%
+      xy \@nameuse{beginqp@\psplotstyle}
+      \psk@plotpoints 1 sub {
+        /t t dt add def
+        xy \@nameuse{doqp@\psplotstyle}
+      } repeat
+      /t t1 def
+      xy \@nameuse{doqp@\psplotstyle}}%
+  \@nameuse{endqp@\psplotstyle}}
+\def\parametricplot@iii{%
+    \addto@pscode{%
+      mark
+      /n 2 def
+      \psk@plotpoints {
+        xy
+        n 2 roll
+        /n n 2 add def
+        /t t dt add def
+      } repeat
+      /t t1 def
+      xy
+      n 2 roll}%
+  \@nameuse{endplot@\psplotstyle}}
+
+% These axes macros are complicated. Be careful.
+
+% \pst@ticks{angle}{dx}{n}{int}
+% int=1 if ticks appear on top of axes, 0 otherwise.
+\def\pst@ticks#1#2#3#4{%
+  \begin@SpecialObj
+    \addto@pscode{%
+      #1 rotate
+      /n #3 def
+      /dx #2 def
+      n 0 lt { /dx dx neg def /n n neg def } if
+      /y2 \psk@ticksize CLW 2 div add def
+      /y1 y2 neg def
+      \ifnum\psk@tickstyle=1
+        \ifdim#4<\z@ /y2 \else /y1 \fi 0 def
+      \else
+        \ifnum\psk@tickstyle=-1
+          \ifdim#4<\z@ /y1 \else /y2 \fi 0 def
+        \fi
+      \fi
+      /x dx def
+      n { x y1 moveto x y2 lineto stroke /x x dx add def } repeat}%
+  \end@SpecialObj}
+%
+\define@key[psset]{}{ticks}{\pst@expandafter\ticks@i{#1}\@nil\psk@ticks}
+\def\ticks@i#1#2\@nil#3{%
+  \ifx#1a\let#3\z@\else
+    \ifx#1x\let#3\@ne\else
+      \ifx#1y\let#3\tw@\else
+        \ifx#1n\let#3\thr@@\else
+          \@pstrickserr{Bad argument: `#1#2'}\@ehpa
+  \fi\fi\fi\fi}
+%
+\define@key[psset]{}{labels}{\pst@expandafter\ticks@i{#1}\@nil\psk@labels}
+%
+\define@key[psset]{}{Ox}{\edef\psk@Ox{#1}}
+\define@key[psset]{}{Dx}{\edef\psk@Dx{#1}}
+\define@key[psset]{}{dx}{%
+  \pssetxlength\pst@dimg{#1}%
+  \edef\psk@dx{\number\pst@dimg}}
+%
+\define@key[psset]{}{Oy}{\edef\psk@Oy{#1}}
+\define@key[psset]{}{Dy}{\edef\psk@Dy{#1}}
+\define@key[psset]{}{dy}{%
+  \pssetylength\pst@dimg{#1}%
+  \edef\psk@dy{\number\pst@dimg}}
+%
+\newif\ifshoworigin
+\define@key[psset]{}{showorigin}{\@nameuse{showorigin#1}}
+%%-------------- hv patch 3 2004-05-23 --------------------------
+% to get axesstyle=dashed run
+\edef\pst@linetype{0}
+%%---------------hv end ----------------------------------------
+%
+%% #1 integer
+%% #2 decimals
+%% #3 dot
+\def\@stripDecimals#1.#2.#3\@nil{%
+  \def\dummy{#1}%
+  \ifx\dummy\@empty\the\@zero\else#1\fi% the integer part
+}
+%
+\def\pst@@@hlabel#1{%
+  \edef\@xyDecimals{\psk@xDecimals}%
+  \psk@xLabel%
+  \ifnum\psk@ticks<\tw@ % ticks=all|x
+    \ifx\psk@xlogBase\@empty
+      \ifPst@plot@comma\pshlabel{\expandafter\@LabelComma#1..\@nil\psk@xlabelFactor}%
+      \else\pshlabel{#1}%
+      \fi%
+    \else%
+      {\psk@xLabel\pshlabel{\psk@xlogBase\textsuperscript{\expandafter\@stripDecimals#1..\@nil }}}
+    \fi%
+  \fi%
+}
+\def\pst@@@vlabel#1{%
+  \edef\@xyDecimals{\psk@yDecimals}%
+  \psk@yLabel%
+  \ifodd\psk@ticks  % ticks=all||y (0,2)
+  \else
+    \ifx\psk@ylogBase\@empty
+      \ifPst@plot@comma\psvlabel{\expandafter\@LabelComma#1..\@nil\psk@ylabelFactor}%
+      \else\psvlabel{#1}%
+      \fi%
+    \else%
+      {\psk@yLabel\psvlabel{\psk@ylogBase\textsuperscript{\expandafter\@stripDecimals#1..\@nil }}}
+    \fi%
+  \fi%
+}
+\newcount\@digitcounter\@digitcounter=0\relax
+\def\@inc@digitcounter{\global\advance\@digitcounter by 1\relax}
+\def\@get@digitcounter{\the\@digitcounter\relax}
+\def\@Reset@digitcounter{\global\@digitcounter=0\relax}
+\def\@zeroFill{%
+  \ifnum \@xyDecimals>\@get@digitcounter
+    \bgroup
+      0\@inc@digitcounter\@zeroFill
+    \egroup%
+  \fi%
+}
+% #1 the value, maybe empty
+%
+\def\@process@digits#1#2;{%
+	\ifx *#1\@zeroFill\else#1\@inc@digitcounter\@process@digits#2;\fi%
+}
+\def\@writeDecimals#1{%
+  \ifx\@xyDecimals\@empty% take value as is
+    \def\@tempa{#1}% write only if not empty
+    \ifx\@tempa\@empty% write nothing
+    \else
+      \ifPst@plot@comma,\else.\fi%
+      #1%
+    \fi%
+  \else% write only \xy@decimals
+    \ifnum\@xyDecimals>\@zero
+      \ifPst@plot@comma,\else.\fi
+        \@Reset@digitcounter
+        \@process@digits#1*;
+      \fi%
+  \fi%
+}
+%% #1 integer
+%% #2 decimals
+%% #3 dot
+\def\@LabelComma#1.#2.#3\@nil{%
+  \def\dummy{#1}%
+  \ifx\dummy\@empty\the\@zero\else#1\fi% the integer part
+  \def\dummy{#2}%
+  \ifx\dummy\@empty\@writeDecimals{}\else\@writeDecimals{#2}\fi%
+}
+%
+\def\psxs@axes{{%
+  \ifPst@plot@xAxis\psxs@@axes\pst@dima\pst@dimb\pst@dimc\pst@dimd{}\fi
+  \ifPst@plot@yAxis\psxs@@axes\pst@dima\pst@dimb\pst@dimc\pst@dimd{exch}\fi
+}}
+\def\psaxes{\pst@object{psaxes}}
+\def\psaxes@i{\pst@getarrows\psaxes@ii}
+\def\psaxes@ii(#1){\@ifnextchar({\psaxes@iii(#1)}{\psaxes@iv(0,0)(0,0)(#1)}}
+\def\psaxes@iii(#1)(#2){\@ifnextchar({\psaxes@iv(#1)(#2)}{\psaxes@iv(#1)(#1)(#2)}}
+%
+\def\psaxes@iv(#1,#2)(#3,#4)(#5,#6){%
+  \pst@killglue
+  \begingroup
+  \setbox\pst@hbox=\hbox\bgroup%
+  \use@par%
+  \pssetxlength\pst@dimg{#1}% o-x
+  \pssetylength\pst@dimh{#2}% o-y
+  \pssetxlength\pst@dima{#3}% bl-x
+  \pssetylength\pst@dimb{#4}% bl-y
+  \pssetxlength\pst@dimc{#5}% ur-x
+  \pssetylength\pst@dimd{#6}% ur-y
+    % If minimum values are negative in log mode, we modify Ox
+    % (respectively Oy) if this was not done by the user
+    % X axis labels (\psk@log = 0 or 1)
+  \ifx\psk@xlogBase\@empty\else%
+    \ifx\psk@Ox\@empty\else% we do nothing ... hv
+      \ifdim\psk@Ox pt=\z@
+        \ifdim#3pt<\z@
+          \pssetxlength\pst@dimg{#3}% o-x
+          \psset{Ox=#3}%
+	\fi
+      \fi%
+    \fi%
+  \fi%
+% Y axis labels (\psk@log = 0 or 2)
+  \ifx\psk@ylogBase\@empty\else%
+    \ifx\psk@Ox\@empty\else
+      \ifdim#4pt<\z@
+        \ifdim\psk@Oy pt=\z@
+          \pssetylength\pst@dimh{#4}% o-y
+          \psset{Oy=#4}%
+	\fi
+      \fi
+    \fi
+  \fi
+% Whole thing will be translated to origin:
+  \advance\pst@dima-\pst@dimg % Dist. from bl-x to o-x
+  \advance\pst@dimb-\pst@dimh % Dist. from bl-y to o-y
+  \advance\pst@dimc-\pst@dimg % Dist. from ur-x to o-x
+  \advance\pst@dimd-\pst@dimh % Dist. from ur-y to o-y
+% Make lines/arrows or frame:
+  \@nameuse{psxs@\psk@axesstyle}%  \psxs@axes or \psxs@frame
+  \ifPst@plot@yAxis  
+  \begingroup
+    \ifdim\pst@dima=\z@\else\showoriginfalse\fi
+    \ifnum\psk@dy=\z@
+      \pst@dimg=\psk@Dy\psyunit
+      \edef\psk@dy{\number\pst@dimg}%
+    \fi%
+    \ifPst@plot@xAxis\else\showorigintrue\fi%
+    \pst@vlabels{\pst@dimd}{\psk@arrowB}{#3}{#5}%
+    \ifPst@plot@xAxis\showoriginfalse\fi%
+    \pst@vlabels{\pst@dimb}{\psk@arrowA}{#3}{#5}%
+  \endgroup%
+  \fi
+  \ifPst@plot@xAxis  
+  \begingroup%
+    \ifdim\pst@dimb=\z@\else\showoriginfalse\fi%
+    \ifnum\psk@dx=\z@%
+      \pst@dimg=\psk@Dx\psxunit%
+      \edef\psk@dx{\number\pst@dimg}%
+    \fi%
+    \ifPst@plot@yAxis\else\showorigintrue\fi%
+    \pst@hlabels{\pst@dimc}{\psk@arrowB}{#4}{#6}%
+    \ifPst@plot@yAxis\showoriginfalse\fi%
+    \pst@hlabels{\pst@dima}{\psk@arrowA}{#4}{#6}%
+  \endgroup%
+  \fi
+% Now close "\pst@hbox" (which is 0-dimensional), and put it at the origin.
+  \egroup%
+  \pssetxlength\pst@dimg{#1}%
+  \pssetylength\pst@dimh{#2}%
+  \leavevmode\psput@cartesian\pst@hbox%
+  \ignorespaces%
+  \endgroup
+}
+%
+\newdimen\psk@subticksize\psk@subticksize=\z@
+\newdimen\pst@xticksizeA
+\newdimen\pst@xticksizeB
+\newdimen\pst@xticksizeC
+\newdimen\pst@yticksizeA
+\newdimen\pst@yticksizeB
+\newdimen\pst@yticksizeC
+%
+\define@key[psset]{}{ticksize}{\psset{xticksize=#1,yticksize=#1}}
+\define@key[psset]{}{xticksize}{%
+  \pst@expandafter\pst@getydimdim{#1} {\pst@missing} {} {}\@nil%
+  \pst@xticksizeA=\the\pst@dimm%
+  \pst@xticksizeB=\the\pst@dimn%
+  \edef\psk@xticksize{\pst@number\pst@xticksizeA\space \pst@number\pst@xticksizeB}%
+  \ifdim\pst@xticksizeA=0pt\pst@xticksizeC=\z@\else
+    \pst@absdim{\pst@xticksizeA}\pst@dimm%
+    \pst@absdim{\pst@xticksizeB}\pst@dimn%
+    \pst@maxdim{\pst@dimm}{\pst@dimn}\pst@dimo%
+    \pst@xticksizeC=\pst@dimo%
+  \fi%
+}
+\define@key[psset]{}{yticksize}{%  overwrites the definition in pstricks
+  \pst@expandafter\pst@getxdimdim{#1} {\pst@missing} {} {}\@nil%
+  \pst@yticksizeA=\the\pst@dimm%
+  \pst@yticksizeB=\the\pst@dimn%
+  \edef\psk@yticksize{\pst@number\pst@yticksizeA \pst@number\pst@yticksizeB}%
+  \ifdim\pst@yticksizeA=0pt\pst@yticksizeC=\z@\else
+    \pst@absdim{\pst@yticksizeA}\pst@dimm%
+    \pst@absdim{\pst@yticksizeB}\pst@dimn%
+    \pst@maxdim{\pst@dimm}{\pst@dimn}\pst@dimo%
+    \pst@yticksizeC=\pst@dimo%
+  \fi%
+}
+%
+% full= 0, top=1, bottom=-1
+\define@key[psset]{}{tickstyle}{%
+  \pst@expandafter\tickstyle@i{#1}\@nil%
+  \ifnum\psk@tickstyle>\z@%
+    \psset{xticksize=0 \pst@xticksizeB}%
+    \psset{yticksize=0 \pst@yticksizeB}%
+  \else\ifnum\psk@tickstyle<\z@%
+%    \expandafter\psset@xticksize\expandafter{\pst@xticksizeA\space 0}%
+%    \expandafter\psset@yticksize\expandafter{\pst@yticksizeA\space 0}%
+    \psset{xticksize=\pst@xticksizeA\space 0}%
+    \psset{yticksize=\pst@yticksizeA\space 0}%
+  \fi\fi%
+}
+\def\tickstyle@i#1#2\@nil{%
+  \ifx#1f\let\psk@tickstyle\z@\else
+    \ifx#1t\let\psk@tickstyle\@ne\else
+      \ifx#1b\let\psk@tickstyle\m@ne\else
+        \@pstrickserr{Bad tick style: `#1#2'}\@ehpa
+  \fi\fi\fi}
+%
+\define@key[psset]{}{subticks}{\edef\psk@xsubticks{#1}\edef\psk@ysubticks{#1}}
+\define@key[psset]{}{xsubticks}{\edef\psk@xsubticks{#1}}
+\define@key[psset]{}{ysubticks}{\edef\psk@ysubticks{#1}}
+%
+\define@key[psset]{}{subticksize}{\edef\psk@xsubticksize{#1}\edef\psk@ysubticksize{#1}}
+\define@key[psset]{}{xsubticksize}{\edef\psk@xsubticksize{#1}}
+\define@key[psset]{}{ysubticksize}{\edef\psk@ysubticksize{#1}}
+%
+\define@key[psset]{}{tickwidth}{%
+  \pst@getlength{#1}\psk@xtickwidth
+  \pst@getlength{#1}\psk@ytickwidth}
+\define@key[psset]{}{xtickwidth}{\pst@getlength{#1}\psk@xtickwidth}
+\define@key[psset]{}{ytickwidth}{\pst@getlength{#1}\psk@ytickwidth}
+\define@key[psset]{}{subtickwidth}{%
+  \pst@getlength{#1}\psk@xsubtickwidth
+  \pst@getlength{#1}\psk@ysubtickwidth}
+\define@key[psset]{}{xsubtickwidth}{\pst@getlength{#1}\psk@xsubtickwidth}
+\define@key[psset]{}{ysubtickwidth}{\pst@getlength{#1}\psk@ysubtickwidth}
+%
+\define@key[psset]{}{tickcolor}{\edef\psk@xtickcolor{#1}\edef\psk@ytickcolor{#1}}
+\define@key[psset]{}{xtickcolor}{\edef\psk@xtickcolor{#1}}
+\define@key[psset]{}{ytickcolor}{\edef\psk@ytickcolor{#1}}
+\define@key[psset]{}{subtickcolor}{\edef\psk@xsubtickcolor{#1}\edef\psk@ysubtickcolor{#1}}
+\define@key[psset]{}{xsubtickcolor}{\edef\psk@xsubtickcolor{#1}}
+\define@key[psset]{}{ysubtickcolor}{\edef\psk@ysubtickcolor{#1}}
+%
+\define@key[psset]{}{xticklinestyle}{%
+  \@ifundefined{psls@#1}%
+    {\@pstrickserr{Line style `#1' not defined}\@eha}%
+    {\edef\psxticklinestyle{#1}}%
+}
+\define@key[psset]{}{xsubticklinestyle}{%
+  \@ifundefined{psls@#1}%
+    {\@pstrickserr{Line style `#1' not defined}\@eha}%
+    {\edef\psxsubticklinestyle{#1}}%
+}
+\define@key[psset]{}{yticklinestyle}{%
+  \@ifundefined{psls@#1}%
+    {\@pstrickserr{Line style `#1' not defined}\@eha}%
+    {\edef\psyticklinestyle{#1}}%
+}
+\define@key[psset]{}{ysubticklinestyle}{%
+  \@ifundefined{psls@#1}%
+    {\@pstrickserr{Line style `#1' not defined}\@eha}%
+    {\edef\psysubticklinestyle{#1}}%
+}
+\define@key[psset]{}{ticklinestyle}{\psset{xticklinestyle=#1,yticklinestyle=#1}}
+\define@key[psset]{}{subticklinestyle}{\psset{xsubticklinestyle=#1,ysubticklinestyle=#1}}
+%
+\newif\ifis@yAxis%
+%
+\def\psxs@@axes#1#2#3#4#5{% llx,lly,urx,ury,exch,arrowA,arrowB
+  \begin@SpecialObj%
+    \def\pst@tempa{#5}%
+    \ifx\pst@tempa\@empty\relax
+      \is@yAxisfalse
+      \ifnum\psk@dx=\z@
+        \pst@dimg=\psk@Dx\psxunit
+        \edef\psk@dx{\number\pst@dimg}%
+      \fi
+    \else
+      \is@yAxistrue
+      \ifnum\psk@dy=\z@
+        \pst@dimg=\psk@Dy\psyunit       
+        \edef\psk@dy{\number\pst@dimg}%
+      \fi
+    \fi% 
+    \let\pst@linetype\pst@arrowtype%
+    \pst@addarrowdef%
+    \addto@pscode{%
+      \ifis@yAxis 0 \pst@number#4 \else \pst@number#3 0 \fi
+      \ifis@yAxis 0 \pst@number#2 \else \pst@number#1 0 \fi
+      ArrowA
+      CP 4 2 roll
+      ArrowB 
+      /yEnd exch def /xEnd exch def
+      xEnd yEnd L                                  % the line with arrows 
+      /yStart exch def
+      /xStart exch def
+      stroke                                       % draw the main line
+%\psk@ticks: all=0; x=1; y=2; none=3
+      \number\psk@ticks\space dup 2 mod 0 eq \ifis@yAxis true \else false \fi and 
+      exch 2 lt \ifis@yAxis false \else true \fi and or {
+      /viceversa 
+        \ifis@yAxis\pst@number#2 \pst@number#4 \else\pst@number#1 \pst@number#3 \fi
+         gt { true }{ false } ifelse def           % other way round
+      /epsilon 0.01 def                            % rounding errors
+      /minTickline \ifis@yAxis \pst@number#1 \else \pst@number#2 \fi def
+      /maxTickline \ifis@yAxis \pst@number#3 \else \pst@number#4 \fi def
+      /dT \ifis@yAxis\psk@dy\else\psk@dx\fi\space 65536 div viceversa {neg} if def 
+      /subTNo \ifis@yAxis\psk@ysubticks\else\psk@xsubticks\fi \space def
+      subTNo 0 gt { /dsubT dT subTNo div def}{ /dsubT 0 def } ifelse  % deltaSubTick
+      \ifis@yAxis \psk@yticksize \else \psk@xticksize \fi
+      /tickend exch def /tickstart exch def
+      /Twidth \ifis@yAxis \psk@ytickwidth \else \psk@xtickwidth \fi\space def
+      /subTwidth \ifis@yAxis \psk@ysubtickwidth \else \psk@xsubtickwidth \fi\space def
+      /STsize \ifis@yAxis \psk@ysubticksize \else \psk@xsubticksize \fi\space def
+      /TColor {
+        \ifis@yAxis\pst@usecolor\psk@ytickcolor
+        \else\pst@usecolor\psk@xtickcolor\fi\space } def
+      /subTColor {
+        \ifis@yAxis\pst@usecolor\psk@ysubtickcolor
+        \else\pst@usecolor\psk@xsubtickcolor\fi\space } def
+      /MinValue { \ifis@yAxis yStart \else xStart \fi
+        \ifx\psk@arrowA\@empty\else 
+          \psk@arrowsize\space CLW mul add \psk@arrowlength\space mul 
+           viceversa { sub epsilon add } { add epsilon sub } ifelse \fi } def
+      /MaxValue { \ifis@yAxis yEnd \else xEnd \fi
+        \ifx\psk@arrowB\@empty\else
+          \psk@arrowsize\space CLW mul add \psk@arrowlength\space mul 
+           viceversa { add epsilon sub } { sub epsilon add } ifelse \fi } def
+      /logLines {
+        \ifnum\psk@logLines=\z@ true \else         % all axes
+          \ifnum\psk@logLines<\tw@                 % x axis
+            \ifis@yAxis false \else true \fi       % do we have x or y axis
+          \else
+            \ifnum\psk@logLines<\thr@@             % y axis
+              \ifis@yAxis true \else false \fi     % do we have x or y axis
+            \else 
+              false                                % no one
+            \fi
+          \fi
+        \fi
+      } def
+      /LSstroke {                                  % set linestyle and stroke
+        \ifis@yAxis\@nameuse{psls@\psyticklinestyle}
+        \else\@nameuse{psls@\psxticklinestyle}\fi } def
+      /subLSstroke {                               % set sublinestyle and stroke
+        \ifis@yAxis\@nameuse{psls@\psysubticklinestyle}
+        \else\@nameuse{psls@\psxsubticklinestyle}\fi } def
+%\iffalse
+% start ticks ---------------------------------------------------------
+      0 dT MaxValue {                              % the positive part of the axes
+        /cntTick exch def                          % the index
+        logLines {                                 % log lines?
+          gsave
+          1 10 subTNo div 9.99 {                   % do not write a line for 1
+            /dx exch def                           % save index
+            /x cntTick dT dx log mul add def       %
+            x abs MaxValue abs le {                % out of range?
+              x minTickline #5\space moveto
+              x maxTickline #5\space lineto
+            } if
+          } for
+          subTwidth SLW subTColor                  % set line width and subtick color
+          subLSstroke
+          grestore                                 % restore main tick status
+          stroke
+          /dsubT 0 def                             % no other subticks
+        } if
+        dsubT abs 0 gt {                           % du we have subticks?
+          gsave                                    % save graphic state
+% start subticks ----------------------------------------------------------
+            /cntsubTick cntTick dsubT add def
+            subTNo 1 sub {
+            cntsubTick abs MaxValue abs le {       % out of range?
+              cntsubTick tickstart STsize mul #5\space moveto
+              cntsubTick tickend STsize mul #5\space lineto
+            }{ exit }  ifelse
+            /cntsubTick cntsubTick dsubT add def
+          } repeat 
+          subTwidth SLW subTColor                  % set line width and subtick color
+          subLSstroke
+% end subticks ----------------------------------------------------------
+          grestore                                 % restote tick status
+        } if
+        gsave
+        cntTick tickstart #5\space moveto          % line begin main Tick
+        cntTick tickend #5\space lineto            % lineto tick end
+        Twidth SLW TColor                            % set line width and tick color
+        LSstroke
+        grestore
+      } for
+% end ticks ----------------------------------------------------------
+%\fi
+%\iffalse
+% ================================================ % the other side 
+      /dT dT neg def                               % the other side of the axis
+      /dsubT dsubT neg def
+% start ticks ----------------------------------------------------------
+      0 dT MinValue epsilon viceversa { add }{ sub } ifelse {
+        /cntTick exch def
+        logLines {                                 % log lines?
+          gsave
+          1 10 subTNo div 9.99 {                   % do not write a line for 1
+            /dx exch def                           % save index
+            /x cntTick dT dx log mul add def       %
+            x abs MinValue abs le {                % out of range?
+              x minTickline #5\space moveto
+              x maxTickline #5\space lineto
+            } if
+          } for
+          /dsubT 0 def 
+          subTwidth SLW subTColor                  % set line width and subtick color
+          subLSstroke
+          grestore
+        }
+        dsubT abs 0 gt {                           % do we have subticks?
+          gsave                                    % save main state
+% start subticks ----------------------------------------------------------
+          /cntsubTick cntTick dsubT add def
+          subTNo 1 sub {
+            cntsubTick abs MinValue abs le {       % out of range?
+              cntsubTick tickstart STsize mul #5\space moveto
+              cntsubTick tickend STsize mul #5\space lineto
+            }{ exit } ifelse
+            /cntsubTick cntsubTick dsubT add def
+          } repeat % for
+% end subticks ----------------------------------------------------------
+          subTwidth SLW subTColor                  % set line width and subtick color
+          subLSstroke
+          grestore                                 % restore main state
+        } if
+        gsave
+        cntTick tickstart #5\space moveto         % line begin main Tick
+        cntTick tickend #5\space lineto           % lineto tick end
+        Twidth SLW TColor                         % set line width and tick color
+        LSstroke
+        grestore
+      } for
+% end ticks ----------------------------------------------------------
+%\fi    
+    } if 
+   }%  
+  \end@SpecialObj%
+}
+%
+\def\psxs@frame{%
+  \begin@SpecialObj%
+    \addto@pscode{%
+      0 0 moveto \pst@number\pst@dimc 0 L
+      0 \pst@number\pst@dimd 2 copy rlineto L closepath}%
+    \pst@stroke%
+    \psk@fillstyle%
+  \end@SpecialObj%
+  \let\psk@arrowA\@empty%
+  \let\psk@arrowB\@empty%
+  \pst@xticksizeC=\z@\pst@yticksizeC=\z@%
+  \psxs@@axes\pst@dima\pst@dimb\pst@dimc\pst@dimd{}%
+  \psxs@@axes\pst@dima\pst@dimb\pst@dimc\pst@dimd{exch}%
+}
+%
+\define@key[psset]{}{axesstyle}{%
+  \@ifundefined{psxs@#1}%
+    {\@pstrickserr{Axes style `#1' not defined}\@eha}%
+    {\edef\psk@axesstyle{#1}}}
+
+\def\psxs@none{\let\psk@arrowA\@empty\let\psk@arrowB\@empty}
+
+% The origin is never the only label.
+% #1:Max/Min in pt from origin; #2:arrow; #3:min; #4:max
+\def\pst@hlabels#1#2#3#4{%
+  \ifdim#1=\z@\else%                   % start from 0 ?
+    \ifx#2\empty\else\advance#1\ifdim#1>\z@-\fi7\pslinewidth\fi%
+    \pst@cnta=#1\relax%                % Distance (in sp) to end.
+    \divide\pst@cnta\psk@dx\relax%     % Number of ticks/labels
+    \ifnum\pst@cnta=\z@\else%
+      \pst@dimb=\psk@dx sp%            % Space between ticks.
+%        \ifPst@plot@yAxis\else\showorigintrue\fi%
+        \ifnum\psk@labels<\tw@ \ifPst@plot@xAxis\pst@@hlabels\fi\fi%
+        \showoriginfalse%
+    \fi%
+  \fi%
+}
+% Knows \pst@dimb and \pst@cnta
+\def\pst@@hlabels{%
+  \pst@dimm=\pst@xticksizeC\advance\pst@dimm by \pslabelsep%
+  \vbox to\z@{%
+    \ifdim\pst@dimd>\z@\vskip\pst@dimm\else\vss\fi%
+    \ifnum\pst@cnta<\z@\pst@dimb=-\pst@dimb\fi%
+    \hbox to\z@{%
+      \ifshoworigin\hbox to \z@{\hss\pst@@@hlabel{\psk@Ox}\hss}\fi%
+      \mmultido{\n=\psk@Ox+\psk@Dx}{\pst@cnta}{%
+        \hskip\pst@dimb\hbox to \z@{\hss\pst@@@hlabel{\n}\hss}%
+      }\hss%
+    }%
+    \ifdim\pst@dimd>\z@\vss\else\vskip\pst@dimm\fi%
+}}%
+%
+\def\pshlabel#1{$#1$}
+%
+% #1:Max/Min in pt from origin; #2:arrow; #3:min; #4:max
+% \psk@labels 0:all; 1:x; 2:y; 3:none
+\def\pst@vlabels#1#2#3#4{%
+  \ifdim#1=\z@\else%
+    \ifx#2\empty\else\advance#1\ifdim#1>\z@-\fi7\pslinewidth\fi%
+    \pst@cnta=#1\relax          %      % Distance (in sp) to end.
+    \divide\pst@cnta\psk@dy\relax  %   % Number of ticks/labels
+    \ifnum\pst@cnta=\z@\else%
+      \pst@dima=\psk@dy sp%            % Space between ticks.
+%      \ifPst@plot@xAxis\else\showorigintrue\fi%
+      \ifodd\number\psk@labels\else\ifPst@plot@yAxis\pst@@vlabels\fi\fi%
+      \showoriginfalse%
+    \fi%
+  \fi%
+}
+
+% \pst@dima: the width between two labels in pt
+% \pst@dimc: the coordinate of the origin in pt
+% \pst@cnta: the lowest label
+\def\pst@@vlabels{%
+  \pst@dimm=\pst@yticksizeC%
+  \advance\pst@dimm by \pslabelsep%
+  \vbox to\z@{%
+    \ifnum\pst@cnta>\z@\pst@dima=-\pst@dima\fi%
+    \offinterlineskip%
+    \ifshoworigin
+      \vbox to \z@{\vss\hbox to\z@{%
+        \ifdim\pst@dimc>\z@\hss\else\hskip\pst@dimm\fi
+        \pst@@@vlabel{\psk@Oy}%
+        \ifdim\pst@dimc>\z@\hskip\pst@dimm\else\hss\fi}\vss}%
+    \fi%
+    \mmultido{\n=\psk@Oy+\psk@Dy}{\pst@cnta}{%
+      \vbox to\pst@dima{\vss}
+      \vbox to \z@{%
+        \vss\hbox to\z@{%
+          \ifdim\pst@dimc>\z@%
+            \hss\pst@@@vlabel{\n}\hskip\pst@dimm%
+          \else%
+            \hskip\pst@dimm\pst@@@vlabel{\n}\hss%
+          \fi
+        }\vss%
+    }}%
+    \vss%
+}}
+%
+\def\psvlabel#1{$#1$}
+%
+\define@key[psset]{}{barwidth}{\pst@getlength{#1}\psk@barwidth}
+%
+\def\psbar@ii{\addto@pscode{false \tx@NArray \psbar@iii}}% hv
+\def\psbar@iii{%
+  newpath
+  n { 
+    /Yval exch def /Xval exch def 
+    Xval \number\psk@barwidth 0.5 mul sub 0 moveto 
+    0 Yval rlineto \number\psk@barwidth 0 rlineto 
+    0 Yval neg rlineto \number\psk@barwidth neg 0 rlineto
+  } repeat
+}%
+\def\beginplot@bar{\begin@SpecialObj}
+\def\endplot@bar{%
+  \psbar@ii\psk@fillstyle\ifpsshadow\pst@closedshadow\fi%
+  \pst@stroke
+  \end@SpecialObj%
+}
+%
+\define@key[psset]{}{xAxisLabel}{\edef\psk@xAxisLabel{#1}}
+\define@key[psset]{}{yAxisLabel}{\edef\psk@yAxisLabel{#1}}
+\define@key[psset]{}{xAxisLabelPos}{\edef\psk@xAxisLabelPos{#1}}
+\define@key[psset]{}{yAxisLabelPos}{\edef\psk@yAxisLabelPos{#1}}
+%
+\newdimen\psk@llx
+\newdimen\psk@lly
+\newdimen\psk@urx
+\newdimen\psk@ury
+\define@key[psset]{}{llx}{\pssetxlength\psk@llx{#1}}
+\define@key[psset]{}{lly}{\pssetylength\psk@lly{#1}}
+\define@key[psset]{}{urx}{\pssetxlength\psk@urx{#1}}
+\define@key[psset]{}{ury}{\pssetylength\psk@ury{#1}}
+%
+\newif\ifPst@plot@box
+\define@key[psset]{}{box}[true]{\@nameuse{Pst@plot@box#1}}
+%
+\newdimen\pst@xunit
+\newdimen\pst@yunit
+%
+%\def\psgraph*{\psgraph{*}}
+\def\psgraph{\begingroup\pst@ifstar\psgraph@i}
+\def\psgraph@i{%
+  \@ifnextchar[{\psgraph@ii}{\psgraph@ii[]}}
+\def\psgraph@ii[#1](#2,#3)(#4,#5)#6#7{%
+%\def\psgraph{\@ifnextchar[{\psgraph@i}{\psgraph@i[]}}
+%\def\psgraph@i[#1](#2,#3)(#4,#5)#6#7{%
+% options | minX | minY | maxX | maxY | Length x-axis | length y-axis%  
+  \pst@dimo=#4\p@\advance\pst@dimo by -#2\p@ % delta x
+  \pst@divide{#6}{\pst@dimo}\pst@tempa
+  \pst@xunit=\pst@tempa\p@%
+%  
+  \pst@dimo=#5\p@\advance\pst@dimo by -#3\p@ % delta y
+  \pst@divide{#7}{\pst@dimo}\pst@tempa%
+  \pst@yunit=\pst@tempa\p@%
+  %
+  \pst@dima=#2\pst@xunit \advance\pst@dima by \psk@llx%
+  \pst@dimb=#3\pst@yunit \advance\pst@dimb by \psk@lly%
+  \pst@dimc=#4\pst@xunit \advance\pst@dimc by \psk@urx%
+  \pst@dimd=#5\pst@yunit \advance\pst@dimd by \psk@ury%
+  \if@star\pspicture*(\pst@dima,\pst@dimb)(\pst@dimc,\pst@dimd)\else
+    \pspicture(\pst@dima,\pst@dimb)(\pst@dimc,\pst@dimd)\fi
+  \psset{xunit=\pst@xunit,yunit=\pst@yunit}%
+    \psaxes[#1](0,0)(#2,#3)(#4,#5)%
+    \ifx\psk@xAxisLabel\@empty\else%
+      \ifx\psk@xAxisLabelPos\@empty%
+        \uput[0](#4,0){\psk@xAxisLabel}%
+        \uput[90](0,#5){\psk@yAxisLabel}%
+      \else%
+        \rput(\psk@xAxisLabelPos){\psk@xAxisLabel}%
+        \rput{90}(\psk@yAxisLabelPos){\psk@yAxisLabel}%
+      \fi%
+    \fi %
+}
+\def\endpsgraph{%
+  \pst@killglue
+  \endpspicture%
+  \endgroup%
+}
+\@namedef{psgraph*}{\psgraph*}
+\@namedef{endpsgraph*}{\endpsgraph}
+%
+\def\resetPSTPlotOptions{%
+  \@zero=0%
+  \pstScalePoints(1,1){}{}% reset
+  \psset{%
+       infix=none,% TeX | PS
+       xyAxes=true,
+       xyDecimals={},%
+       xyLabel={},
+       xylogBase={},
+       logLines=none,
+       xlabelFactor=\relax,ylabelFactor=\relax,
+       nStep=1,nStart=0,nEnd={},%
+       xStep=0,yStep=0,xStart={},xEnd={},yStart={},yEnd={},comma=false,%
+       plotNo=1,plotNoMax=1,
+       xAxisLabel=x,yAxisLabel=y,
+       yAxisLabelPos=\@empty,xAxisLabelPos=\@empty,
+       plotstyle=line,
+       plotpoints=50,
+       polarplot=false,
+       method=default, whichabs=default, whichord=default,%
+       plotfuncx=default, plotfuncy=default, buildvector=false, 
+%       algebraic=false, 
+       VarStep=default,
+       dimen=middle,% remark of ML
+       ticks=all,
+       labels=all,
+       Ox=0,Dx=1,dx=0,Oy=0,Dy=1,dy=0,
+       showorigin=true,
+       xticksize=-4pt 4pt,yticksize=-4pt 4pt,
+       tickstyle=full,
+       subticksize=0.75,subticks=1,tickcolor=black,ticklinestyle=solid,%
+       subticklinestyle=solid,%
+       subtickcolor=gray,%
+       tickwidth=0.5\pslinewidth,%
+       subtickwidth=0.25\pslinewidth,
+       axesstyle=axes,
+       barwidth=0.25cm,
+       xAxisLabel=x,yAxisLabel=y,
+       yAxisLabelPos=\@empty,xAxisLabelPos=\@empty,
+       llx=\z@, lly=\z@, urx=\z@, ury=\z@}% prevents rounding errors 
+}
+\resetPSTPlotOptions%
+%
+\catcode`\@=\PstAtCode\relax
+\endinput
+%%
+%% END pst-plot.tex
