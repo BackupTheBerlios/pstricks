@@ -16,7 +16,6 @@
 \pagestyle{fancy}
 \usepackage{amsmath}
 \def\textat{\protect\makeatletter\texttt{@}\protect\makeatother}
-\usepackage{url}
 \usepackage{babel}
 \usepackage[colorlinks,linktocpage]{hyperref}
 %\def\UrlFont{\small\ttfamily}
@@ -37,13 +36,17 @@
 \usepackage{pst-node2}
 \usepackage{pst-plot2}
 \let\pstnodeFV\fileversion
-\psset{subgriddiv=0,griddots=5,gridlabels=7pt}
+\psset[pstricks]{subgriddiv=0,griddots=5,gridlabels=7pt}
 %
 %
 \parindent=0pt
 \parskip=1ex plus 5pt
 
 \begin{document}
+\makeatletter
+%\pst@famlist
+\makeatother
+
 \input{pst-node2-doc}
 \end{document}
 

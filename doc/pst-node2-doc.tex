@@ -1,4 +1,4 @@
-\title{\texttt{pst-node}\\plotting data and mathematical functions\thanks{%
+\title{\texttt{pst-node}\\Nodes and connections\thanks{%
     This document was written with \texttt{Kile: 1.7} (\texttt{Qt: 3.1.1; KDE: 3.3;}
     \url{http://sourceforge.net/projects/kile/}) and the PDF output
     was build with VTeX/Free (\url{http://www.micropress-inc.com/linux})}\\
@@ -49,7 +49,6 @@ name & meaning\\\hline
 \verb|lineAngle| & angle of the intermediate line segment. Default is 0, which is the same than using \verb|ncdiag| without the \verb|lineAngle| option.\tabularnewline
 \end{tabularx}
 
-
 \resetPSTNodeOptions
 \begin{example}[width=5.5cm]
 \begin{pspicture}(5,6)
@@ -68,7 +67,6 @@ name & meaning\\\hline
   \ncput*[nrot=:U]{line III}
 \end{pspicture}
 \end{example}
-
 
 The \verb|ncdiag| macro sets the \verb|armB| dynamically to the calculated value. Any
 user setting of \verb|armB| is overwritten by the macro. The \verb|armA| could be set to

@@ -23,8 +23,8 @@
 \message{`pst-node2' v\fileversion, \filedate\space (tvz,hv)}
 %
 \edef\PstAtCode{\the\catcode`\@} \catcode`\@=11\relax
-\SpecialCoor
 \pst@addfams{pst-node}
+\SpecialCoor
 %
 \pstheader{pst-node2.pro}
 %
@@ -468,7 +468,7 @@ exch
   \def\psk@armtypeB{2 }}
 \define@key[psset]{pst-node}{offsetA}{\pst@getlength{#1}\psk@offsetA}
 \define@key[psset]{pst-node}{offsetB}{\pst@getlength{#1}\psk@offsetB}
-\define@key[psset]{pst-node}{offset}{\psset[pst-node]{offsetA=#1}\let\psk@offsetB\psk@offsetA}
+\define@key[psset]{pst-node}{offset}{\pst@getlength{#1}\psk@offsetA\let\psk@offsetB\psk@offsetA}
 \define@key[psset]{pst-node}{angleA}{\pst@getangle{#1}\psk@angleA}
 \define@key[psset]{pst-node}{angleB}{\pst@getangle{#1}\psk@angleB}%
 \define@key[psset]{pst-node}{angle}{%
@@ -482,10 +482,13 @@ exch
   \let\psk@arcangleB\psk@arcangleA}
 \define@key[psset]{pst-node}{ncurvA}{\pst@checknum{#1}\psk@ncurvA}
 \define@key[psset]{pst-node}{ncurvB}{\pst@checknum{#1}\psk@ncurvB}%
-\define@key[psset]{pst-node}{ncurv}{\psset[pst-node]{ncurvA=#1}\let\psk@ncurvB\psk@ncurvA}
+\define@key[psset]{pst-node}{ncurv}{\pst@checknum{#1}\psk@ncurvA\let\psk@ncurvB\psk@ncurvA}
 \psset[pst-node]{ncurv=.67,arcangle=8,angle=0,offset=0pt}
 %
-\define@key[psset]{pst-node}{lineAngle}{\psset[pst-node]{armB=0.5}\edef\psk@lineAngle{#1}}%
+\define@key[psset]{pst-node}{lineAngle}{%
+  \pst@getlength{#1}\psk@armB
+  \def\psk@armtypeB{0 }
+  \def\psk@lineAngle{#1}}%
 \psset[pst-node]{lineAngle=0}%
 %
 %
@@ -497,16 +500,6 @@ exch
 \def\tx@GetEdgeB{GetEdgeB }
 \def\tx@GetArmA{GetArmA }
 \def\tx@GetArmB{GetArmB }
-\define@key[psset]{pst-node}{arrows}{%
-  \begingroup
-    \pst@activearrows
-    \xdef\pst@tempg{#1}%
-  \endgroup
-  \expandafter\arrows@ii\pst@tempg\@empty-\@empty\@nil
-  \if@pst\else
-    \@pstrickserr{Bad arrows specification: #1}\@ehpa
-  \fi%
-}
 \def\check@arrow#1#2{%
   \check@@arrow#2-\@nil
   \if@pst
@@ -516,7 +509,7 @@ exch
   \next%
 }
 \def\check@@arrow#1-#2\@nil{%
-\ifx\@nil#2\@nil\@pstfalse\else\@psttrue\fi}
+  \ifx\@nil#2\@nil\@pstfalse\else\@psttrue\fi}
 \def\tx@InitNC{InitNC }
 \def\nc@object#1#2#3#4#5{%
   \csname begin@#1Obj\endcsname%
@@ -574,6 +567,7 @@ exch
   /ArrowInsideNo \psk@ArrowInsideNo\space cvi def
   \tx@NCLine /LPutPos { xB yB xA yA \tx@LPutLine } def
 }}
+\def\ncline@iii#1#2{}
 \def\pcline{\pst@object{pcline}}
 \def\pcline@i{\pc@object\ncline@ii}
 %
@@ -749,7 +743,7 @@ exch
   \else%
     \pst@checknum{#1}\psk@npos%
   \fi}
-\psset[pst-node]{nrot=0,npos={}}
+\psset{nrot=0,npos={}}
 %
 \def\ncput{\pst@object{ncput}}
 \def\ncput@i{\pst@killglue\pst@makebox{\ncput@ii}}
@@ -996,7 +990,7 @@ ifelse
 end }}
 \def\Node@coor[#1]#2;#3\@nil{%
   \begingroup
-  \psset[pst-node]{#1}%
+  \psset{#1}%
   \@ifnextchar\bgroup{\Node@@@coor}{\Node@@coor}#2\@nil
   \endgroup
   \let\pst@coor\pst@tempg}
@@ -1026,7 +1020,7 @@ end }}
 \def\nput@ii#1#2{%
     \begingroup
 	\use@par
-	\psset[pst-node]{refangle=#1}%
+	\psset{refangle=#1}%
 	\let\psk@angleA\psk@refangle
 	\edef\psk@nodesepA{\pst@number\pslabelsep}%
 	\def\psk@nodeseptypeA{0 }%
@@ -1060,7 +1054,7 @@ end }}
 }
 \def\psmatrix@i[#1]{%
     \ifnum0=`{\fi}{}%
-    \psset[pst-node]{#1}%
+    \psset{#1}%
     \psmatrix@ii%
 }
 \def\psmatrix@ii{%
@@ -1370,8 +1364,8 @@ end }}
   ncurv=.67,%
   loopsize=1cm,%
   boxsize=.4cm,%
-  nrot=0,%
-  npos=,%
+%  nrot=0,%
+%  npos=,%
   tpos=0.5,%
   shortput=none,%
   colsep=1.5cm,%

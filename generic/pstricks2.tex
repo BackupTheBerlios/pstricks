@@ -31,7 +31,7 @@
 \message{`pstricks2' v\fileversion, \filedate\space (tvz,hv)}
 %
 \edef\PstAtCode{\the\catcode`\@} \catcode`\@=11\relax
-%\pst@addfams{pstricks}
+\pst@addfams{pstricks}
 %
 \expandafter\ifx\csname @latexerr\endcsname\relax
 \long\def\@ifundefined#1#2#3{\expandafter\ifx\csname
@@ -388,7 +388,7 @@ moveto}
 \newrgbcolor{yellow}{1 1 0}
 \newrgbcolor{cyan}{0 1 1}
 \newrgbcolor{magenta}{1 0 1}
-\define@key[psset]{}{style}{%
+\define@key[psset]{pstricks}{style}{%
   \@ifundefined{pscs@#1}%
     {\@pstrickserr{Custom style `#1' undefined}\@ehpa}%
     {\@nameuse{pscs@#1}}}
@@ -419,14 +419,14 @@ moveto}
 \let\@psunit\psyunit
 \afterassignment\pstunit@off
 #1 #2\@psunit}
-\define@key[psset]{}{unit}{%
+\define@key[psset]{pstricks}{unit}{%
   \pssetlength\psunit{#1}%
   \psxunit=\psunit
   \psyunit=\psunit}
-\define@key[psset]{}{runit}{\pssetlength\psrunit{#1}}
-\define@key[psset]{}{xunit}{\pssetxlength\psxunit{#1}}
-\define@key[psset]{}{yunit}{\pssetylength\psyunit{#1}}
-\define@key[psset]{}{PstDebug}{\pst@getint{#1}{\Pst@Debug}}% hv 2004-06-22
+\define@key[psset]{pstricks}{runit}{\pssetlength\psrunit{#1}}
+\define@key[psset]{pstricks}{xunit}{\pssetxlength\psxunit{#1}}
+\define@key[psset]{pstricks}{yunit}{\pssetylength\psyunit{#1}}
+\define@key[psset]{pstricks}{PstDebug}{\pst@getint{#1}{\Pst@Debug}}% hv 2004-06-22
 %
 \def\pst@getlength#1#2{%
   \pssetlength\pst@dimg{#1}%
@@ -565,12 +565,12 @@ moveto}
 \def\Polar{%
   \def\psput@cartesian{\psput@special}%
   \def\cartesian@coor##1,##2,##3\@nil{\polar@coor{##1}{##2}}}%
-\define@key[psset]{}{origin}{%
+\define@key[psset]{pstricks}{origin}{%
   \pst@@getcoor{#1}%
   \edef\psk@origin{\pst@coor \tx@NET }}
 \def\psk@origin{}
 \newif\ifswapaxes
-\define@key[psset]{}{swapaxes}{%
+\define@key[psset]{pstricks}{swapaxes}{%
   \@nameuse{@pst#1}%
   \if@pst
     \def\psk@swapaxes{-90 rotate -1 1 scale }%
@@ -578,25 +578,25 @@ moveto}
     \def\psk@swapaxes{}%
   \fi}
 \newif\ifshowpoints
-\define@key[psset]{}{showpoints}{\@nameuse{showpoints#1}}
+\define@key[psset]{pstricks}{showpoints}{\@nameuse{showpoints#1}}
 \let\pst@setrepeatarrowsflag\relax
-\define@key[psset]{}{border}{%
+\define@key[psset]{pstricks}{border}{%
   \pst@getlength{#1}\psk@border
   \pst@setrepeatarrowsflag}
-\define@key[psset]{}{bordercolor}{\pst@getcolor{#1}\psbordercolor}
+\define@key[psset]{pstricks}{bordercolor}{\pst@getcolor{#1}\psbordercolor}
 \newif\ifpsdoubleline
-\define@key[psset]{}{doubleline}{%
+\define@key[psset]{pstricks}{doubleline}{%
   \@nameuse{psdoubleline#1}%
   \pst@setrepeatarrowsflag}
-\define@key[psset]{}{doublesep}{\def\psdoublesep{#1}}
-\define@key[psset]{}{doublecolor}{\pst@getcolor{#1}\psdoublecolor}
+\define@key[psset]{pstricks}{doublesep}{\def\psdoublesep{#1}}
+\define@key[psset]{pstricks}{doublecolor}{\pst@getcolor{#1}\psdoublecolor}
 \newif\ifpsshadow
-\define@key[psset]{}{shadow}{%
+\define@key[psset]{pstricks}{shadow}{%
   \@nameuse{psshadow#1}%
   \pst@setrepeatarrowsflag}
-\define@key[psset]{}{shadowsize}{\pst@getlength{#1}\psk@shadowsize}
-\define@key[psset]{}{shadowangle}{\pst@getangle{#1}\psk@shadowangle}
-\define@key[psset]{}{shadowcolor}{\pst@getcolor{#1}\psshadowcolor}
+\define@key[psset]{pstricks}{shadowsize}{\pst@getlength{#1}\psk@shadowsize}
+\define@key[psset]{pstricks}{shadowangle}{\pst@getangle{#1}\psk@shadowangle}
+\define@key[psset]{pstricks}{shadowcolor}{\pst@getcolor{#1}\psshadowcolor}
 \def\pst@repeatarrowsflag{\z@}
 \def\pst@setrepeatarrowsflag{%
 \edef\pst@repeatarrowsflag{%
@@ -604,16 +604,16 @@ moveto}
 \ifpsshadow 1\else \z@\fi\fi\fi}}
 \def\psls@none{}
 \newdimen\pslinewidth
-\define@key[psset]{}{linewidth}{\pssetlength\pslinewidth{#1}}
-\define@key[psset]{}{linecolor}{\pst@getcolor{#1}\pslinecolor}
+\define@key[psset]{pstricks}{linewidth}{\pssetlength\pslinewidth{#1}}
+\define@key[psset]{pstricks}{linecolor}{\pst@getcolor{#1}\pslinecolor}
 \def\psls@solid{0 setlinecap stroke }
 \def\pst@missing{%
   \z@
   \@pstrickserr{Missing number or dimension. 0 substituted}\@ehpa}
 %
 \def\pst@empty{\z@}
-\define@key[psset]{}{dash}{\pst@expandafter\pst@@dash{#1}\@nil}% Error handling for empty argument.
-\define@key[psset]{}{maxdashes}{\edef\psk@maxdashes{#1}}
+\define@key[psset]{pstricks}{dash}{\pst@expandafter\pst@@dash{#1}\@nil}% Error handling for empty argument.
+\define@key[psset]{pstricks}{maxdashes}{\edef\psk@maxdashes{#1}}
 %
 \def\pst@@dash#1\@nil{%
   \def\psk@dash{}%
@@ -638,7 +638,7 @@ moveto}
 \expandafter\next#1 \relax}
 %
 \newif\ifpsdashadjust
-\define@key[psset]{}{dashadjust}{\@nameuse{psdashadjust#1}}
+\define@key[psset]{pstricks}{dashadjust}{\@nameuse{psdashadjust#1}}
 \def\psls@dashed{%
   \ifpsdashadjust
     \psk@dash \pst@linetype\space \tx@DashLine
@@ -654,7 +654,7 @@ moveto}
   \else
     [ \psk@dash ] 0 setdash stroke
   \fi}
-\define@key[psset]{}{dotsep}{\pst@getlength{#1}\psk@dotsep}
+\define@key[psset]{pstricks}{dotsep}{\pst@getlength{#1}\psk@dotsep}
 \def\psls@dotted{%
   \ifpsdashadjust
     \psk@dotsep \pst@linetype\space \tx@DotLine
@@ -662,19 +662,19 @@ moveto}
     [ 0 \psk@dotsep CLW add ] 0 setdash 1 setlinecap stroke
   \fi}
 \def\tx@DotLine{DotLine }
-\define@key[psset]{}{linestyle}{%
+\define@key[psset]{pstricks}{linestyle}{%
   \@ifundefined{psls@#1}%
     {\@pstrickserr{Line style `#1' not defined}\@eha}%
     {\edef\pslinestyle{#1}}%
 }
 \def\psfs@none{}
-\define@key[psset]{}{fillcolor}{\pst@getcolor{#1}\psfillcolor}
+\define@key[psset]{pstricks}{fillcolor}{\pst@getcolor{#1}\psfillcolor}
 \def\psfs@solid{\pst@fill{\pst@usecolor\psfillcolor fill}}
 \def\psfs@eofill{\pst@fill{\pst@usecolor\psfillcolor eofill}}% hv
-\define@key[psset]{}{hatchwidth}{\pst@getlength{#1}\psk@hatchwidth}
-\define@key[psset]{}{hatchsep}{\pst@getlength{#1}\psk@hatchsep}
-\define@key[psset]{}{hatchcolor}{\pst@getcolor{#1}\pshatchcolor}
-\define@key[psset]{}{hatchangle}{\pst@getangle{#1}\psk@hatchangle}
+\define@key[psset]{pstricks}{hatchwidth}{\pst@getlength{#1}\psk@hatchwidth}
+\define@key[psset]{pstricks}{hatchsep}{\pst@getlength{#1}\psk@hatchsep}
+\define@key[psset]{pstricks}{hatchcolor}{\pst@getcolor{#1}\pshatchcolor}
+\define@key[psset]{pstricks}{hatchangle}{\pst@getangle{#1}\psk@hatchangle}
 %
 \def\pst@linefill{%
   \psk@hatchangle rotate
@@ -688,7 +688,7 @@ moveto}
 \def\psfs@crosshatch{\psfs@vlines \psfs@hlines}
 \@namedef{psfs@crosshatch*}{\psfs@solid \psfs@vlines \psfs@hlines}
 \def\tx@LineFill{LineFill }
-\define@key[psset]{}{fillstyle}{%
+\define@key[psset]{pstricks}{fillstyle}{%
   \edef\pst@tempg{#1}\def\pst@temph{none}%
   \ifx\pst@tempg\pst@temph
     \let\psk@fillstyle\relax
@@ -697,13 +697,13 @@ moveto}
       {\@pstrickserr{Undefined fill style: `#1'}\@eha}%
       {\edef\psk@fillstyle{\expandafter\noexpand\csname psfs@#1\endcsname}}%
   \fi}
-\define@key[psset]{}{addfillstyle}{%
+\define@key[psset]{pstricks}{addfillstyle}{%
   \@ifundefined{psfs@#1}%
     {\@pstrickserr{Undefined fill style: `#1'}\@eha}%
     {\edef\psk@fillstyle{%
       \expandafter\noexpand\psk@fillstyle
       \expandafter\noexpand\csname psfs@#1\endcsname}}}
-\define@key[psset]{}{arrows}{%
+\define@key[psset]{pstricks}{arrows}{%
   \begingroup
     \pst@activearrows
     \xdef\pst@tempg{#1}%
@@ -735,22 +735,22 @@ moveto}
 \endgroup
 \def\tx@BeginArrow{BeginArrow }
 \def\tx@EndArrow{EndArrow }
-\define@key[psset]{}{arrowscale}{%
+\define@key[psset]{pstricks}{arrowscale}{%
   \pst@@arrowscale@i#1 \@nil
   \pst@getscale{\pst@arrowscale}\psk@arrowscale}
 \def\pst@@arrowscale@i#1 #2\@nil{\edef\pst@arrowscale{#1}}
 %
-\define@key[psset]{}{arrowsize}{%
+\define@key[psset]{pstricks}{arrowsize}{%
   \pst@expandafter\pst@getdimnum{#1} 0 {} {}\@nil
   \edef\psk@arrowsize{\pst@number\pst@dimg \pst@tempg}%
 }
-\define@key[psset]{}{arrowlength}{\pst@checknum{#1}\psk@arrowlength}
-\define@key[psset]{}{arrowinset}{\pst@checknum{#1}\psk@arrowinset}%
+\define@key[psset]{pstricks}{arrowlength}{\pst@checknum{#1}\psk@arrowlength}
+\define@key[psset]{pstricks}{arrowinset}{\pst@checknum{#1}\psk@arrowinset}%
 %
 \def\tx@Arrow{Arrow }
 % New parameter "arrowfill", with default as "true"
 \newif\ifpsArrowFill
-\define@key[psset]{}{ArrowFill}{\@nameuse{psArrowFill#1}}
+\define@key[psset]{pstricks}{ArrowFill}{\@nameuse{psArrowFill#1}}
 
 % Modification of the PostScript macro Arrow to choose to fill or not the arrow
 % (it require to restore the current linewidth, despite of the scaling)
@@ -791,7 +791,7 @@ moveto}
   CP newpath moveto 0 a neg L stroke 0 h neg T
   false \psk@arrowinset \psk@arrowlength \psk@arrowsize \tx@Arrow
 }
-\define@key[psset]{}{tbarsize}{%
+\define@key[psset]{pstricks}{tbarsize}{%
   \pst@expandafter\pst@getdimnum{#1} 0 {} {}\@nil
   \edef\psk@tbarsize{\pst@number\pst@dimg \pst@tempg}%
 }
@@ -812,10 +812,10 @@ moveto}
   false \psk@arrowinset \psk@arrowlength \psk@arrowsize \tx@Arrow
 }
 %
-\define@key[psset]{}{bracketlength}{\pst@checknum{#1}\psk@bracketlength}
+\define@key[psset]{pstricks}{bracketlength}{\pst@checknum{#1}\psk@bracketlength}
 \def\tx@Bracket{Bracket }
 \@namedef{psas@]}{\psk@bracketlength \psk@tbarsize \tx@Bracket}
-\define@key[psset]{}{rbracketlength}{\pst@checknum{#1}\psk@rbracketlength}
+\define@key[psset]{pstricks}{rbracketlength}{\pst@checknum{#1}\psk@rbracketlength}
 %
 \def\tx@RoundBracket{RoundBracket }
 \@namedef{psas@)}{\psk@rbracketlength \psk@tbarsize \tx@RoundBracket}
@@ -835,8 +835,8 @@ moveto}
 % HookLeft/RightArrow
 \newdimen\pshooklength
 \newdimen\pshookwidth
-\define@key[psset]{}{hooklength}{\pssetlength\pshooklength{#1}}
-\define@key[psset]{}{hookwidth}{\pssetlength\pshookwidth{#1}}
+\define@key[psset]{pstricks}{hooklength}{\pssetlength\pshooklength{#1}}
+\define@key[psset]{pstricks}{hookwidth}{\pssetlength\pshookwidth{#1}}
 %
 \def\tx@RHook{RHook }         % PostScript name
 \@namedef{psas@H}{%
@@ -892,9 +892,9 @@ moveto}
   \psk@rbracketlength\space \psk@tbarsize\space \tx@RoundBracketOut
 }
 %
-\define@key[psset]{}{nArrowsA}{\def\psk@nArrowsA{#1}}
-\define@key[psset]{}{nArrowsB}{\def\psk@nArrowsB{#1}}
-\define@key[psset]{}{nArrows}{\def\psk@nArrowsA{#1}\def\psk@nArrowsB{#1}}
+\define@key[psset]{pstricks}{nArrowsA}{\def\psk@nArrowsA{#1}}
+\define@key[psset]{pstricks}{nArrowsB}{\def\psk@nArrowsB{#1}}
+\define@key[psset]{pstricks}{nArrows}{\def\psk@nArrowsA{#1}\def\psk@nArrowsB{#1}}
 %
 \@namedef{psas@>>}{%
     \psk@nArrowsA\space 1 sub {
@@ -920,7 +920,7 @@ moveto}
   0 h a 5 mul 2 div sub moveto
 }
 %
-\define@key[psset]{}{ArrowInside}{%
+\define@key[psset]{pstricks}{ArrowInside}{%
   \def\pst@tempa{#1}%
   \ifx\pst@tempa\@empty\def\psk@ArrowInside{}
   \else
@@ -968,9 +968,9 @@ moveto}
   \tx@EndArrow%
 }
 % ArrowInsidePos parameter (default value 0.5)
-\define@key[psset]{}{ArrowInsidePos}{\pst@checknum{#1}\psk@ArrowInsidePos}%
-\define@key[psset]{}{ArrowInsideNo}{\pst@checknum{#1}\psk@ArrowInsideNo}% hv 20031001
-\define@key[psset]{}{ArrowInsideOffset}{\pst@checknum{#1}\psk@ArrowInsideOffset}% hv 20031001
+\define@key[psset]{pstricks}{ArrowInsidePos}{\pst@checknum{#1}\psk@ArrowInsidePos}%
+\define@key[psset]{pstricks}{ArrowInsideNo}{\pst@checknum{#1}\psk@ArrowInsideNo}% hv 20031001
+\define@key[psset]{pstricks}{ArrowInsideOffset}{\pst@checknum{#1}\psk@ArrowInsideOffset}% hv 20031001
 %
 \def\psas@{}
 %
@@ -1001,19 +1001,19 @@ moveto}
     \def\pst@par{}%
   \fi}
 \def\pst@object#1{%
-\pst@ifstar{%
-\@ifnextchar[%
-{\pst@@object{#1}}%
-{\def\pst@par{}\@nameuse{#1@i}}}}
+  \pst@ifstar{%
+    \@ifnextchar[%
+      {\pst@@object{#1}}%
+      {\def\pst@par{}\@nameuse{#1@i}}}}
 \def\pst@@object#1[#2]{%
-\def\pst@par{#2}%
-\@ifnextchar+{\@nameuse{#1@i}}{\@nameuse{#1@i}}}
+  \def\pst@par{#2}%
+  \@ifnextchar+{\@nameuse{#1@i}}{\@nameuse{#1@i}}}
 \def\newpsobject#1#2#3{%
-\@ifundefined{#2@i}%
-{\@pstrickserr{Graphics object `#2' not defined}\@eha}{%
-\@namedef{#1}{\pst@object{#1}}%
-\@namedef{#1@i}{\addbefore@par{#3}\@nameuse{#2@i}}}%
-\ignorespaces}
+  \@ifundefined{#2@i}%
+    {\@pstrickserr{Graphics object `#2' not defined}\@eha}{%
+      \@namedef{#1}{\pst@object{#1}}%
+  \@namedef{#1@i}{\addbefore@par{#3}\@nameuse{#2@i}}}%
+  \ignorespaces}
 \def\pst@getarrows#1{\@ifnextchar({#1}{\pst@@getarrows{#1}}}
 \def\pst@@getarrows#1#2{\addto@par{arrows=#2}#1}
 %
@@ -1250,7 +1250,7 @@ grestore}}
 \def\pst@oplineto{moveto }
 \def\pst@cp{}
 \def\pst@optcp#1#2{}
-\define@key[psset]{}{liftpen}{%
+\define@key[psset]{pstricks}{liftpen}{%
   \ifcase#1\relax
     \def\psk@liftpen{\z@}%
     \def\pst@cp{/currentpoint load stopped pop }%
@@ -1268,7 +1268,7 @@ grestore}}
   \fi}
 \def\psk@liftpen{-1}
 %
-\define@key[psset]{}{linetype}{%
+\define@key[psset]{pstricks}{linetype}{%
   \pst@getint{#1}\pslinetype
   \ifnum\pst@dimg<-3
     \@pstrickserr{linetype must be greater than -3}\@ehpa
@@ -1278,7 +1278,7 @@ grestore}}
   \fi%
 }
 %\psset@linetype{0}
-\psset{linetype=2}% otherwise there is a problem when using e.g.
+\psset[pstricks]{linetype=2}% otherwise there is a problem when using e.g.
 %                     \psaxes[axesstyle=frame,linestyle=dashed]{->}(3,-2)
 %----------------- hv end 2004-05-07 ------------- patch 15
 %
@@ -1384,7 +1384,7 @@ if }
 \def\tx@Arcto{Arcto }
 \def\tx@CheckClosed{CheckClosed }
 \def\tx@Polygon{Polygon }
-\define@key[psset]{}{gangle}{\pst@getangle{#1}\psk@gangle}
+\define@key[psset]{pstricks}{gangle}{\pst@getangle{#1}\psk@gangle}
 \def\tx@Diamond{Diamond }
 \def\psdiamond{\pst@object{psdiamond}}
 \def\psdiamond@i(#1){%
@@ -1434,7 +1434,7 @@ pop
 \def\tx@OpenCurve{OpenCurve }
 \def\tx@AltCurve{AltCurve }
 \def\tx@ClosedCurve{ClosedCurve }
-\define@key[psset]{}{curvature}{%
+\define@key[psset]{pstricks}{curvature}{%
   \edef\pst@tempg{#1 }%
   \expandafter\curvature@ii\pst@tempg * * * \@nil}
   \def\curvature@ii#1 #2 #3 #4\@nil{%
@@ -1477,13 +1477,13 @@ pop
 \tx@ClosedCurve}%
 \def\pst@linetype{1}%
 \end@ClosedObj}
-\define@key[psset]{}{dotsize}{%
+\define@key[psset]{pstricks}{dotsize}{%
   \pst@expandafter\pst@getdimnum{#1} 0 {} {}\@nil
   \edef\psk@@dotsize{\pst@number\pst@dimg}%
 \let\psk@@@dotsize\pst@tempg
 \edef\psk@dotsize{%
 /DS \psk@@dotsize \psk@@@dotsize CLW mul add 2 div def }}
-\define@key[psset]{}{dotscale}{%
+\define@key[psset]{pstricks}{dotscale}{%
   \pst@getscale{#1}\psk@dotscale
   \ifx\psk@dotscale\@empty
     \def\psk@xdotscale{1 }%
@@ -1503,7 +1503,7 @@ pop
 \else
 \edef#2{\pst@tempg\space rotate }%
 \fi}
-\define@key[psset]{}{dotangle}{%
+\define@key[psset]{pstricks}{dotangle}{%
   \pst@getangle{#1}\psk@@dotangle
   \ifdim\psk@@dotangle\p@=\z@
     \let\psk@dotangle\@empty
@@ -1580,7 +1580,7 @@ n { transform floor .5 add exch floor .5 add exch itransform Dot } repeat}
   \psk@tbarsize CLW mul add 2 div /DS ED
   \pst@gdot{0 DS moveto 0 DS neg L stroke}}
 % DG: end dead code?
-\define@key[psset]{}{dotstyle}{%
+\define@key[psset]{pstricks}{dotstyle}{%
   \@ifundefined{psds@#1}%
     {\@pstrickserr{Dot style `#1' not defined}\@eha}%
     {\edef\psk@dotstyle{#1}}}
@@ -1655,7 +1655,7 @@ n { transform floor .5 add exch floor .5 add exch itransform Dot } repeat}
 \newpsfontdot{Bo}[4.69484 0.0 0.0 4.69484 -0.78169 -2.97418]{Times-Bold}{<CA>}
 \fi
 \newdimen\pslinearc
-\define@key[psset]{}{linearc}{\pssetlength\pslinearc{#1}}
+\define@key[psset]{pstricks}{linearc}{\pssetlength\pslinearc{#1}}
 \def\psline{\pst@object{psline}}
 \def\psline@i{%
   \pst@getarrows{%
@@ -1705,8 +1705,8 @@ n { transform floor .5 add exch floor .5 add exch itransform Dot } repeat}
     \tx@Polygon}%
   \def\pst@linetype{1}%
   \end@ClosedObj}
-\define@key[psset]{}{framearc}{\pst@checknum{#1}\psk@framearc}
-\define@key[psset]{}{cornersize}{\pst@expandafter\cornersize@ii{#1}\@nil}
+\define@key[psset]{pstricks}{framearc}{\pst@checknum{#1}\psk@framearc}
+\define@key[psset]{pstricks}{cornersize}{\pst@expandafter\cornersize@ii{#1}\@nil}
 \def\cornersize@ii#1#2\@nil{%
   \if #1a\relax
     \def\psk@cornersize{\pst@number\pslinearc false }%
@@ -1716,7 +1716,7 @@ n { transform floor .5 add exch floor .5 add exch itransform Dot } repeat}
 \def\tx@Rect{Rect }
 \def\tx@OvalFrame{OvalFrame }
 \def\tx@Frame{Frame }
-\define@key[psset]{}{dimen}{\pst@expandafter\pstdimen@ii{#1}\@nil}
+\define@key[psset]{pstricks}{dimen}{\pst@expandafter\pstdimen@ii{#1}\@nil}
 \def\pstdimen@ii#1#2\@nil{%
   \if #1o\relax%
     \def\psk@dimen{.5 }%
@@ -1782,19 +1782,19 @@ n { transform floor .5 add exch floor .5 add exch itransform Dot } repeat}
   \pst@@getcoor{#4}%
   \addto@pscode{\pst@tempa \pst@coor \tx@Parab}%
   \end@OpenObj}
-\define@key[psset]{}{gridwidth}{\pst@getlength{#1}\psk@gridwidth}
-\define@key[psset]{}{griddots}{%
+\define@key[psset]{pstricks}{gridwidth}{\pst@getlength{#1}\psk@gridwidth}
+\define@key[psset]{pstricks}{griddots}{%
   \pst@cntg=#1\relax
   \edef\psk@griddots{\the\pst@cntg}}
-\define@key[psset]{}{gridcolor}{\pst@getcolor{#1}\psgridcolor}
-\define@key[psset]{}{subgridwidth}{\pst@getlength{#1}\psk@subgridwidth}
-\define@key[psset]{}{subgridcolor}{\pst@getcolor{#1}\pssubgridcolor}
-\define@key[psset]{}{subgriddots}{%
+\define@key[psset]{pstricks}{gridcolor}{\pst@getcolor{#1}\psgridcolor}
+\define@key[psset]{pstricks}{subgridwidth}{\pst@getlength{#1}\psk@subgridwidth}
+\define@key[psset]{pstricks}{subgridcolor}{\pst@getcolor{#1}\pssubgridcolor}
+\define@key[psset]{pstricks}{subgriddots}{%
   \pst@cntg=#1\relax\edef\psk@subgriddots{\the\pst@cntg}}
-\define@key[psset]{}{subgriddiv}{%
+\define@key[psset]{pstricks}{subgriddiv}{%
   \pst@cntg=#1\relax\edef\psk@subgriddiv{\the\pst@cntg}}
-\define@key[psset]{}{gridlabels}{\pst@getlength{#1}\psk@gridlabels}
-\define@key[psset]{}{gridlabelcolor}{\pst@getcolor{#1}\psgridlabelcolor}
+\define@key[psset]{pstricks}{gridlabels}{\pst@getlength{#1}\psk@gridlabels}
+\define@key[psset]{pstricks}{gridlabelcolor}{\pst@getcolor{#1}\psgridlabelcolor}
 %
 \def\tx@Grid{Grid }
 \def\psgrid{\pst@object{psgrid}}
@@ -1883,9 +1883,9 @@ n { transform floor .5 add exch floor .5 add exch itransform Dot } repeat}
     \@namedef{end#1}{\pst@endlongbox}%
 }
 \newdimen\psframesep
-\define@key[psset]{}{framesep}{\pssetlength\psframesep{#1}}
+\define@key[psset]{pstricks}{framesep}{\pssetlength\psframesep{#1}}
 \newif\ifpsboxsep
-\define@key[psset]{}{boxsep}{\@nameuse{psboxsep#1}}
+\define@key[psset]{pstricks}{boxsep}{\@nameuse{psboxsep#1}}
 %
 \def\pst@useboxpar{%
 \use@par
@@ -2166,7 +2166,7 @@ pop
 \ht\pst@hbox\pst@dimd
 \advance\pst@dimd-2\pst@dimb
 \dp\pst@hbox\pst@dimd}
-\define@key[psset]{}{trimode}{\pst@expandafter\trimode@ii{#1}\@empty\@empty\@nil}
+\define@key[psset]{pstricks}{trimode}{\pst@expandafter\trimode@ii{#1}\@empty\@empty\@nil}
 \def\trimode@ii#1#2#3\@nil{%
   \let\pst@tempg#1\relax
   \ifx\pst@tempg*%
@@ -2277,9 +2277,9 @@ pop
 \setbox\pst@hbox\hbox to \pst@dimc{%
 \hss\box\pst@hbox\kern\psframesep\kern\pslinewidth}%
 \fi}
-\define@key[psset]{}{arcsepA}{\pst@getlength{#1}\psk@arcsepA}
-\define@key[psset]{}{arcsepB}{\pst@getlength{#1}\psk@arcsepB}
-\define@key[psset]{}{arcsep}{%
+\define@key[psset]{pstricks}{arcsepA}{\pst@getlength{#1}\psk@arcsepA}
+\define@key[psset]{pstricks}{arcsepB}{\pst@getlength{#1}\psk@arcsepB}
+\define@key[psset]{pstricks}{arcsep}{%
   \psset{arcsepA=#1}\let\psk@arcsepB\psk@arcsepA}
 \def\tx@ArcArrow{ArcArrow }
 \def\psarc{\pst@object{psarc}}
@@ -2580,7 +2580,7 @@ closepath}%
 \pssetlength\pst@dimg{#2}%
 \addto@pscode{\pst@coor \pst@number\pst@dimg \tx@SD}%
 \end@SpecialObj}
-\define@key[psset]{}{radius}{\pst@@getlength{#1}\psk@radius}
+\define@key[psset]{pstricks}{radius}{\pst@@getlength{#1}\psk@radius}
 \def\psCircle{\pst@object{psCircle}}
 \def\psCircle@i{\@ifnextchar({\psCircle@ii}{\psCircle@ii(0,0)}}
 \def\psCircle@ii(#1){\pscircle@do(#1){\psk@radius}}
@@ -2774,7 +2774,7 @@ closepath}%
 \fi
 \setbox#1=\hbox to\z@{%
 \kern-\pst@dimh\vbox to\z@{\vss\box#1\kern-\pst@dimg}\hss}}
-\define@key[psset]{}{ref}{\pst@expandafter\ref@ii{#1}\@empty,,\@nil}
+\define@key[psset]{pstricks}{ref}{\pst@expandafter\ref@ii{#1}\@empty,,\@nil}
 \def\ref@ii#1#2,#3,#4\@nil{%
 \def\psk@xref{.5}%
 \def\psk@yref{.5}%
@@ -2792,7 +2792,7 @@ closepath}%
 \def\getref@B{\let\psk@yref\relax}
 \def\getref@l{\def\psk@xref{0}}
 \def\getref@r{\def\psk@xref{1}}
-\define@key[psset]{}{rot}{%
+\define@key[psset]{pstricks}{rot}{%
   \pst@expandafter{\@ifnextchar*{\pstrot@iii}{\pstrot@ii}}{#1}\@nil}
   \def\pstrot@ii#1\@nil{%
     \def\next##1@#1=##2@##3\@nil{%
@@ -2904,8 +2904,8 @@ closepath}%
 \def\Cput{\pst@object{Cput}}
 \def\Cput@i{\@fixedradiustrue\cput@ii}
 \newdimen\pslabelsep
-\define@key[psset]{}{labelsep}{\pssetlength\pslabelsep{#1}}
-\define@key[psset]{}{refangle}{\pst@expandafter\refangle@ii{#1}\@nil}
+\define@key[psset]{pstricks}{labelsep}{\pssetlength\pslabelsep{#1}}
+\define@key[psset]{pstricks}{refangle}{\pst@expandafter\refangle@ii{#1}\@nil}
 \def\refangle@ii#1\@nil{%
   \def\next##1@#1=##2"##3@##4\@nil{%
     \ifx\relax##2%
@@ -3009,9 +3009,9 @@ closepath}%
 \def\OldPsput{\let\psput\oldpsput}
 \def\NewPsput{\let\psput\rput}
 %
-\define@key[psset]{}{shift}{\def\psk@shift{#1}}
+\define@key[psset]{pstricks}{shift}{\def\psk@shift{#1}}
 \newif\ifPst@frame
-\define@key[psset]{}{frame}{\@nameuse{Pst@frame#1}}
+\define@key[psset]{pstricks}{frame}{\@nameuse{Pst@frame#1}}
 \newpsstyle{psframestyle}{linewidth=0.1pt,linestyle=dashed}
 %
 \def\pspicture{\pst@object{pstpicture}}
@@ -3110,9 +3110,9 @@ closepath}%
     \hbox{\pst@initoverlay{#1}\copy\theoverlaybox}}
 \def\psoverlay{\@pstrickserr{\string\psoverlay\space can only be used after \string\overlaybox}}
 %
-\define@key[psset]{}{randomPoints}{\def\psk@randomPoints{#1}}
+\define@key[psset]{pstricks}{randomPoints}{\def\psk@randomPoints{#1}}
 \newif\ifPst@randomColor
-\define@key[psset]{}{color}[true]{\@nameuse{Pst@randomColor#1}}
+\define@key[psset]{pstricks}{color}[true]{\@nameuse{Pst@randomColor#1}}
 %
 \def\psRandom{\pst@object{psRandom}}%  hv  2004-11-12
 \def\psRandom@i{\@ifnextchar({\psRandom@ii}{\psRandom@iii(0,0)(1,1)}}
@@ -3148,7 +3148,7 @@ closepath}%
 }
 %
 \def\resetPSTOptions{% hv
-  \psset{%
+  \psset[pstricks]{%
        shift=0,frame=false,%framestyle=dashed,%
        PstDebug=0,%
        swapaxes=false,showpoints=false,border=0pt,bordercolor=white,%

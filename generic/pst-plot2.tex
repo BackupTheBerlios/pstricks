@@ -25,7 +25,7 @@
 %
 \edef\PstAtCode{\the\catcode`\@} \catcode`\@=11\relax
 \SpecialCoor
-%\pst@addfams{pst-plot}
+\pst@addfams{pst-plot}
 %
 %% prologue for postcript
 \pstheader{pst-eqdf.pro}%
@@ -33,29 +33,29 @@
 \newcount\@zero\@zero=0\relax
 %
 \newif\ifPst@plot@comma
-\define@key[psset]{}{comma}[true]{\@nameuse{Pst@plot@comma#1}}
+\define@key[psset]{pst-plot}{comma}[true]{\@nameuse{Pst@plot@comma#1}}
 %
 \newif\ifPst@plot@xAxis
 \newif\ifPst@plot@yAxis
 \newif\ifPst@plot@xyAxes
-\define@key[psset]{}{xAxis}[true]{\@nameuse{Pst@plot@xAxis#1}}
-\define@key[psset]{}{yAxis}[true]{\@nameuse{Pst@plot@yAxis#1}}
-\define@key[psset]{}{xyAxes}[true]{\psset{xAxis=true,yAxis=true}}%
+\define@key[psset]{pst-plot}{xAxis}[true]{\@nameuse{Pst@plot@xAxis#1}}
+\define@key[psset]{pst-plot}{yAxis}[true]{\@nameuse{Pst@plot@yAxis#1}}
+\define@key[psset]{pst-plot}{xyAxes}[true]{\psset{xAxis=true,yAxis=true}}%
 %
-\define@key[psset]{}{xyDecimals}{\def\psk@xDecimals{#1}\def\psk@yDecimals{#1}}
-\define@key[psset]{}{xDecimals}{\def\psk@xDecimals{#1}}
-\define@key[psset]{}{yDecimals}{\def\psk@yDecimals{#1}}
+\define@key[psset]{pst-plot}{xyDecimals}{\def\psk@xDecimals{#1}\def\psk@yDecimals{#1}}
+\define@key[psset]{pst-plot}{xDecimals}{\def\psk@xDecimals{#1}}
+\define@key[psset]{pst-plot}{yDecimals}{\def\psk@yDecimals{#1}}
 %
-\define@key[psset]{}{xyLabel}{\def\psk@xLabel{#1}\def\psk@yLabel{#1}}
-\define@key[psset]{}{xLabel}{\def\psk@xLabel{#1}}
-\define@key[psset]{}{yLabel}{\def\psk@yLabel{#1}}
+\define@key[psset]{pst-plot}{xyLabel}{\def\psk@xLabel{#1}\def\psk@yLabel{#1}}
+\define@key[psset]{pst-plot}{xLabel}{\def\psk@xLabel{#1}}
+\define@key[psset]{pst-plot}{yLabel}{\def\psk@yLabel{#1}}
 %
-\define@key[psset]{}{xlogBase}{\edef\psk@xlogBase{#1}}
-\define@key[psset]{}{ylogBase}{\edef\psk@ylogBase{#1}}
-\define@key[psset]{}{xylogBase}{\edef\psk@xlogBase{#1}\edef\psk@ylogBase{#1}}%
+\define@key[psset]{pst-plot}{xlogBase}{\edef\psk@xlogBase{#1}}
+\define@key[psset]{pst-plot}{ylogBase}{\edef\psk@ylogBase{#1}}
+\define@key[psset]{pst-plot}{xylogBase}{\edef\psk@xlogBase{#1}\edef\psk@ylogBase{#1}}%
 %
 %logLines=all|x|y|none  (0,1,2,3)
-\define@key[psset]{}{logLines}{\pst@expandafter\logLines@ii{#1}\@nil\psk@logLines}
+\define@key[psset]{pst-plot}{logLines}{\pst@expandafter\logLines@ii{#1}\@nil\psk@logLines}
 \def\logLines@ii#1#2\@nil#3{%
   \ifx#1a\let#3\z@\else
     \ifx#1x\let#3\@ne\else
@@ -64,8 +64,8 @@
           \@pstrickserr{Bad argument: `#1#2'}\@ehpa
   \fi\fi\fi\fi}
 %
-\define@key[psset]{}{ylabelFactor}{\edef\psk@ylabelFactor{#1}}
-\define@key[psset]{}{xlabelFactor}{\edef\psk@xlabelFactor{#1}}
+\define@key[psset]{pst-plot}{ylabelFactor}{\edef\psk@ylabelFactor{#1}}
+\define@key[psset]{pst-plot}{xlabelFactor}{\edef\psk@xlabelFactor{#1}}
 %
 % Using lists of data is optimized for \dataplot and \fileplot
 % Here is the tricky part. As each line is read from file,
@@ -102,24 +102,24 @@ D\space##1%
 \let(,\let),\let{,\let},\let ,\let^^M,\let_\@empty*% End def
 \endgroup
 %
-\define@key[psset]{}{nStep}{\edef\psk@nStep{#1}}
-\define@key[psset]{}{nStart}{\edef\psk@nStart{#1}}
-\define@key[psset]{}{nEnd}{\edef\psk@nEnd{#1}}
-\define@key[psset]{}{xStep}{\edef\psk@xStep{#1}}
-\define@key[psset]{}{yStep}{\edef\psk@yStep{#1}}
+\define@key[psset]{pst-plot}{nStep}{\edef\psk@nStep{#1}}
+\define@key[psset]{pst-plot}{nStart}{\edef\psk@nStart{#1}}
+\define@key[psset]{pst-plot}{nEnd}{\edef\psk@nEnd{#1}}
+\define@key[psset]{pst-plot}{xStep}{\edef\psk@xStep{#1}}
+\define@key[psset]{pst-plot}{yStep}{\edef\psk@yStep{#1}}
 %
-\define@key[psset]{}{xStart}{\edef\psk@xStart{#1}}
-\define@key[psset]{}{xEnd}{\edef\psk@xEnd{#1}}
-\define@key[psset]{}{yStart}{\edef\psk@yStart{#1}}
-\define@key[psset]{}{yEnd}{\edef\psk@yEnd{#1}}
+\define@key[psset]{pst-plot}{xStart}{\edef\psk@xStart{#1}}
+\define@key[psset]{pst-plot}{xEnd}{\edef\psk@xEnd{#1}}
+\define@key[psset]{pst-plot}{yStart}{\edef\psk@yStart{#1}}
+\define@key[psset]{pst-plot}{yEnd}{\edef\psk@yEnd{#1}}
 %
-\define@key[psset]{}{plotNo}{\edef\psk@plotNo{#1}}
-\define@key[psset]{}{plotNoMax}{\edef\psk@plotNoMax{#1}}
+\define@key[psset]{pst-plot}{plotNo}{\edef\psk@plotNo{#1}}
+\define@key[psset]{pst-plot}{plotNoMax}{\edef\psk@plotNoMax{#1}}
 %
-\define@key[psset]{}{xAxisLabel}{\edef\psk@xAxisLabel{#1}}
-\define@key[psset]{}{yAxisLabel}{\edef\psk@yAxisLabel{#1}}
-\define@key[psset]{}{xAxisLabelPos}{\edef\psk@xAxisLabelPos{#1}}
-\define@key[psset]{}{yAxisLabelPos}{\edef\psk@yAxisLabelPos{#1}}
+\define@key[psset]{pst-plot}{xAxisLabel}{\edef\psk@xAxisLabel{#1}}
+\define@key[psset]{pst-plot}{yAxisLabel}{\edef\psk@yAxisLabel{#1}}
+\define@key[psset]{pst-plot}{xAxisLabelPos}{\edef\psk@xAxisLabelPos{#1}}
+\define@key[psset]{pst-plot}{yAxisLabelPos}{\edef\psk@yAxisLabelPos{#1}}
 %
 \newcount\linecnt
 \begingroup
@@ -206,11 +206,11 @@ D\space##1%
 \def\beginplot@cbezier{\begin@ClosedObj}
 \def\endplot@cbezier{\pscbezier@ii}
 
-\define@key[psset]{}{plotstyle}{%
+\define@key[psset]{pst-plot}{plotstyle}{%
   \@ifundefined{beginplot@#1}%
     {\@pstrickserr{Plot style `#1' not defined}\@eha}%
     {\edef\psplotstyle{#1}}}
-\define@key[psset]{}{plotpoints}{%
+\define@key[psset]{pst-plot}{plotpoints}{%
   \pst@cntg=#1\relax
   \ifnum\pst@cntg<2
     \@pstrickserr{plotpoints parameter must be at least 2}\@ehpa
@@ -439,20 +439,20 @@ D\space##1%
 %
 % For polar plots
 \newif\ifpolarplot
-\define@key[psset]{}{polarplot}{\@nameuse{polarplot#1}}
+\define@key[psset]{pst-plot}{polarplot}{\@nameuse{polarplot#1}}
 %
-\define@key[psset]{}{method}{\edef\psk@method{#1}}%
-\define@key[psset]{}{whichabs}{\edef\psk@whichabs{#1}}%
-\define@key[psset]{}{whichord}{\edef\psk@whichord{#1}}%
-\define@key[psset]{}{plotfuncx}{\edef\psk@plotfuncx{#1}}%
-\define@key[psset]{}{plotfuncy}{\edef\psk@plotfuncy{#1}}%
-\define@key[psset]{}{expression}{\edef\psk@expression{#1}}%
-\define@key[psset]{}{VarStep}{\edef\psk@VarStep{#1}}%
+\define@key[psset]{pst-plot}{method}{\edef\psk@method{#1}}%
+\define@key[psset]{pst-plot}{whichabs}{\edef\psk@whichabs{#1}}%
+\define@key[psset]{pst-plot}{whichord}{\edef\psk@whichord{#1}}%
+\define@key[psset]{pst-plot}{plotfuncx}{\edef\psk@plotfuncx{#1}}%
+\define@key[psset]{pst-plot}{plotfuncy}{\edef\psk@plotfuncy{#1}}%
+\define@key[psset]{pst-plot}{expression}{\edef\psk@expression{#1}}%
+\define@key[psset]{pst-plot}{VarStep}{\edef\psk@VarStep{#1}}%
 %
 \newif\ifPst@buildvector%
-\define@key[psset]{}{buildvector}[true]{\@nameuse{Pst@buildvector#1}}%
+\define@key[psset]{pst-plot}{buildvector}[true]{\@nameuse{Pst@buildvector#1}}%
 %\newif\ifPst@algebraic%
-%\define@key[psset]{}{algebraic}[false]{\@nameuse{Pst@algebraic#1}}%
+%\define@key[psset]{pst-plot}{algebraic}[false]{\@nameuse{Pst@algebraic#1}}%
 %
 \def\@rkiv{rk4}%
 \def\@adams{adams}%
@@ -460,7 +460,7 @@ D\space##1%
 \def\@default{default}%
 %
 % none= 0 (postfix) , TeX=1 (conversion by TeX), PS=-1 (conversion by PostScript)
-\define@key[psset]{}{infix}{\pst@expandafter\pstinfix@i{#1}\@nil}
+\define@key[psset]{pst-plot}{infix}{\pst@expandafter\pstinfix@i{#1}\@nil}
 \def\pstinfix@i#1#2\@nil{%
   \ifx#1n\let\psk@infix\z@\else
     \ifx#1T\let\psk@infix\@ne\else
@@ -660,7 +660,7 @@ D\space##1%
       n { x y1 moveto x y2 lineto stroke /x x dx add def } repeat}%
   \end@SpecialObj}
 %
-\define@key[psset]{}{ticks}{\pst@expandafter\ticks@i{#1}\@nil\psk@ticks}
+\define@key[psset]{pst-plot}{ticks}{\pst@expandafter\ticks@i{#1}\@nil\psk@ticks}
 \def\ticks@i#1#2\@nil#3{%
   \ifx#1a\let#3\z@\else
     \ifx#1x\let#3\@ne\else
@@ -669,22 +669,22 @@ D\space##1%
           \@pstrickserr{Bad argument: `#1#2'}\@ehpa
   \fi\fi\fi\fi}
 %
-\define@key[psset]{}{labels}{\pst@expandafter\ticks@i{#1}\@nil\psk@labels}
+\define@key[psset]{pst-plot}{labels}{\pst@expandafter\ticks@i{#1}\@nil\psk@labels}
 %
-\define@key[psset]{}{Ox}{\edef\psk@Ox{#1}}
-\define@key[psset]{}{Dx}{\edef\psk@Dx{#1}}
-\define@key[psset]{}{dx}{%
+\define@key[psset]{pst-plot}{Ox}{\edef\psk@Ox{#1}}
+\define@key[psset]{pst-plot}{Dx}{\edef\psk@Dx{#1}}
+\define@key[psset]{pst-plot}{dx}{%
   \pssetxlength\pst@dimg{#1}%
   \edef\psk@dx{\number\pst@dimg}}
 %
-\define@key[psset]{}{Oy}{\edef\psk@Oy{#1}}
-\define@key[psset]{}{Dy}{\edef\psk@Dy{#1}}
-\define@key[psset]{}{dy}{%
+\define@key[psset]{pst-plot}{Oy}{\edef\psk@Oy{#1}}
+\define@key[psset]{pst-plot}{Dy}{\edef\psk@Dy{#1}}
+\define@key[psset]{pst-plot}{dy}{%
   \pssetylength\pst@dimg{#1}%
   \edef\psk@dy{\number\pst@dimg}}
 %
 \newif\ifshoworigin
-\define@key[psset]{}{showorigin}{\@nameuse{showorigin#1}}
+\define@key[psset]{pst-plot}{showorigin}{\@nameuse{showorigin#1}}
 %%-------------- hv patch 3 2004-05-23 --------------------------
 % to get axesstyle=dashed run
 \edef\pst@linetype{0}
@@ -861,8 +861,8 @@ D\space##1%
 \newdimen\pst@yticksizeB
 \newdimen\pst@yticksizeC
 %
-\define@key[psset]{}{ticksize}{\psset{xticksize=#1,yticksize=#1}}
-\define@key[psset]{}{xticksize}{%
+\define@key[psset]{pst-plot}{ticksize}{\psset{xticksize=#1,yticksize=#1}}
+\define@key[psset]{pst-plot}{xticksize}{%
   \pst@expandafter\pst@getydimdim{#1} {\pst@missing} {} {}\@nil%
   \pst@xticksizeA=\the\pst@dimm%
   \pst@xticksizeB=\the\pst@dimn%
@@ -874,7 +874,7 @@ D\space##1%
     \pst@xticksizeC=\pst@dimo%
   \fi%
 }
-\define@key[psset]{}{yticksize}{%  overwrites the definition in pstricks
+\define@key[psset]{pst-plot}{yticksize}{%  overwrites the definition in pstricks
   \pst@expandafter\pst@getxdimdim{#1} {\pst@missing} {} {}\@nil%
   \pst@yticksizeA=\the\pst@dimm%
   \pst@yticksizeB=\the\pst@dimn%
@@ -888,7 +888,7 @@ D\space##1%
 }
 %
 % full= 0, top=1, bottom=-1
-\define@key[psset]{}{tickstyle}{%
+\define@key[psset]{pst-plot}{tickstyle}{%
   \pst@expandafter\tickstyle@i{#1}\@nil%
   \ifnum\psk@tickstyle>\z@%
     \psset{xticksize=0 \pst@xticksizeB}%
@@ -907,54 +907,54 @@ D\space##1%
         \@pstrickserr{Bad tick style: `#1#2'}\@ehpa
   \fi\fi\fi}
 %
-\define@key[psset]{}{subticks}{\edef\psk@xsubticks{#1}\edef\psk@ysubticks{#1}}
-\define@key[psset]{}{xsubticks}{\edef\psk@xsubticks{#1}}
-\define@key[psset]{}{ysubticks}{\edef\psk@ysubticks{#1}}
+\define@key[psset]{pst-plot}{subticks}{\edef\psk@xsubticks{#1}\edef\psk@ysubticks{#1}}
+\define@key[psset]{pst-plot}{xsubticks}{\edef\psk@xsubticks{#1}}
+\define@key[psset]{pst-plot}{ysubticks}{\edef\psk@ysubticks{#1}}
 %
-\define@key[psset]{}{subticksize}{\edef\psk@xsubticksize{#1}\edef\psk@ysubticksize{#1}}
-\define@key[psset]{}{xsubticksize}{\edef\psk@xsubticksize{#1}}
-\define@key[psset]{}{ysubticksize}{\edef\psk@ysubticksize{#1}}
+\define@key[psset]{pst-plot}{subticksize}{\edef\psk@xsubticksize{#1}\edef\psk@ysubticksize{#1}}
+\define@key[psset]{pst-plot}{xsubticksize}{\edef\psk@xsubticksize{#1}}
+\define@key[psset]{pst-plot}{ysubticksize}{\edef\psk@ysubticksize{#1}}
 %
-\define@key[psset]{}{tickwidth}{%
+\define@key[psset]{pst-plot}{tickwidth}{%
   \pst@getlength{#1}\psk@xtickwidth
   \pst@getlength{#1}\psk@ytickwidth}
-\define@key[psset]{}{xtickwidth}{\pst@getlength{#1}\psk@xtickwidth}
-\define@key[psset]{}{ytickwidth}{\pst@getlength{#1}\psk@ytickwidth}
-\define@key[psset]{}{subtickwidth}{%
+\define@key[psset]{pst-plot}{xtickwidth}{\pst@getlength{#1}\psk@xtickwidth}
+\define@key[psset]{pst-plot}{ytickwidth}{\pst@getlength{#1}\psk@ytickwidth}
+\define@key[psset]{pst-plot}{subtickwidth}{%
   \pst@getlength{#1}\psk@xsubtickwidth
   \pst@getlength{#1}\psk@ysubtickwidth}
-\define@key[psset]{}{xsubtickwidth}{\pst@getlength{#1}\psk@xsubtickwidth}
-\define@key[psset]{}{ysubtickwidth}{\pst@getlength{#1}\psk@ysubtickwidth}
+\define@key[psset]{pst-plot}{xsubtickwidth}{\pst@getlength{#1}\psk@xsubtickwidth}
+\define@key[psset]{pst-plot}{ysubtickwidth}{\pst@getlength{#1}\psk@ysubtickwidth}
 %
-\define@key[psset]{}{tickcolor}{\edef\psk@xtickcolor{#1}\edef\psk@ytickcolor{#1}}
-\define@key[psset]{}{xtickcolor}{\edef\psk@xtickcolor{#1}}
-\define@key[psset]{}{ytickcolor}{\edef\psk@ytickcolor{#1}}
-\define@key[psset]{}{subtickcolor}{\edef\psk@xsubtickcolor{#1}\edef\psk@ysubtickcolor{#1}}
-\define@key[psset]{}{xsubtickcolor}{\edef\psk@xsubtickcolor{#1}}
-\define@key[psset]{}{ysubtickcolor}{\edef\psk@ysubtickcolor{#1}}
+\define@key[psset]{pst-plot}{tickcolor}{\edef\psk@xtickcolor{#1}\edef\psk@ytickcolor{#1}}
+\define@key[psset]{pst-plot}{xtickcolor}{\edef\psk@xtickcolor{#1}}
+\define@key[psset]{pst-plot}{ytickcolor}{\edef\psk@ytickcolor{#1}}
+\define@key[psset]{pst-plot}{subtickcolor}{\edef\psk@xsubtickcolor{#1}\edef\psk@ysubtickcolor{#1}}
+\define@key[psset]{pst-plot}{xsubtickcolor}{\edef\psk@xsubtickcolor{#1}}
+\define@key[psset]{pst-plot}{ysubtickcolor}{\edef\psk@ysubtickcolor{#1}}
 %
-\define@key[psset]{}{xticklinestyle}{%
+\define@key[psset]{pst-plot}{xticklinestyle}{%
   \@ifundefined{psls@#1}%
     {\@pstrickserr{Line style `#1' not defined}\@eha}%
     {\edef\psxticklinestyle{#1}}%
 }
-\define@key[psset]{}{xsubticklinestyle}{%
+\define@key[psset]{pst-plot}{xsubticklinestyle}{%
   \@ifundefined{psls@#1}%
     {\@pstrickserr{Line style `#1' not defined}\@eha}%
     {\edef\psxsubticklinestyle{#1}}%
 }
-\define@key[psset]{}{yticklinestyle}{%
+\define@key[psset]{pst-plot}{yticklinestyle}{%
   \@ifundefined{psls@#1}%
     {\@pstrickserr{Line style `#1' not defined}\@eha}%
     {\edef\psyticklinestyle{#1}}%
 }
-\define@key[psset]{}{ysubticklinestyle}{%
+\define@key[psset]{pst-plot}{ysubticklinestyle}{%
   \@ifundefined{psls@#1}%
     {\@pstrickserr{Line style `#1' not defined}\@eha}%
     {\edef\psysubticklinestyle{#1}}%
 }
-\define@key[psset]{}{ticklinestyle}{\psset{xticklinestyle=#1,yticklinestyle=#1}}
-\define@key[psset]{}{subticklinestyle}{\psset{xsubticklinestyle=#1,ysubticklinestyle=#1}}
+\define@key[psset]{pst-plot}{ticklinestyle}{\psset{xticklinestyle=#1,yticklinestyle=#1}}
+\define@key[psset]{pst-plot}{subticklinestyle}{\psset{xsubticklinestyle=#1,ysubticklinestyle=#1}}
 %
 \newif\ifis@yAxis%
 %
@@ -1149,7 +1149,7 @@ D\space##1%
   \psxs@@axes\pst@dima\pst@dimb\pst@dimc\pst@dimd{exch}%
 }
 %
-\define@key[psset]{}{axesstyle}{%
+\define@key[psset]{pst-plot}{axesstyle}{%
   \@ifundefined{psxs@#1}%
     {\@pstrickserr{Axes style `#1' not defined}\@eha}%
     {\edef\psk@axesstyle{#1}}}
@@ -1235,7 +1235,7 @@ D\space##1%
 %
 \def\psvlabel#1{$#1$}
 %
-\define@key[psset]{}{barwidth}{\pst@getlength{#1}\psk@barwidth}
+\define@key[psset]{pst-plot}{barwidth}{\pst@getlength{#1}\psk@barwidth}
 %
 \def\psbar@ii{\addto@pscode{false \tx@NArray \psbar@iii}}% hv
 \def\psbar@iii{%
@@ -1254,22 +1254,22 @@ D\space##1%
   \end@SpecialObj%
 }
 %
-\define@key[psset]{}{xAxisLabel}{\edef\psk@xAxisLabel{#1}}
-\define@key[psset]{}{yAxisLabel}{\edef\psk@yAxisLabel{#1}}
-\define@key[psset]{}{xAxisLabelPos}{\edef\psk@xAxisLabelPos{#1}}
-\define@key[psset]{}{yAxisLabelPos}{\edef\psk@yAxisLabelPos{#1}}
+\define@key[psset]{pst-plot}{xAxisLabel}{\edef\psk@xAxisLabel{#1}}
+\define@key[psset]{pst-plot}{yAxisLabel}{\edef\psk@yAxisLabel{#1}}
+\define@key[psset]{pst-plot}{xAxisLabelPos}{\edef\psk@xAxisLabelPos{#1}}
+\define@key[psset]{pst-plot}{yAxisLabelPos}{\edef\psk@yAxisLabelPos{#1}}
 %
 \newdimen\psk@llx
 \newdimen\psk@lly
 \newdimen\psk@urx
 \newdimen\psk@ury
-\define@key[psset]{}{llx}{\pssetxlength\psk@llx{#1}}
-\define@key[psset]{}{lly}{\pssetylength\psk@lly{#1}}
-\define@key[psset]{}{urx}{\pssetxlength\psk@urx{#1}}
-\define@key[psset]{}{ury}{\pssetylength\psk@ury{#1}}
+\define@key[psset]{pst-plot}{llx}{\pssetxlength\psk@llx{#1}}
+\define@key[psset]{pst-plot}{lly}{\pssetylength\psk@lly{#1}}
+\define@key[psset]{pst-plot}{urx}{\pssetxlength\psk@urx{#1}}
+\define@key[psset]{pst-plot}{ury}{\pssetylength\psk@ury{#1}}
 %
 \newif\ifPst@plot@box
-\define@key[psset]{}{box}[true]{\@nameuse{Pst@plot@box#1}}
+\define@key[psset]{pst-plot}{box}[true]{\@nameuse{Pst@plot@box#1}}
 %
 \newdimen\pst@xunit
 \newdimen\pst@yunit
@@ -1319,7 +1319,7 @@ D\space##1%
 \def\resetPSTPlotOptions{%
   \@zero=0%
   \pstScalePoints(1,1){}{}% reset
-  \psset{%
+  \psset[pst-plot]{%
        infix=none,% TeX | PS
        xyAxes=true,
        xyDecimals={},%
