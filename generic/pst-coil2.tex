@@ -1,0 +1,147 @@
+%% BEGIN pst-coil2.tex
+%%
+%% Nodes with PSTricks
+%% See the betadoc documentation for usage. 
+%% This uses the header file `pst-coil2.pro'.
+%% For use with the PostScript header file `pst-coil2.pro'.
+%%
+%%
+%% COPYRIGHT 1993, 1994, 1999 by Timothy Van Zandt, tvz@nwu.edu.
+%% COPYRIGHT 2004,2005 by Herbert Voss <voss _at_ pstricks.de>.
+%%
+%% This program can be redistributed and/or modified under the terms
+%% of the LaTeX Project Public License Distributed from CTAN
+%% archives in directory macros/latex/base/lppl.txt.
+%%
+\csname PSTcoilsLoaded\endcsname
+\let\PSTnodesLoaded\endinput
+\ifx\PSTricksLoaded\endinput\else\input pstricks2 \fi
+\ifx\PSTXKeyLoaded\endinput\else\input pst-xkey \fi
+%
+\def\fileversion{2.001}
+\def\filedate{2004/12/23}
+\message{ v\fileversion, \filedate}
+\message{`pst-coils2' v\fileversion, \filedate\space (tvz,hv)}
+%
+\edef\TheAtCode{\the\catcode`\@}\catcode`\@=11
+\pst@addfams{pst-coil}
+%
+\pstheader{pst-coil2.pro}
+\edef\pst@theheaders{\pst@theheaders,pst-coil2.pro}
+\def\pst@coildict{tx@CoilDict begin }
+\define@key[psset]{pst-coil}{coilwidth}{\pst@getlength{#1}\psk@coilwidth}
+\define@key[psset]{pst-coil}{coilheight}{\pst@checknum{#1}\pscoilheight}
+\define@key[psset]{pst-coil}{coilarmA}{\pst@getlength{#1}\psk@coilarmA}
+\define@key[psset]{pst-coil}{coilarmB}{\pst@getlength{#1}\psk@coilarmB}
+\define@key[psset]{pst-coil}{coilarm}{%
+  \pst@getlength{#1}\psk@coilarmA
+  \let\psk@coilarmB\psk@coilarmA}
+\define@key[psset]{pst-coil}{coilaspect}{\pst@getangle{#1}\psk@coilaspect}
+\define@key[psset]{pst-coil}{coilinc}{\pst@getangle{#1}\psk@coilinc}
+\def\pscoil{\def\pst@par{}\pst@object{pscoil}}
+\def\pscoil@i{\pst@getarrows\pscoil@ii}
+\def\pscoil@ii(#1){%
+  \@ifnextchar({\pscoil@iii{1}(#1)}{\pscoil@iii{\z@}(0,0)(#1)}}
+\def\pscoil@iii#1(#2)(#3){%
+  \begin@OpenObj
+    \pst@getcoor{#2}\pst@tempa
+    \pst@getcoor{#3}\pst@tempb
+    \pst@optcp{#1}\pst@tempa
+    \addto@pscode{%
+      \pst@tempa \pst@tempb
+      \psk@coilwidth \pscoilheight
+      \psk@coilarmA \psk@coilarmB
+      \psk@coilaspect \psk@coilinc
+      \pst@coildict \tx@Coil end}%
+    \showpointsfalse
+  \end@OpenObj%
+}
+\def\tx@CoilLoop{CoilLoop }
+\def\tx@Coil{Coil }
+\def\psCoil{\def\pst@par{}\pst@object{psCoil}}
+\def\psCoil@i#1#2{%
+\begin@AltOpenObj
+\showpointsfalse
+\pst@getangle{#1}\pst@tempa
+\pst@getangle{#2}\pst@tempb
+\addto@pscode{%
+\pst@tempa
+\pst@tempb
+\psk@coilwidth
+\pscoilheight
+\psk@coilaspect
+\psk@coilinc
+\pst@coildict \tx@AltCoil end
+\@nameuse{psls@\pslinestyle}}%
+\end@OpenObj}
+\def\tx@AltCoil{AltCoil }
+\def\pszigzag{\def\pst@par{}\pst@object{pszigzag}}
+\def\pszigzag@i{\pst@getarrows\pszigzag@ii}
+\def\pszigzag@ii(#1){%
+\@ifnextchar({\pszigzag@iii{1}(#1)}{\pszigzag@iii{\z@}(0,0)(#1)}}
+\def\pszigzag@iii#1(#2)(#3){%
+\begin@OpenObj
+\pst@getcoor{#2}\pst@tempa
+\pst@getcoor{#3}\pst@tempb
+\pst@optcp{#1}\pst@tempa
+\addto@pscode{%
+\pst@tempa
+\pst@tempb
+\pscoilheight
+\psk@coilwidth
+\psk@coilarmA
+\psk@coilarmB
+\pst@coildict \tx@ZigZag end
+\psline@iii
+\tx@Line}%
+\end@OpenObj}
+\def\tx@ZigZag{ZigZag }
+\def\nccoil{\pst@object{nccoil}}
+\def\nccoil@i{\check@arrow{\nccoil@ii}}
+\def\nccoil@ii#1#2{\nc@object{Open}{#1}{#2}{.5}{%
+\tx@NCCoor
+tx@Dict begin
+% DG/SR modification begin - Mar. 19, 1998 - Patch 2
+4 2 roll
+% DG/SR modification end
+\psk@coilwidth \pscoilheight
+\psk@coilarmA \psk@coilarmB
+\psk@coilaspect \psk@coilinc
+\pst@coildict \tx@Coil end
+end}}
+\def\pccoil{\def\pst@par{}\pst@object{pccoil}}
+\def\pccoil@i{\pc@object\nccoil@ii}
+\def\nczigzag{\pst@object{nczigzag}}
+\def\nczigzag@i{\check@arrow{\nczigzag@ii}}
+\def\nczigzag@ii#1#2{\nc@object{Open}{#1}{#2}{.5}{%
+  \tx@NCCoor
+  tx@Dict begin
+% DG/SR modification begin - Mar. 19, 1998 - Patch 2
+  4 2 roll
+% DG/SR modification end
+  \pscoilheight
+  \psk@coilwidth
+  \psk@coilarmA
+  \psk@coilarmB
+  \pst@coildict \tx@ZigZag end
+  \psline@iii
+  \tx@Line
+  end}}
+\def\pczigzag{\def\pst@par{}\pst@object{pczigzag}}
+\def\pczigzag@i{\pc@object\nczigzag@ii}
+%
+\def\resetPSTCoilOptions{%
+  \psset[pst-coil]{%  set only the options of pst-node
+    coilwidth=1cm,%
+    coilheight=1,%
+    coilarm=0.5cm,%
+    coilaspect=45,%
+    coilinc=10%
+  }
+}
+\resetPSTCoilOptions
+%
+\catcode`\@=\TheAtCode\relax
+\endinput
+%%
+%% END pst-coil.tex
