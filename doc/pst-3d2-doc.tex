@@ -1,0 +1,547 @@
+\definecolor{BleuCiel}{cmyk}{.2,0,0,0}
+\definecolor{bleupale}{cmyk}{.1,0,0,0}
+\definecolor{Rougepale}{cmyk}{0,0.2,0.2,0}
+\definecolor{Bleupale}{cmyk}{0.4,0.4,0,0}
+\definecolor{JauneClair}{rgb}{1.,0.98,0.8}
+\definecolor{Palegreen}{rgb}{0.88,1,0.88}
+\definecolor{PeachPuff}{rgb}{1.0,0.85,0.73}
+\definecolor{ForestGreen}{rgb}{0.133,0.545,0.133}
+\definecolor{Orange}{rgb}{1,0.8,0}
+\DeclareFixedFont{\bigsf}{T1}{phv}{b}{n}{1cm}
+\DeclareFixedFont{\tinyrm}{T1}{ptm}{m}{n}{7mm}
+\DeclareFixedFont{\babyfont}{T1}{ptm}{b}{n}{1cm}
+\DeclareFixedFont{\tinyhv}{T1}{phv}{m}{n}{7mm}
+\DeclareFixedFont{\tinyhvm}{T1}{phv}{m}{n}{6mm}
+%
+\definecolor{Bluea}{cmyk}{.2,0,0,0}
+\definecolor{LemonChiffon}{rgb}{1.,0.98,0.8}
+\definecolor{Palegreen}{rgb}{0.88,1,0.88}
+\definecolor{PeachPuff}{rgb}{1.0,0.85,0.73}
+\definecolor{ForestGreen}{rgb}{0.133,0.545,0.133}
+\definecolor{Orange}{rgb}{1,0.65,0}
+\newcommand{\e}{2.71828}
+
+\title{\texttt{pst-3d}\\Three dimensional views\thanks{%
+    This document was written with \texttt{Kile: 1.7} (\texttt{Qt: 3.1.1; KDE: 3.3;}
+    \url{http://sourceforge.net/projects/kile/}) and the PDF output
+    was build with VTeX/Free (\url{http://www.micropress-inc.com/linux})}\\
+    \small v.\pstnodeFV}
+\author{Manuel Luque and Herbert Voß}
+\date{\today}
+
+\maketitle
+\section{Définir la direction où se trouve l'observateur}
+C'est le rôle de la commande \texttt{\textbackslash psset\{wiepoint=v$\tt_ x$ v$\tt_
+v$ v$\tt_ z$\}}. ({\tt  v$\tt_ x$ v$\tt_ v$ v$\tt_ z$}) sont  les coordonnées
+d'un vecteur pointant à partir de l'origine {\sf O} vers l'\oe il de
+l'observateur. En réalité il définit la direction de la projection sur le plan
+horizontal. La norme du vecteur n'a aucune importance, il est inutile de
+prendre un vecteur unitaire. Choisissez simplement les coordonnées en fonction
+du point de vue que vous voulez avoir par rapport à l'objet.\\ Dans le dessin
+ci-dessous le vecteur $\vec{v}$ a pour coordonnées ({\tt 1 0.5 1.5}). Ce schéma
+n'est pas représenté avec ce point de vue, car de ce vecteur nous ne verrions
+alors qu'un point : le bout de la flèche ! \\ {\textbf{\textit{ Remarque
+:}}{\it  Il ne faut pas choisir l'une des coordonnées égale à 0, cela provoque
+une erreur lors de l'affichage de l'image, mais on peut prendre une valeur très
+petite : 0.001 par exemple. Il peut y avoir des erreurs provoquées par une
+division par 0 dans d'autres rares occasions, il suffit alors de modifier très
+légèrement la valeur fautive. }
+\\
+\begin{pspicture}(-5,-1)(5,5)
+\def\oeil{
+%la pupille
+    \SpecialCoor
+    \pscurve(1;160)(0.8;180)(1;200)
+%colorer la pupille
+    \pscustom{\gsave\psarc(0,0){1}{165}{195}
+              \pscurve(1;195)(0.85;180)(1;165)
+              \fill[fillstyle=solid,fillcolor=Bluea]\grestore}
+              \pscurve[linewidth=.4pt](1;195)(0.85;180)(1;165)
+    %les cils
+    {\psset{linewidth=2pt}
+    \psarc(0,1){1}{180}{270}
+    \psarc(0,-1){1}{90}{180}}
+    \psarc(0,0){1}{150}{210}
+\psset{linewidth=4pt,linecolor=gray}%
+\pscurve(-.5,3.5)(-1,3)(-1.2,2.5)(-1.3,2)
+(-1.4,1)(-1.35,0.5)(-1.2,-.2)(-1.35,-.5)
+(-1.4,-1)(-1.5,-1.5)(-1.8,-2)(-1.8,-2.3)%
+ (-1.65,-2.5)(-1.35,-2.55)(-.95,-2.8)
+(-.95,-3.35)(-1,-3.65)(-.8,-4)(-.4,-4.1)
+\pscurve(-.8,-4)(-.8,-4.2)(-.5,-4.5)(-.4,-5)(-.25,-5.5)(0,-5.8)(.5,-6)
+    }
+% Le vecteur viewpoint dans l'espace
+\psset{unit=2}\psset{viewpoint=3 5 2}
+ %le plan Oxy
+\ThreeDput[normal=0 0 1](0,0,0){%
+    \psline{->}(0,0)(2,0)
+    %\uput[90](2,0){$x$}
+    \qdisk(1,0.5){2pt}
+    \psline(1,0)(1,0.5)\psline(1,0.5)(0,0.5)
+    \psline[linestyle=dotted](0,0)(1,0.5)
+    \psset{fillstyle=solid,fillcolor=lightgray,linestyle=none}
+    \psframe(1,0)(1.15,.15)
+     \psframe(0,.5)(.15,.65)}
+%le plan Oyz
+\ThreeDput[normal=1 0 0](0,0,0){%
+    \psline{->}(0,0)(2,0)
+    \uput[90](2,0){$y$}
+    \psline{->}(0,0)(0,2)
+    \uput[180](0,2){$z$}
+    \uput[90](0.5,0){0.5}
+    \uput[180](0,1.5){1.5}
+    \uput[135](0,0){0}
+    \rput(1.2,1.5){\begin{minipage}{4cm}\begin{center}Chapitre 1\end{center}\sf Choisir le point de
+    vue\end{minipage}}}
+%Plan Ozx
+\ThreeDput[normal=0 1 0](0,0,0){%
+    \uput[90](-2,0){$x$}
+    \uput[90](-1,0){1}
+\rput(-1.5,1){\sf Avec pst-3d}
+    }
+    %\rput(0,0){\oeil}
+%Dessiner le vecteur normal avec l'oeil
+\ThreeDput[normal=.5 -1 0](0,0,0){%
+    \psframe[linestyle=none,fillstyle=hlines,hatchwidth=0.1pt,hatchsep=2pt,hatchcolor=yellow](0,0)(1.118,1.5)
+    \psline[linewidth=3pt,linecolor=red,arrowinset=0]{->}(0,0)(1.118,1.5)
+    \psline[linestyle=dashed](0,0)(2.236,3)
+    \psline(1.118,0)(1.118,1.5)
+    \psline(1.118,1.5)(0,1.5)
+    \rput{53.3}(2.5348,3.4009){\scalebox{0.5}{\oeil}}}
+\end{pspicture}\\
+
+ Trois exemples.
+\begin{verbatim}\psset{viewpoint=1 1.5 1}\end{verbatim}
+\begin{pspicture}(-5,-2.5)(5,5)\psset{viewpoint=1 1.5 1}\psset{gridlabels=6pt}
+%Trièdre 1
+\ThreeDput[normal=0 0 1](0,0,0)%Plan Oxy
+    {\psgrid[gridcolor=red](0,0)(5,5)\psline{->}(0,0)(0,5)\uput[180](0,5){\red$y$}
+        \psline{->}(0,0)(5,0)\uput[-90](5,0){\red$x$}
+    }
+\ThreeDput[normal=0 -1 0](0,0,0)%Plan Oxz
+    {\psgrid[gridcolor=green](0,0)(5,5)\psline{->}(0,0)(0,5)\uput[180](0,5){\green$z$}
+        \psline{->}(0,0)(5,0)\uput[-90](5,0){\green$x$}}
+\ThreeDput[normal=1 0 0](0,0,0)%Plan Oyz
+    {\psgrid[gridcolor=blue](0,0)(5,5)\psline{->}(0,0)(0,5)\uput[180](0,5){\blue$z$}
+        \psline{->}(0,0)(5,0)\uput[-90](5,0){\blue$y$}}
+\psset{unit=2}
+%Trièdre 2
+\ThreeDput[normal=0 0 1](0,0,1)%
+    {\psframe[linestyle=none,fillstyle=solid,fillcolor=lightgray](0,0)(1,1)
+    \psline[linestyle=dashed](1,0)(1,-1)\psline[linestyle=dashed](0,1)(-1,1)
+    \rput(0.5,0.5){DESSUS}
+    }
+\ThreeDput[normal=0 1 0](1,1,0)%
+    {\psframe[linestyle=none,fillstyle=solid,fillcolor=Bluea](0,0)(1,1)
+    \rput(0.5,0.5){côtéA}\psline[linestyle=dashed](0,0)(0,-1)
+    }
+\ThreeDput[normal=1 0 0](1,0,0)%
+    {\psframe[linestyle=none,fillstyle=solid,fillcolor=Palegreen](0,0)(1,1)
+    \rput(0.5,0.5){côtéB}
+    }\end{pspicture}
+\newpage
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{verbatim}\psset{viewpoint=1 .5 2}\end{verbatim}
+\begin{pspicture}(-5,-2.5)(5,3)\psset{viewpoint=1 .5 2}\psset{gridlabels=6pt}
+%Trièdre 1
+\ThreeDput[normal=0 0 1](0,0,0)%Plan Oxy
+    {\psgrid[gridcolor=red](0,0)(5,5)\psline{->}(0,0)(0,5)\uput[180](0,5){\red$y$}
+        \psline{->}(0,0)(5,0)\uput[-90](5,0){\red$x$}
+    }
+\ThreeDput[normal=0 -1 0](0,0,0)%Plan Oxz
+    {\psgrid[gridcolor=green](0,0)(5,5)\psline{->}(0,0)(0,5)\uput[180](0,5){\green$z$}
+        \psline{->}(0,0)(5,0)\uput[-90](5,0){\green$x$}}
+\ThreeDput[normal=1 0 0](0,0,0)%Plan Oyz
+    {\psgrid[gridcolor=blue](0,0)(5,5)\psline{->}(0,0)(0,5)\uput[180](0,5){\blue$z$}
+        \psline{->}(0,0)(5,0)\uput[-90](5,0){\blue$y$}}
+\psset{unit=2}
+%Trièdre 2
+\ThreeDput[normal=0 0 1](0,0,1)%
+    {\psframe[linestyle=none,fillstyle=solid,fillcolor=lightgray](0,0)(1,1)
+    \psline[linestyle=dashed](1,0)(1,-1)\psline[linestyle=dashed](0,1)(-1,1)
+    \rput(0.5,0.5){DESSUS}
+    }
+\ThreeDput[normal=0 1 0](1,1,0)%
+    {\psframe[linestyle=none,fillstyle=solid,fillcolor=Bluea](0,0)(1,1)
+    \rput(0.5,0.5){côtéA}\psline[linestyle=dashed](0,0)(0,-1)
+    }
+\ThreeDput[normal=1 0 0](1,0,0)%
+    {\psframe[linestyle=none,fillstyle=solid,fillcolor=Palegreen](0,0)(1,1)
+    \rput(0.5,0.5){côtéB}
+    }\end{pspicture}\\[2cm]
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{verbatim}\psset{viewpoint=-1 .5 1}\end{verbatim}
+\begin{pspicture}(-8,-2.5)(5,7)\psset{viewpoint=-1 .5 1}\psset{gridlabels=6pt}
+%Trièdre 1
+\ThreeDput[normal=0 0 1](0,0,0)%Plan Oxy
+    {\psgrid[gridcolor=red](0,0)(5,5)\psline{->}(0,0)(0,5)\uput[180](0,5){\red$y$}
+        \psline{->}(0,0)(5,0)\uput[-90](5,0){\red$x$}
+    }
+\ThreeDput[normal=0 -1 0](0,0,0)%Plan Oxz
+    {\psgrid[gridcolor=green](0,0)(5,5)\psline{->}(0,0)(0,5)\uput[180](0,5){\green$z$}
+        \psline{->}(0,0)(5,0)\uput[-90](5,0){\green$x$}}
+
+\psset{unit=2}
+%Trièdre 2
+\ThreeDput[normal=0 0 1](0,0,1)%
+    {\psframe[linestyle=none,fillstyle=solid,fillcolor=lightgray](0,0)(1,1)
+    \psline[linestyle=dashed](1,0)(1,-1)\psline[linestyle=dashed](0,1)(-1,1)
+    \rput(0.5,0.5){DESSUS}
+    }
+\ThreeDput[normal=0 1 0](1,1,0)%
+    {\psframe[linestyle=none,fillstyle=solid,fillcolor=Bluea](0,0)(1,1)
+    \rput(0.5,0.5){côtéA}\psline[linestyle=dashed](0,0)(0,-1)
+    }
+
+\ThreeDput[normal=-1 0 0](0,1,0)%
+    {\psframe[linestyle=none,fillstyle=solid,fillcolor=JauneClair](0,0)(1,1)
+    \rput(0.5,0.5){côtéD}}
+\ThreeDput[normal=1 0 0](0,0,0)%Plan Oyz
+    {\psset{unit=0.5}\psgrid[gridcolor=blue](0,0)(5,5)\psline{->}(0,0)(0,5)\uput[180](0,5){\blue$z$}
+        \psline{->}(0,0)(5,0)\uput[-90](5,0){\blue$y$}}
+    \end{pspicture}\\[-1cm]
+\section{Choisir le plan sur lequel on veut travailler}
+Cette extension permet de tout représenter dans l'espace en 3d, à condition que
+ce que l'on souhaite visualiser appartienne à un plan. Si ce n'est pas le cas :
+cylindre, sphère etc. il faut découper la surface à représenter en pavés plans
+juxtaposés. En fonction de leur nombre, le rendu de la surface sera plus ou
+moins réaliste. \begin{description}
+\item[\strut{\red Définir le plan} :]  nous disposons d'une commande ({\it qui
+est double en réalité}) très efficace : {\tt \textbackslash
+ThreeDput[normal=n$\tt_x$ n$\tt_y$ n$\tt_z$]($\Omega\tt_x$ $\Omega\tt_y$
+$\Omega\tt_z$)} qui permet à la fois :
+\begin{itemize}
+  \item de définir mathématiquement le plan par un vecteur normal à ce plan et
+  par  un point $\Omega$ appartenant à ce plan.
+  \item Ce point $\Omega$ est considéré comme l'origine du repère du système d'axes
+   ($\Omega \,X\, Y$), sur lequel tous les repérages des points de ce plan se feront.
+   \item Ce repère est automatiquement défini par la commande.
+    Il suit les règles d'orientation
+   classiques de l'espace que nous allons préciser par la suite.
+\end{itemize}
+
+\item[\strut{\red Exemple 1 : représenter les faces visibles d'un cube}]~
+\begin{itemize}
+  \item face A : {\tt \textbackslash ThreeDput[normal=0 1 0](1,1,0)}
+  \item face B : {\tt \textbackslash ThreeDput[normal=1 0 0](1,0,0)}
+  \item face de dessus :{\tt \textbackslash ThreeDput[normal=0 0 1](0,0,1)}
+\end{itemize}
+Voici le cube que l'on a représenté avec ces paramètres et \mbox{\tt \textbackslash
+psset\{wiepoint=1 1.5 1\}} ainsi que la justification des paramètres
+choisis.\\[1cm]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% tout est correct jusque là
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{pspicture}(-5,-2.5)(5,5)
+\psset{viewpoint=1 1.5 1} \rput(-2,0){\psset{gridlabels=0pt,subgriddiv=0}
+%Trièdre 1
+\ThreeDput[normal=0 0 1](0,0,0)%Plan Oxy
+    {\psgrid[gridcolor=red](0,0)(5,5)
+
+    }
+\ThreeDput[normal=0 -1 0](0,0,0)%Plan Oxz
+    {\psgrid[gridcolor=green](0,0)(5,5)
+        \psline{->}(0,0)(5,0)}
+\ThreeDput[normal=1 0 0](0,0,0)%Plan Oyz
+    {\psgrid[gridcolor=blue](0,0)(5,5)
+        }
+\psset{unit=4}
+%Trièdre 2
+\ThreeDput[normal=0 0 1](0,0,1)%
+    {\psframe[linestyle=none,fillstyle=solid,fillcolor=lightgray](0,0)(1,1)
+      \rput(0.5,0.5){\sf\Huge DESSUS}
+    }
+\ThreeDput[normal=0 1 0](1,1,0)%
+    {\psframe[linestyle=none,fillstyle=solid,fillcolor=Bluea](0,0)(1,1)
+    \rput(0.5,0.5){\sf\Huge face A}
+    }
+\ThreeDput[normal=1 0 0](1,0,0)%
+    {\psframe[linestyle=none,fillstyle=solid,fillcolor=Palegreen](0,0)(1,1)
+    \rput(0.5,0.5){\sf\Huge face B}}}
+\rput(6,0){ \psset{gridlabels=0pt,subgriddiv=0}
+%Trièdre 1
+\ThreeDput[normal=0 0 1](0,0,0)%Plan Oxy
+    {\psgrid[gridcolor=red](0,0)(5,5)
+    \psline[linewidth=3pt,linecolor=blue]{->}(4,4)(4,6)%
+    \uput[90](4,6){\rotateleft{\blue$\vec{n}\sf_A$}}
+         }
+
+\ThreeDput[normal=0 -1 0](0,0,0)%Plan Oxz
+    {\psgrid[gridcolor=green](0,0)(5,5)
+       \psline[linewidth=3pt,linecolor=green]{->}(4,0)(6,0)%
+       \uput[90](6,0){\reflectbox{\green$\vec{n}\sf_B$}}}
+\ThreeDput[normal=1 0 0](0,0,0)%Plan Oyz
+    {\psgrid[gridcolor=blue](0,0)(5,5)
+ \psline[linewidth=3pt]{->}(0,4)(0,6)%
+       \uput[0](0,6){$\vec{n}\sf_{dessus}$}}
+\psset{unit=4}
+%Trièdre 2
+\ThreeDput[normal=0 0 1](0,0,1)%
+    {\psframe[linestyle=none,fillstyle=solid,fillcolor=lightgray](0,0)(1,1)
+      \rput(0.5,0.5){\sf\Huge DESSUS}
+    \psset{arrowinset=0,linewidth=2pt}\psline{->}(0,0)(1,0)%
+    \uput[90](0.75,0){X$\sf_{dessus}$}
+    \psline{->}(0,0)(0,1)%
+    \uput[0](0,0.75){Y$\sf_{dessus}$}}
+\ThreeDput[normal=0 1 0](1,1,0)%
+    {\psframe[linestyle=none,fillstyle=solid,fillcolor=Bluea](0,0)(1,1)
+    \rput(0.5,0.5){\sf\Huge face A}
+     \psset{arrowinset=0,linewidth=2pt}\psline{->}(0,0)(1,0)%
+    \uput[90](0.75,0){X$\sf_{A}$}
+    \psline{->}(0,0)(0,1)%
+    \uput[0](0,0.75){Y$\sf_{A}$}}
+\ThreeDput[normal=1 0 0](1,0,0)%
+    {\psframe[linestyle=none,fillstyle=solid,fillcolor=Palegreen](0,0)(1,1)
+    \rput(0.5,0.5){\sf\Huge face B}
+     \psset{arrowinset=0,linewidth=2pt}\psline{->}(0,0)(1,0)%
+    \uput[90](0.75,0){X$\sf_{B}$}
+    \psline{->}(0,0)(0,1)%
+    \uput[0](0,0.75){Y$\sf_{B}$}}}
+    \end{pspicture}\\[1.2cm]
+    Dans la deuxième figure où sont représentés les vecteurs normaux aux trois
+    faces ainsi que les repères associés, vous noterez la continuité dans
+    l'orientation des axes si vous tournez autour du cube. De même faites
+    pivoter le repère de la face de dessus sur lui-même, de façon à amener
+    l'axe X$\sf_{dessus}$ à être parallèle à celui de la face {\sf B}, basculez
+    sur la face {\sf B}, faites le glisser et vous verrez qu'il coïncide avec
+    celui de la face {\sf B}.\\
+    \textbf{Quelles sont les règles d'orientation ?}\\
+    Par exemple pour la face {\sf B} :\\ $\Omega$ étant le point de cette face
+    qui dans le repère de référence O$xyz$ a pour coordonnées (1,0,0).
+    $\Omega$\,X$\sf_B$,$\Omega$\,Y$\sf_B$,$\vec{n}\sf_B$ forment un trièdre direct. Plus
+pratiquement avec la main droite, on doit avoir (les trois doigts formant un
+trièdre) :
+\begin{itemize}
+  \item pouce = $\Omega$\,X$\sf_B$
+  \item index = $\Omega$\,Y$\sf_B$
+  \item majeur = $\vec{n}\sf_B$
+\end{itemize}
+Toutes les faces suivent cette règle. C'est ainsi qu'en respectant cette règle,
+je peux écrire sur les faces du cube, de telle sorte qu'en restant à
+l'extérieur du cube je peux lire, en gardant les pieds sur le plan horizontal
+O$xy$, les mots à l'endroit ({\it les normales sont orientées vers l'extérieur
+du cube}).
+% % %
+\item[\red Étude de l'intersection du cube défini par :]~
+\begin{itemize}
+  \item $0\leq x\leq 1$
+  \item $0\leq y\leq 1$
+  \item $0\leq z\leq 1$
+\end{itemize}
+{\red Par le plan $x+y+z=h$ avec $0<h<3$}\\ On définit ce plan par sa normale
+et l'origine $\Omega$ du nouveau repère dans ce plan :\\ Un plan d'équation
+cartésienne $ax+by+cz=d$ possède comme vecteur normal $\vec{n}(a,b,c)$. Dans le
+cas  étudié, on peut donc prendre $\vec{n}(1,1,1)$, il est facile de vérifier
+que le point $\Omega(\tt\displaystyle\frac{h}{3},\frac{h}{3},\frac{h}{3})$ est
+un point de
+ce plan, c'est le {\it pied} de la perpendiculaire de O à ce plan.\\ %
+On définit parfaitement ce plan par la commande :{\tt \textbackslash
+ThreeDput[normal=1 1 1]($\tt\displaystyle\frac{h}{3},\frac{h}{3},\frac{h}{3})$}
+Les exemples suivants sont relatifs respectivement à {\tt h=0.75, h = 1.5
+(hexagone régulier) et h = 1.75}.\\ Il faut calculer auparavant les coordonnées
+des sommets des polygones (triangle ou hexagone) intersections du plan avec les
+arêtes du cube (l'extension {\tt pst-3d} ne le fait pas ), puis dessiner le
+polygone par {\tt \textbackslash polygon\ldots}. \ldots
+
+   \begin{pspicture}(-5,-5)(5,5)
+\psset{viewpoint=1 1.5 1}\psset{gridlabels=6pt}
+%Trièdre 1
+\ThreeDput[normal=0 0 1](0,0,0)%Plan Oxy
+    {\psgrid[gridcolor=red](0,0)(5,5)\psline{->}(0,0)(0,5)\uput[180](0,5){\red$y$}
+        \psline{->}(0,0)(5,0)\uput[-90](5,0){\red$x$}
+    }
+\ThreeDput[normal=0 -1 0](0,0,0)%Plan Oxz
+   {\psgrid[gridcolor=green](0,0)(5,5)\psline{->}(0,0)(0,5)\uput[180](0,5){\green$z$}
+       \psline{->}(0,0)(5,0)\uput[-90](5,0){\green$x$}}
+\ThreeDput[normal=1 0 0](0,0,0)%Plan Oyz
+    {\psgrid[gridcolor=blue](0,0)(5,5)\psline{->}(0,0)(0,5)\uput[180](0,5){\blue$z$}
+        \psline{->}(0,0)(5,0)\uput[-90](5,0){\blue$y$}}
+\psset{unit=4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% intersections du plan x+y+z=h avec le cube
+% h=10.75
+%r=sqrt(6)/3*h
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\rayon{0.61237}
+\ThreeDput[normal=1 1 1](0.25,0.25,0.25){%(h/3,h/3,h/3)
+    \SpecialCoor
+        \pspolygon[fillstyle=hlines,hatchwidth=0.1pt,hatchsep=2pt]%
+        (\rayon;-30)(\rayon;90)(\rayon;210)% intersection avec le trièdre 1
+}
+%Trièdre 2 DESSIN du CUBE
+\psset{linewidth=0.5mm}
+\ThreeDput[normal=0 0 1](0,0,1)%
+    {\psframe(0,0)(1,1)
+    }
+\ThreeDput[normal=0 1 0](1,1,0)%
+    {\psframe(0,0)(1,1)
+
+   }
+\ThreeDput[normal=1 0 0](1,0,0)%
+   {\psframe(0,0)(1,1)
+        }
+\end{pspicture}\\
+%
+%
+%18h17
+\\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% intersections du plan x+y+z=h avec le cube
+% h=1.5
+%r=sqrt(6)/3*h
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{pspicture}(-5,-5)(5,5)
+\psset{viewpoint=1 1.5 1}\psset{gridlabels=6pt}
+%Trièdre 1
+\ThreeDput[normal=0 0 1](0,0,0)%Plan Oxy
+    {\psgrid[gridcolor=red](0,0)(5,5)\psline{->}(0,0)(0,5)\uput[180](0,5){\red$y$}
+        \psline{->}(0,0)(5,0)\uput[-90](5,0){\red$x$}
+    }
+\ThreeDput[normal=0 -1 0](0,0,0)%Plan Oxz
+   {\psgrid[gridcolor=green](0,0)(5,5)\psline{->}(0,0)(0,5)\uput[180](0,5){\green$z$}
+       \psline{->}(0,0)(5,0)\uput[-90](5,0){\green$x$}}
+\ThreeDput[normal=1 0 0](0,0,0)%Plan Oyz
+    {\psgrid[gridcolor=blue](0,0)(5,5)\psline{->}(0,0)(0,5)\uput[180](0,5){\blue$z$}
+        \psline{->}(0,0)(5,0)\uput[-90](5,0){\blue$y$}}
+\psset{unit=4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% intersections du plan x+y+z=h avec le cube
+% h=1.5
+%r=sqrt(6)/3*h
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\Rayon{0.707}%alpha=30°
+\ThreeDput[normal=1 1 1](0.5,0.5,0.5){%(h/3,h/3,h/3)
+    \SpecialCoor
+                \pspolygon[fillstyle=hlines,hatchwidth=0.1pt,hatchsep=2pt]%
+        (\Rayon;120)(\Rayon;180)(\Rayon;240)(\Rayon;300)(\Rayon;360)(\Rayon;60)
+            }
+%Trièdre 2 DESSIN du CUBE
+\psset{linewidth=0.5mm}
+\ThreeDput[normal=0 0 1](0,0,1)%
+    {\psframe(0,0)(1,1)
+    }
+\ThreeDput[normal=0 1 0](1,1,0)%
+    {\psframe(0,0)(1,1)
+
+   }
+\ThreeDput[normal=1 0 0](1,0,0)%
+   {\psframe(0,0)(1,1)
+        }
+\end{pspicture}\\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% intersections du plan x+y+z=h avec le cube
+% h=1.75
+%r=sqrt(6)/3*h
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{pspicture}(-5,-5)(5,5)
+\psset{viewpoint=1 1.5 1}\psset{gridlabels=6pt}
+%Trièdre 1
+\ThreeDput[normal=0 0 1](0,0,0)%Plan Oxy
+    {\psgrid[gridcolor=red](0,0)(5,5)\psline{->}(0,0)(0,5)\uput[180](0,5){\red$y$}
+        \psline{->}(0,0)(5,0)\uput[-90](5,0){\red$x$}
+    }
+\ThreeDput[normal=0 -1 0](0,0,0)%Plan Oxz
+   {\psgrid[gridcolor=green](0,0)(5,5)\psline{->}(0,0)(0,5)\uput[180](0,5){\green$z$}
+       \psline{->}(0,0)(5,0)\uput[-90](5,0){\green$x$}}
+\ThreeDput[normal=1 0 0](0,0,0)%Plan Oyz
+    {\psgrid[gridcolor=blue](0,0)(5,5)\psline{->}(0,0)(0,5)\uput[180](0,5){\blue$z$}
+        \psline{->}(0,0)(5,0)\uput[-90](5,0){\blue$y$}}
+\psset{unit=4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% intersections du plan x+y+z=h avec le cube
+% h=1.75
+%r=sqrt(6)/3*h  tan(alpha)=sqrt(3)*(h-1)/(3-h)
+%Sommets de l'hexagone :
+%(r;90+alpha)(r;210-alpha)(r;210+alpha)-->
+%(r;330-alpha)(r;330+alpha)(r;90-alpha)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\Rayon{0.73598}
+\ThreeDput[normal=1 1 1](0.5833,0.5833,0.5833){%(h/3,h/3,h/3)
+    \SpecialCoor
+                \pspolygon[fillstyle=hlines,hatchwidth=0.1pt,hatchsep=2pt]%
+        (\Rayon;136.1)(\Rayon;163.9)(\Rayon;256.1)(\Rayon;283.9)(\Rayon;376.1)(\Rayon;43.9)
+            }
+%Trièdre 2 ... DESSIN du CUBE
+\psset{linewidth=0.5mm}
+\ThreeDput[normal=0 0 1](0,0,1)%
+    {\psframe(0,0)(1,1)
+    }
+\ThreeDput[normal=0 1 0](1,1,0)%
+    {\psframe(0,0)(1,1)
+
+   }
+\ThreeDput[normal=1 0 0](1,0,0)%
+   {\psframe(0,0)(1,1)
+        }
+\end{pspicture}\\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% intersections du plan x+y+z=h avec le cube
+% h=1.75
+%r=sqrt(6)/3*h  tan(alpha)=sqrt(3)*(h-1)/(3-h)
+%Sommets de l'hexagone :
+%(r;90+alpha)(r;210-alpha)(r;210+alpha)-->
+%(r;330-alpha)(r;330+alpha)(r;90-alpha)
+%NE DESSINER QUE les PARTIES VISIBLES !!
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{pspicture}(-5,-5)(5,5)
+\psset{viewpoint=1 1.5 1}\psset{gridlabels=6pt}
+%Trièdre 1
+\ThreeDput[normal=0 0 1](0,0,0)%Plan Oxy
+    {\psgrid[gridcolor=red](0,0)(5,5)\psline{->}(0,0)(0,5)\uput[180](0,5){\red$y$}
+        \psline{->}(0,0)(5,0)\uput[-90](5,0){\red$x$}
+    }
+\ThreeDput[normal=0 -1 0](0,0,0)%Plan Oxz
+   {\psgrid[gridcolor=green](0,0)(5,5)\psline{->}(0,0)(0,5)\uput[180](0,5){\green$z$}
+       \psline{->}(0,0)(5,0)\uput[-90](5,0){\green$x$}}
+\ThreeDput[normal=1 0 0](0,0,0)%Plan Oyz
+    {\psgrid[gridcolor=blue](0,0)(5,5)\psline{->}(0,0)(0,5)\uput[180](0,5){\blue$z$}
+        \psline{->}(0,0)(5,0)\uput[-90](5,0){\blue$y$}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% intersections du plan x+y+z=h avec le cube
+% h=1.75
+%r=sqrt(6)/3*h  tan(alpha)=sqrt(3)*(h-1)/(3-h)
+%Sommets de l'hexagone :
+%(r;90+alpha)(r;210-alpha)(r;210+alpha)-->
+%(r;330-alpha)(r;330+alpha)(r;90-alpha)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\psset{unit=4}\def\Rayon{0.73598}
+\ThreeDput[normal=1 1 1](0.5833,0.5833,0.5833){%(h/3,h/3,h/3)
+    \SpecialCoor
+                \pspolygon[fillstyle=hlines,hatchwidth=0.1pt,hatchsep=2pt,hatchcolor=yellow]%
+        (\Rayon;136.1)(\Rayon;163.9)(\Rayon;256.1)(\Rayon;283.9)(\Rayon;376.1)(\Rayon;43.9)
+            }
+%Sur le côté A, c'est un triangle dont les sommets ont pour coordonnées:
+%(1,0)(2-h,0)(1,h-1)
+\ThreeDput[normal=0 1 0](1,1,0){%
+    \pspolygon[fillstyle=solid,fillcolor=BleuCiel](1,0)(0.25,0)(1,0.75)
+}
+%Sur le côté B, il reste un triangle dont les sommets ont comme coordonnées:
+%(0,0)(0,h-1)(h-1,0)
+\ThreeDput[normal=1 0 0](1,0,0){%
+    \pspolygon[fillstyle=solid,fillcolor=Palegreen](0,0)(0,0.75)(0.75,0)
+}
+%Sur la face supérieure, il reste un triangle, dont les coordonnées :
+%(0,0)(0,h-1)(h-1,0)
+\ThreeDput[normal=0 0 1](0,0,1){%
+    \pspolygon[fillstyle=solid,fillcolor=lightgray](0,0)(0.75,0)(0,0.75)
+}
+\end{pspicture}\\[-1cm]
+Par exemple, l'hexagone régulier est défini par :
+\begin{verbatim}
+\def\Rayon{0.707}%alpha=30°
+\ThreeDput[normal=1 1 1](0.5,0.5,0.5){%(h/3,h/3,h/3)
+    \SpecialCoor
+    \pspolygon[fillstyle=hlines,hatchwidth=0.1pt,hatchsep=2pt]%
+ (\Rayon;120)(\Rayon;180)(\Rayon;240)(\Rayon;300)(\Rayon;360)%
+ (\Rayon;60)}
+
+\end{verbatim}
+ Les effets de transparence sont obtenus en hachurant l'hexagone avec du jaune
+ ({\it rajouter à la liste des options } {\tt hatchcolor=yellow}).
+
+\end{description}
