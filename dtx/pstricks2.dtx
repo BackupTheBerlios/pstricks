@@ -1080,27 +1080,69 @@ moveto}
 \@ifundefined{color@#1}%
 {\@pstrickserr{Color `#1' not defined}\@eha}%
 {\edef#2{#1}}}
-\newdimen\psunit \psunit 1cm
-\newdimen\psxunit \psxunit 1cm
-\newdimen\psyunit \psyunit 1cm
+%    \end{macrocode}
+% \paragraph{Dimensions}
+% \begin{macro}{\psunit}
+%    \begin{macrocode}
+\newdimen\psunit
+\psunit=1cm
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\psxunit}
+%    \begin{macrocode}
+\newdimen\psxunit
+\psxunit=1cm
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\psyunit}
+%    \begin{macrocode}
+\newdimen\psyunit
+\psyunit=1cm
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\psrunit}
+%    \begin{macrocode}
 \let\psrunit\psunit
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\pstunit@off}
+%    \begin{macrocode}
 \def\pstunit@off{\let\@psunit\ignorespaces\ignorespaces}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\pssetlength}
+%    \begin{macrocode}
 \def\pssetlength#1#2{%
-\let\@psunit\psunit
-\afterassignment\pstunit@off
-#1 #2\@psunit}
+  \let\@psunit\psunit
+  \afterassignment\pstunit@off
+  #1 #2\@psunit}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\psaddtolength}
+%    \begin{macrocode}
 \def\psaddtolength#1#2{%
-\let\@psunit\psunit
-\afterassignment\pstunit@off
-\advance#1 #2\@psunit}
+  \let\@psunit\psunit
+  \afterassignment\pstunit@off
+  \advance#1 #2\@psunit}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\pssetxlength}
+%    \begin{macrocode}
 \def\pssetxlength#1#2{%
-\let\@psunit\psxunit
-\afterassignment\pstunit@off
-#1 #2\@psunit}
+  \let\@psunit\psxunit
+  \afterassignment\pstunit@off
+  #1 #2\@psunit}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\pssetylength}
+%    \begin{macrocode}
 \def\pssetylength#1#2{%
-\let\@psunit\psyunit
-\afterassignment\pstunit@off
-#1 #2\@psunit}
+  \let\@psunit\psyunit
+  \afterassignment\pstunit@off
+  #1 #2\@psunit}
+%    \end{macrocode}
+% \end{macro}
+%    \begin{macrocode}
 \define@key[psset]{}{unit}{%
   \pssetlength\psunit{#1}%
   \psxunit=\psunit
@@ -1109,144 +1151,295 @@ moveto}
 \define@key[psset]{}{xunit}{\pssetxlength\psxunit{#1}}
 \define@key[psset]{}{yunit}{\pssetylength\psyunit{#1}}
 \define@key[psset]{}{PstDebug}{\pst@getint{#1}{\Pst@Debug}}% hv 2004-06-22
-%
+%    \end{macrocode}
+% \begin{macro}{\pst@getlength}
+% |#1| is a \TeX\ dimension. |\pst@getlength| sets |#2| to the PostScript
+% code for |#1|,
+%    \begin{macrocode}
 \def\pst@getlength#1#2{%
   \pssetlength\pst@dimg{#1}%
   \edef#2{\pst@number\pst@dimg}%
 }
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\pst@@getlength}
+% and |\pst@@getlength| set |#2| to the \TeX\ code for |#1|.
+%    \begin{macrocode}
 \def\pst@@getlength#1#2{%
   \pssetlength\pst@dimg{#1}%
   \edef#2{\number\pst@dimg sp}%
 }
+%    \end{macrocode}
+% \end{macro}
+%
+% \paragraph{Normal coordinates and angles}
+%
+% \begin{macro}{\pst@getcoor}
+% |\pst@@getcoor| should be defined to read a coordinate and convert it to
+% PostScript, assigning the result to |\pst@coor| (including the trailing
+% space).
+%
+% |\pst@getcoor| invokes |\pst@@getcoor| and then sets its second argument to
+% |\pst@coor|.
+%    \begin{macrocode}
 \def\pst@getcoor#1#2{\pst@@getcoor{#1}\let#2\pst@coor}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\pst@coor}
+%    \begin{macrocode}
 \def\pst@coor{0 0 }
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\pst@getcoors}
+% \begin{macro}{\pst@aftercoors}
+% \begin{macro}{\pst@coors}
+% |\pst@getcoors| reads coordinates until there are none left, adding them
+% \emph{in reverse order} to |\pst@coors|.
+%    \begin{macrocode}
 \def\pst@getcoors#1#2{%
-\def\pst@aftercoors{\addto@pscode{#1 \pst@coors }#2}%
-\def\pst@coors{}%
-\pst@@getcoors}
+  \def\pst@aftercoors{\addto@pscode{#1 \pst@coors }#2}%
+  \def\pst@coors{}%
+  \pst@@getcoors}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \begin{macro}{\pst@@getcoors}
+%    \begin{macrocode}
 \def\pst@@getcoors(#1){%
-\pst@@getcoor{#1}%
-\edef\pst@coors{\pst@coor\pst@coors}%
-\@ifnextchar({\pst@@getcoors}{\pst@aftercoors}}
+  \pst@@getcoor{#1}%
+  \edef\pst@coors{\pst@coor\pst@coors}%
+  \@ifnextchar({\pst@@getcoors}{\pst@aftercoors}}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\pst@getangle}
+% |\pst@@getangle| should be defined to read an angle and convert it to
+% PostScript, assigning the result to |\pst@angle| (including the trailing
+% space).
+%
+% |\pst@getangle| invokes |\pst@@getangle| and then sets its second argument
+% to |\pst@angle|.
+%    \begin{macrocode}
 \def\pst@getangle#1#2{\pst@@getangle{#1}\let#2\pst@angle}
+%    \end{macrocode}
+% \end{macro}
+%    \begin{macrocode}
 \def\pst@angle{0 }
+%    \end{macrocode}
+% \begin{macro}{\cartesian@coor}
+% By default, coordinates are read as Cartesian coordinates by
+% |\cartesian@coor|.
+%    \begin{macrocode}
 \def\cartesian@coor#1,#2,#3\@nil{%
-\pssetxlength\pst@dimg{#1}%
-\pssetylength\pst@dimh{#2}%
-\edef\pst@coor{\pst@number\pst@dimg \pst@number\pst@dimh}}
+  \pssetxlength\pst@dimg{#1}%
+  \pssetylength\pst@dimh{#2}%
+  \edef\pst@coor{\pst@number\pst@dimg \pst@number\pst@dimh}}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\NormalCoor}
+% Angles are read as numbers, scaled by |\pst@angleunit|.
+%
+% |\NormalCoor| sets these two defaults, and also defines the translation for
+% the put commands to be done by \TeX\ using Cartesian coordinates.
+%    \begin{macrocode}
 \def\NormalCoor{%
-\def\pst@@getcoor##1{\pst@expandafter\cartesian@coor{##1},\relax,\@nil}%
-\def\pst@@getangle##1{%
-\pst@checknum{##1}\pst@angle
-\edef\pst@angle{\pst@angle \pst@angleunit}}%
-\def\psput@##1{\pst@@getcoor{##1}\leavevmode\psput@cartesian}}
+  \def\pst@@getcoor##1{\pst@expandafter\cartesian@coor{##1},\relax,\@nil}%
+  \def\pst@@getangle##1{%
+    \pst@checknum{##1}\pst@angle
+    \edef\pst@angle{\pst@angle \pst@angleunit}}%
+  \def\psput@##1{\pst@@getcoor{##1}\leavevmode\psput@cartesian}}
+%    \end{macrocode}
+% \end{macro}
+%    \begin{macrocode}
 \NormalCoor
+%    \end{macrocode}
+% \begin{macro}{\degrees}
+% |\degrees| sets |\pst@angleunit| to the PostScript code for scaling the
+% angle, including the trailing space.
+%    \begin{macrocode}
 \def\degrees{\@ifnextchar[{\@degrees}{\def\pst@angleunit{}}}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\@degrees}
+%    \begin{macrocode}
 \def\@degrees[#1]{%
-\pst@checknum{#1}\pst@tempg
-\edef\pst@angleunit{360 \pst@tempg div mul }%
-\ignorespaces}
+  \pst@checknum{#1}\pst@tempg
+  \edef\pst@angleunit{360 \pst@tempg div mul }%
+  \ignorespaces}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\radians}
+%    \begin{macrocode}
 \def\radians{\def\pst@angleunit{57.2956 mul }}
+%    \end{macrocode}
+% \end{macro}
+%    \begin{macrocode}
 \def\pst@angleunit{}
+%    \end{macrocode}
+%
+% \paragraph{Special coordinates and angles}
+%
+% This is a tedious but useful.
+% \begin{macro}{\SpecialCoor}
+%    \begin{macrocode}
 \def\SpecialCoor{%
-\def\pst@@getcoor##1{%
+  \def\pst@@getcoor##1{%
+    \begingroup
+      \pst@activecoor
+      \xdef\pst@tempg{##1}%
+    \endgroup
+    \expandafter\special@coor\pst@tempg||\@nil}%
+  \def\pst@@getangle##1{%
+    \begingroup
+      \pst@activecoor
+      \xdef\pst@tempg{##1}%
+    \endgroup
+    \expandafter\special@angle\pst@tempg\@empty)\@nil}%
+  \def\psput@##1{\pst@@getcoor{##1}\leavevmode\psput@special}}
+%    \end{macrocode}
+% \end{macro}
+%    \begin{macrocode}
 \begingroup
-\pst@activecoor
-\xdef\pst@tempg{##1}%
+  \catcode`\|=13
+  \catcode`\;=13
+  \catcode`\!=13
+%    \end{macrocode}
+% \begin{macro}{\pst@activecoor}
+%    \begin{macrocode}
+  \gdef\pst@activecoor{%
+    \def|{\string|}%
+    \def;{\string;}%
+    \def!{\string!}}
+%    \end{macrocode}
+% \end{macro}
+%    \begin{macrocode}
 \endgroup
-\expandafter\special@coor\pst@tempg||\@nil}%
-\def\pst@@getangle##1{%
-\begingroup
-\pst@activecoor
-\xdef\pst@tempg{##1}%
-\endgroup
-\expandafter\special@angle\pst@tempg\@empty)\@nil}%
-\def\psput@##1{\pst@@getcoor{##1}\leavevmode\psput@special}}
-\begingroup
-\catcode`\|=13
-\catcode`\;=13
-\catcode`\!=13
-\gdef\pst@activecoor{%
-\def|{\string|}%
-\def;{\string;}%
-\def!{\string!}}
-\endgroup
+%    \end{macrocode}
+% \begin{macro}{\special@coor}
+%    \begin{macrocode}
 \def\special@coor#1|#2|#3\@nil{%
-\ifx#3|\relax
-\mixed@coor{#1}{#2}%
-\else
-\special@@coor#1;;\@nil
-\fi}
+  \ifx#3|\relax
+    \mixed@coor{#1}{#2}%
+  \else
+    \special@@coor#1;;\@nil
+  \fi}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\special@@coor}
+%    \begin{macrocode}
 \def\special@@coor#1{%
-\ifcat#1a\relax
-\def\next{\node@coor#1}%
-\else
-\ifx#1[\relax
-\def\next{\Node@coor[}%
-\else
-\ifx#1!\relax
-\def\next{\raw@coor}%
-\else
-\def\next{\special@@@coor#1}%
-\fi
-\fi
-\fi
-\next}
+  \ifcat#1a\relax
+    \def\next{\node@coor#1}%
+  \else
+    \ifx#1[\relax
+      \def\next{\Node@coor[}%
+    \else
+      \ifx#1!\relax
+        \def\next{\raw@coor}%
+      \else
+        \def\next{\special@@@coor#1}%
+      \fi
+    \fi
+  \fi
+  \next}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\special@@@coor}
+%    \begin{macrocode}
 \def\special@@@coor#1;#2;#3\@nil{%
-\ifx#3;\relax
-\polar@coor{#1}{#2}%
-\else
-\cartesian@coor#1,\relax,\@nil
-\fi}
+  \ifx#3;\relax
+    \polar@coor{#1}{#2}%
+  \else
+    \cartesian@coor#1,\relax,\@nil
+  \fi}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\mixed@coor}
+% This allows mixing of coordinate types with |\SpecialCoor|.
+%    \begin{macrocode}
 \def\mixed@coor#1#2{%
-\begingroup
-% DG/SR modification begin - Oct. 27, 1997 - Patch 6
-%\specialcoor@ii#1;;\@nil
-%\let\pst@tempa\pst@coor
-%\specialcoor@ii#2;;\@nil
-\special@@coor#1;;\@nil
-\let\pst@tempa\pst@coor
-\special@@coor#2;;\@nil
-% DG/SR modification end
-\xdef\pst@tempg{\pst@tempa pop \pst@coor exch pop }%
-\endgroup
-\let\pst@coor\pst@tempg}
+  \begingroup
+    \special@@coor#1;;\@nil
+    \let\pst@tempa\pst@coor
+    \special@@coor#2;;\@nil
+    \xdef\pst@tempg{\pst@tempa pop \pst@coor exch pop }%
+  \endgroup
+  \let\pst@coor\pst@tempg}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\polar@coor}
+% For polar coordinates.
+%    \begin{macrocode}
 \def\polar@coor#1#2{%
-\pssetlength\pst@dimg{#1}%
-\pst@@getangle{#2}%
-\edef\pst@coor{\pst@number\pst@dimg \pst@angle \tx@PtoC}}
+  \pssetlength\pst@dimg{#1}%
+  \pst@@getangle{#2}%
+  \edef\pst@coor{\pst@number\pst@dimg \pst@angle \tx@PtoC}}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\raw@coor}
+% For raw PostScript.
+%    \begin{macrocode}
 \def\raw@coor#1;#2\@nil{%
-\edef\pst@coor{%
-#1 \pst@number\psyunit mul exch \pst@number\psxunit mul exch }}
+  \edef\pst@coor{%
+    #1 \pst@number\psyunit mul exch \pst@number\psxunit mul exch }}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\node@coor}
+% These are defined in "pst-node.tex".
+%    \begin{macrocode}
 \def\node@coor#1\@nil{%
-\@pstrickserr{You must load `pst-node.tex' to use node coordinates.}\@ehps
-\def\pst@coor{0 0 }}
+  \@pstrickserr{You must load `pst-node.tex' to use node coordinates.}\@ehps
+  \def\pst@coor{0 0 }}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\Node@coor}
+%    \begin{macrocode}
 \def\Node@coor{\node@coor}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\special@angle}
+%    \begin{macrocode}
 \def\special@angle#1#2)#3\@nil{%
-\ifx!#1\relax
-\edef\pst@angle{#2 \pst@angleunit}%
-\else
-\ifx(#1\relax
-\pst@@getcoor{#2}%
-\edef\pst@angle{\pst@coor exch \tx@Atan}%
-\else
-\pst@checknum{#1#2}\pst@angle
-\edef\pst@angle{\pst@angle \pst@angleunit}%
-\fi
-\fi}
+  \ifx!#1\relax
+    \edef\pst@angle{#2 \pst@angleunit}%
+  \else
+    \ifx(#1\relax
+      \pst@@getcoor{#2}%
+      \edef\pst@angle{\pst@coor exch \tx@Atan}%
+    \else
+      \pst@checknum{#1#2}\pst@angle
+      \edef\pst@angle{\pst@angle \pst@angleunit}%
+    \fi
+  \fi}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\Cartesian}
+% This macro is obsolete.
+%    \begin{macrocode}
 \def\Cartesian{%
-\def\cartesian@coor##1,##2,##3\@nil{%
-\pssetxlength\pst@dimg{##1}%
-\pssetylength\pst@dimh{##2}%
-\edef\pst@coor{\pst@number\pst@dimg \pst@number\pst@dimh}}%
-\@ifnextchar({\Cartesian@}{}}
-\def\Cartesian@(#1,#2){%
-\pssetxlength\psxunit{#1}%
-\pssetylength\psyunit{#2}%
-\ignorespaces}
+  \def\cartesian@coor##1,##2,##3\@nil{%
+  \pssetxlength\pst@dimg{##1}%
+  \pssetylength\pst@dimh{##2}%
+  \edef\pst@coor{\pst@number\pst@dimg \pst@number\pst@dimh}}%
+  \@ifnextchar({\Cartesian@}{}}
+  \def\Cartesian@(#1,#2){%
+  \pssetxlength\psxunit{#1}%
+  \pssetylength\psyunit{#2}%
+  \ignorespaces}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\Polar}
+% This macro is obsolete.
+%    \begin{macrocode}
 \def\Polar{%
   \def\psput@cartesian{\psput@special}%
   \def\cartesian@coor##1,##2,##3\@nil{\polar@coor{##1}{##2}}}%
+%    \end{macrocode}
+% \end{macro}
+%
+% \paragraph{Basic graphic parameters}
+% 
+%    \begin{macrocode}
 \define@key[psset]{}{origin}{%
   \pst@@getcoor{#1}%
   \edef\psk@origin{\pst@coor \tx@NET }}
@@ -7210,16 +7403,36 @@ end }}
 /T /translate load def
 /TMatrix { } def
 /RAngle { 0 } def
+%    \end{macrocode}
+% \paragraph{PostScript hacks}
+% These are variants of |atan|, and |div|, that recover when result is not
+% defined.
+%    \begin{macrocode}
 /Atan { /atan load stopped { pop pop 0 } if } def
 /Div { dup 0 eq { pop } { div } ifelse } def
 /NET { neg exch neg exch T } def
+%    \end{macrocode}
+% |A B Pyth| returns $\sqrt{A^2+B^2}$.
+%    \begin{macrocode}
 /Pyth { dup mul exch dup mul add sqrt } def
+%    \end{macrocode}
+% Polar to Cartesian coordinates : |r a PtoC| returns $r\cos a$ and $r\sin a$.
+%    \begin{macrocode}
 /PtoC { 2 copy cos mul 3 1 roll sin mul } def
-/PathLength@ { /z z y y1 sub x x1 sub Pyth add def /y1 y def /x1 x def }
-def
-/PathLength { flattenpath /z 0 def { /y1 ED /x1 ED /y2 y1 def /x2 x1 def
-} { /y ED /x ED PathLength@ } {} { /y y2 def /x x2 def PathLength@ }
-/pathforall load stopped { pop pop pop pop } if z } def
+%    \end{macrocode}
+% |PathLength| is taken from the Blue Book. It leaves on the stack the length
+% of the current path.
+%    \begin{macrocode}
+/PathLength@ {
+  /z z y y1 sub x x1 sub Pyth add def /y1 y def /x1 x def } def
+/PathLength {
+  flattenpath
+  /z 0 def
+  {/y1 ED /x1 ED /y2 y1 def /x2 x1 def}
+  {/y ED /x ED PathLength@}
+  {}
+  {/y y2 def /x x2 def PathLength@}
+  /pathforall load stopped { pop pop pop pop } if z } def
 /STP { .996264 dup scale } def
 /STV { SDict begin normalscale end STP  } def
 %
