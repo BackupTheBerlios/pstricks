@@ -49,11 +49,23 @@ def
     ifelse
     setdash stroke 
 } def
-/DotLine { /b PathLength def /a ED /z ED /y CLW def /z y z add def a 0 gt
-{ /b b a div def } { a 0 eq { /b b y sub def } { a -3 eq { /b b y add
-def } if } ifelse } ifelse [ 0 b b z Div round Div dup 0 le { pop 1 } if
-] a 0 gt { 0 } { y 2 div a -2 gt { neg } if } ifelse setdash 1
-setlinecap stroke } def
+/DotLine { 
+  /b PathLength def 
+  /a ED /z ED /y CLW def 
+  /z y z add def 
+  a 0 gt { 
+    /b b a div def 
+  }{ 
+    a 0 eq { 
+      /b b y sub def 
+    }{ a -3 eq { 
+      /b b y add def } if 
+    } ifelse 
+  } ifelse 
+  [ 0 b b z Div round Div dup 0 le { pop 1 } if ] 
+  a 0 gt { 0 }{ y 2 div a -2 gt { neg }if } ifelse 
+  setdash 1 setlinecap stroke 
+} def
 /LineFill { gsave abs CLW add /a ED a 0 dtransform round exch round exch
 2 copy idtransform exch Atan rotate idtransform pop /a ED .25 .25
 % DG/SR modification begin - Dec. 12, 1997 - Patch 2
