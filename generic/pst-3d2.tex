@@ -271,14 +271,12 @@
     \xdef\pst@tempg{%
       \pst@number\pst@dima \pst@number\pst@dimb \pst@number\pst@dimc}%
   \endgroup}
-\psset[pst-3d]{viewpoint=1 -1 1}
 %    \end{macrocode}
 % \end{macro}
 %
 % \begin{macro}{\psk@viewangle}
 %    \begin{macrocode}
 \define@key[psset]{pst-3d}{viewangle}{\pst@getangle{#1}\psk@viewangle}
-\psset[pst-3d]{viewangle=0}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -287,14 +285,12 @@
 \define@key[psset]{pst-3d}{normal}{%
   \pst@expandafter\psset@@viewpoint#1 {} {} {} \@nil
   \let\psk@normal\pst@tempg}
-\psset[pst-3d]{normal=0 0 1}
 %    \end{macrocode}
 % \end{macro}
 %
 % \begin{macro}{\psk@embedangle}
 %    \begin{macrocode}
 \define@key[psset]{pst-3d}{embedangle}{\pst@getangle{#1}\psk@embedangle}
-\psset[pst-3d]{embedangle=0}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -636,21 +632,18 @@
 % \begin{macro}{\psTshadowsize}
 %    \begin{macrocode}
 \define@key[psset]{pst-3d}{Tshadowsize}{\pst@checknum{#1}\psTshadowsize}
-\psset[pst-3d]{Tshadowsize=1}
 %    \end{macrocode}
 % \end{macro}
 %
 % \begin{macro}{\psk@Tshadowangle}
 %    \begin{macrocode}
 \define@key[psset]{pst-3d}{Tshadowangle}{\pst@getangle{#1}\psk@Tshadowangle}
-\psset[pst-3d]{Tshadowangle=0}
 %    \end{macrocode}
 % \end{macro}
 %
 % \begin{macro}{\psTshadowcolor}
 %    \begin{macrocode}
 \define@key[psset]{pst-3d}{Tshadowcolor}{\pst@getcolor{#1}\psTshadowcolor}
-\psset[pst-3d]{Tshadowcolor=lightgray}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -682,8 +675,25 @@
 %    \end{macrocode}
 % \end{macro}
 
+% \begin{macro}{\psshadow}
+%    \begin{macrocode}
+\def\resetPSTIIIDOptions{%
+  \psset[pst-3d]{%
+    viewpoint=1 -1 1,%
+    viewangle=0,%
+    normal=0 0 1,%
+    embedangle=0,%
+    Tshadowsize=1,%
+    Tshadowangle=0,%
+    Tshadowcolor=lightgray%
+  }% 
+}
+%    \end{macrocode}
+% \end{macro}
+\resetPSTIIIDOptions%
+%
 \catcode`\@=\TheAtCode\relax
-
+%
 \endinput
 %%
 %% END pst-3d.tex

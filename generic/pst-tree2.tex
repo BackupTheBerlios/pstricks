@@ -120,14 +120,14 @@
   \@ifundefined{pstree@#1fit}%
     {\@pstrickserr{Bad `treefit' parameter value: `#1'}\@ehpa}%
     {\expandafter\let\expandafter\psk@treefit\csname pstree@#1fit\endcsname}}
-\psset[pst-tree]{treefit=tight}
+%\psset[pst-tree]{treefit=tight}
 %
 \define@key[psset]{pst-tree}{thistreefit}{%
   \@ifundefined{pstree@#1fit}%
     {\@pstrickserr{Bad `treefit' parameter value: `#1'}\@ehpa}%
     {\expandafter\let\expandafter\psk@thistreefit
       \csname pstree@#1fit\endcsname}}
-\psset[pst-tree]{thistreefit=tight}
+%\psset[pst-tree]{thistreefit=tight}
 \def\pstree@zip#1#2#3{%
   \def\pst@tempg{}%
   \edef\next{\noexpand\pstree@@zip#1\noexpand\@nil#2\noexpand\@nil}%
@@ -182,52 +182,52 @@
 \def\psTree@i{\def\pstree@makebox{\pst@makelongbox}\pstree@ii}
 \def\endpsTree{\pst@endlongbox\ignorespaces}
 \def\pstree@ii{%
-\ifnum\pstreelevel=\z@
-\let\pstree@savedshortput\pst@shortput
-\psset[pst-tree]{shortput{tab}%
-\else
-\pst@@killglue
-\fi
-\begingroup
-\begingroup
-\def\pstree@node{%
-\xdef\pstree@next{%
-\noexpand\@psttrue
-\noexpand\def\noexpand\pst@tempa{\number\pst@dima}%
-\noexpand\def\noexpand\pst@tempb{\number\pst@dimb}%
-\noexpand\def\noexpand\pst@tempc{\number\pst@dimc}%
-\noexpand\def\noexpand\pst@tempd{\number\pst@dimd}}%
-\box\pstree@box}%
-\def\pssubtree@horizontal{\pssubtree@horizontal@o}%
-\def\pssubtree@vertical{\pssubtree@vertical@o}%
-\global\let\pstree@next\relax
-\pst@makebox\pstree@iii}
+  \ifnum\pstreelevel=\z@
+    \let\pstree@savedshortput\pst@shortput
+    \psset[pst-tree]{shortput=tab}%
+  \else\pst@@killglue\fi
+  \begingroup
+    \begingroup
+      \def\pstree@node{%
+        \xdef\pstree@next{%
+        \noexpand\@psttrue
+        \noexpand\def\noexpand\pst@tempa{\number\pst@dima}%
+        \noexpand\def\noexpand\pst@tempb{\number\pst@dimb}%
+        \noexpand\def\noexpand\pst@tempc{\number\pst@dimc}%
+        \noexpand\def\noexpand\pst@tempd{\number\pst@dimd}}%
+        \box\pstree@box}%
+      \def\pssubtree@horizontal{\pssubtree@horizontal@o}%
+      \def\pssubtree@vertical{\pssubtree@vertical@o}%
+      \global\let\pstree@next\relax
+      \pst@makebox\pstree@iii%
+}
 \def\pstree@iii{%
-\global\setbox\pst@boxg=\box\pst@hbox
-\endgroup
-\setbox\pstree@rootbox=\box\pst@boxg
-\@pstfalse
-\pstree@next
-\if@pst
-\ifdim\wd\pstree@rootbox=\z@\else
-\@pstrickserr{Extraneous space in root node}\@ehpa
-\wd\pstree@rootbox=\z@
-\fi
-\else
-\@pstrickserr{Missing or bad root node
-(level \the\pstreelevel, node \the\psnodecnt)}\@ehpa
-\def\pstree@next{%
-\def\pst@tempa{0}%
-\def\pst@tempb{0}%
-\def\pst@tempc{0}%
-\def\pst@tempd{0}}%
-\wd\pstree@rootbox=\z@
-\fi
-\pstree@savevalues
-\begingroup
-\pstree@initsuccvalues
-\pstree@setlevelpar
-\pstree@do}
+  \global\setbox\pst@boxg=\box\pst@hbox
+  \endgroup
+  \setbox\pstree@rootbox=\box\pst@boxg
+  \@pstfalse
+  \pstree@next
+  \if@pst
+    \ifdim\wd\pstree@rootbox=\z@\else
+      \@pstrickserr{Extraneous space in root node}\@ehpa
+      \wd\pstree@rootbox=\z@
+    \fi
+  \else
+    \@pstrickserr{Missing or bad root node
+    (level \the\pstreelevel, node \the\psnodecnt)}\@ehpa
+    \def\pstree@next{%
+      \def\pst@tempa{0}%
+      \def\pst@tempb{0}%
+      \def\pst@tempc{0}%
+      \def\pst@tempd{0}}%
+    \wd\pstree@rootbox=\z@
+  \fi
+  \pstree@savevalues
+  \begingroup
+    \pstree@initsuccvalues
+    \pstree@setlevelpar
+    \pstree@do%
+}
 \def\pstree@setlevelpar{%
 \advance\pstreelevel1
 \let\psk@thislevelsep\relax
@@ -521,7 +521,7 @@
 \define@key[psset]{pst-tree}{treesep}{%
   \pssetlength\pst@dimg{#1}%
   \edef\psk@treesep{\number\pst@dimg}}%
-\psset[pst-tree]{treesep=.75cm}
+%\psset[pst-tree]{treesep=.75cm}
 \define@key[psset]{pst-tree}{thistreesep}{%
   \pssetlength\pst@dimg{#1}%
   \edef\psk@thistreesep{\number\pst@dimg}}%
@@ -532,7 +532,7 @@
   \else
     \edef\psk@treenodesize{\number\pst@dimg\noexpand\@gobble}%
   \fi}
-\psset[pst-tree]{treenodesize=-1pt}
+%\psset[pst-tree]{treenodesize=-1pt}
 \define@key[psset]{pst-tree}{thistreenodesize}{%
   \pssetlength\pst@dimg{#1}%
   \ifdim\pst@dimg<\z@
@@ -550,7 +550,7 @@
   \else
     \def\psk@levelsepmode{}%
   \fi}
-\psset[pst-tree]{levelsep=2cm}
+%\psset[pst-tree]{levelsep=2cm}
 \define@key[psset]{pst-tree}{thislevelsep}{%
   \pst@expandafter{\pst@ifstar\psset@@thislevelsep}{#1}\@nil}
 \psset@@thislevelsep#1\@nil{%
@@ -563,7 +563,7 @@
   \fi}
 \newif\ifpstreeflip
 \define@key[psset]{pst-tree}{treeflip}{\@nameuse{pstreeflip#1}}
-\psset[pst-tree]{treeflip=false}
+%\psset[pst-tree]{treeflip=false}
 \def\pstree@node@o{%
 \leavevmode
 \hbox{%
@@ -598,7 +598,7 @@
 \pstree@outer
 \newif\ifpsshowbbox
 \define@key[psset]{pst-tree}{showbbox}{\@nameuse{psshowbbox#1}}%
-\psset[pst-tree]{showbbox=false}
+%\psset[pst-tree]{showbbox=false}
 \def\pstree@showbbox{%
     \setbox\pstree@box=\hbox{%
 	\psframe[linewidth=0,linecolor=black,linestyle=solid,fillstyle=none]%
@@ -610,7 +610,7 @@
     \def\psedge{#1}%
     \ifx\psedge\@none\def\psedge##1##2{}\fi%
 }
-\psset[pst-tree]{edge=\ncline}
+%\psset[pst-tree]{edge=\ncline}
 \def\pspred{T}
 \def\pstree@makenodebox{%
 \pst@@killglue
@@ -761,8 +761,9 @@
 \pst@dimb=\pst@dima
 \pst@dimd=\pst@dimc
 \end@treenode}
+%
 \define@key[psset]{pst-tree}{fansize}{\pst@@getlength{#1}\psk@fansize}
-\psset[pst-tree]{fansize=1cm}
+%\psset[pst-tree]{fansize=1cm}
 \def\Tfan{\def\pst@par{}\pst@object{Tfan}}
 \def\Tfan@i{%
 \addto@par{edge=none}%
@@ -805,13 +806,13 @@ tx@Dict begin \psline@iii pop end
   \else
     \pst@@getlength{#1}\psk@tnsep
   \fi}
-\psset[pst-tree]{tnsep={}}
+%\psset[pst-tree]{tnsep={}}
 \define@key[psset]{pst-tree}{tnyref}{\def\psk@tnyref{#1}}%
-\psset[pst-tree]{tnyref={}}
+%\psset[pst-tree]{tnyref={}}
 \define@key[psset]{pst-tree}{tnheight}{\edef\psk@tnheight{#1}}
-\psset[pst-tree]{tnheight=\ht\strutbox}
+%\psset[pst-tree]{tnheight=\ht\strutbox}
 \define@key[psset]{pst-tree}{tndepth}{\edef\psk@tndepth{#1}}
-\psset[pst-tree]{tndepth=\dp\strutbox}
+%\psset[pst-tree]{tndepth=\dp\strutbox}
 \define@key[psset]{pst-tree}{tnpos}{%
   \def\pst@tempg{#1}%
   \ifx\pst@tempg\@empty
@@ -821,7 +822,7 @@ tx@Dict begin \psline@iii pop end
       {\@pstrickserr{Bad tnpos: `#1'}\@ehpa}%
       {\edef\psk@tnpos{#1}}%
   \fi}
-\psset[pst-tree]{tnpos={}}
+%\psset[pst-tree]{tnpos={}}
 \def\tnput@#1{\def\pst@par{}\pst@object{tnput}}
 \def\tnput@i{\pstree@makenodebox{\tnput@ii}}
 \def\tnput@ii{%
@@ -988,8 +989,8 @@ tx@Dict begin \psline@iii pop end
 %
 \def\resetPSTTreeOptions{%
   \psset[pst-tree]{%
-    treefit=tight,
-    thistreefit=tight,
+    treefit=tight,%
+    thistreefit=tight,%
     shortput=tab,%
     treesep=.75cm,%
     treenodesize=-1pt,%
