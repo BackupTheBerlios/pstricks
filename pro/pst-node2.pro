@@ -1,6 +1,6 @@
 %!
 % PostScript prologue for pst-node.tex.
-% Version 2.0, 2004-11-23.
+% Version 2.0, 2005-01-01.
 % For distribution, see pstricks.tex.
 %
 /tx@NodeDict 400 dict def tx@NodeDict begin

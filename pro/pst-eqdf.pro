@@ -8,6 +8,7 @@
 %       HISTORY
 % 2004/11/14 : correction of a priority problem
 %              ^ before unary - (new rule FS)
+%
 /tx@EqdfDict 400 dict def tx@EqdfDict begin
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Pi

@@ -1,6 +1,6 @@
 %!
 % PostScript prologue for pstricks.tex.
-% Version 2.00, 2004-11-23
+% Version 2.00, 2005-01-01
 % For distribution, see pstricks.tex.
 %
 /tx@Dict 200 dict def tx@Dict begin
