@@ -4733,7 +4733,7 @@ closepath}%
   \ifPst@infix
     \psparametricplot{#1}{#2}{(#3)*cos(t)}{(#3)*sin(t)}%
   \else
-    \psparametricplot{#1}{#2}{#3 t cos mul}{#3 t sin mul}%
+    \psparametricplot{#1}{#2}{#3 t cos mul #3 t sin mul}%
   \fi
   \endgroup
 }
