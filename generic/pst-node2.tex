@@ -69,7 +69,7 @@
 }
 \let\pstree@nodehook\relax
 \newif\ifnodealign
-\define@key[psset]{}{nodealign}{\@nameuse{nodealign#1}}
+\define@key[psset]{pst-node}{nodealign}{\@nameuse{nodealign#1}}
 \psset{nodealign=false}
 \def\pst@nodealign{%
   \pst@dimg=\ht\pst@hbox%
@@ -211,8 +211,8 @@
     \advance\pst@dimb-\dp\pst@hbox
   \fi%
 }
-\define@key[psset]{}{href}{\pst@checknum{#1}\psk@href}
-\define@key[psset]{}{vref}{\def\psk@vref{#1}}
+\define@key[psset]{pst-node}{href}{\pst@checknum{#1}\psk@href}
+\define@key[psset]{pst-node}{vref}{\def\psk@vref{#1}}
 \psset{href=0,vref=.7ex}
 %
 \def\Rnode{\pst@object{Rnode}}
@@ -336,7 +336,7 @@ exch
     \psdot@ii(#1)%
     \ifnodealign\kern\pst@dima\fi}%
   \ignorespaces}
-\define@key[psset]{}{framesize}{\pst@expandafter\pstframesize@ii{#1} \@nil}
+\define@key[psset]{pst-node}{framesize}{\pst@expandafter\pstframesize@ii{#1} \@nil}
 \def\pstframesize@ii#1 #2\@nil{%
   \pssetlength\pst@dimg{#1}%
   \divide\pst@dimg2
@@ -390,102 +390,102 @@ exch
     \end@ClosedObj%
     \ifnodealign\kern\psk@framewidth\p@\fi}%
   \ignorespaces}
-\define@key[psset]{}{nodesepA}{%
+\define@key[psset]{pst-node}{nodesepA}{%
   \pst@getlength{#1}\psk@nodesepA
   \def\psk@nodeseptypeA{0 }}
-\define@key[psset]{}{nodesepB}{%
+\define@key[psset]{pst-node}{nodesepB}{%
   \pst@getlength{#1}\psk@nodesepB%
   \def\psk@nodeseptypeB{0 }}
-\define@key[psset]{}{nodesep}{%
+\define@key[psset]{pst-node}{nodesep}{%
   \pst@getlength{#1}\psk@nodesepA%
   \let\psk@nodesepB\psk@nodesepA%
   \def\psk@nodeseptypeA{0 }%
   \def\psk@nodeseptypeB{0 }}
 \psset{nodesep=0pt}
 %
-\define@key[psset]{}{XnodesepA}{%
+\define@key[psset]{pst-node}{XnodesepA}{%
     \pst@getlength{#1}\psk@nodesepA%
     \def\psk@nodeseptypeA{1 }%
 }
-\define@key[psset]{}{XnodesepB}{%
+\define@key[psset]{pst-node}{XnodesepB}{%
     \pst@getlength{#1}\psk@nodesepB%
     \def\psk@nodeseptypeB{1 }%
 }
-\define@key[psset]{}{Xnodesep}{%
+\define@key[psset]{pst-node}{Xnodesep}{%
     \pst@getlength{#1}\psk@nodesepA%
     \let\psk@nodesepB\psk@nodesepA%
     \def\psk@nodeseptypeA{1 }%
     \def\psk@nodeseptypeB{1 }%
 }
-\define@key[psset]{}{YnodesepA}{%
+\define@key[psset]{pst-node}{YnodesepA}{%
     \pst@getlength{#1}\psk@nodesepA%
     \def\psk@nodeseptypeA{2 }%
 }
-\define@key[psset]{}{YnodesepB}{%
+\define@key[psset]{pst-node}{YnodesepB}{%
     \pst@getlength{#1}\psk@nodesepB%
     \def\psk@nodeseptypeB{2 }%
 }
-\define@key[psset]{}{Ynodesep}{%
+\define@key[psset]{pst-node}{Ynodesep}{%
     \pst@getlength{#1}\psk@nodesepA%
     \let\psk@nodesepB\psk@nodesepA%
     \def\psk@nodeseptypeA{2 }%
     \def\psk@nodeseptypeB{2 }%
 }
-\define@key[psset]{}{armA}{%
+\define@key[psset]{pst-node}{armA}{%
   \pst@getlength{#1}\psk@armA
   \def\psk@armtypeA{0 }}
-\define@key[psset]{}{armB}{%
+\define@key[psset]{pst-node}{armB}{%
   \pst@getlength{#1}\psk@armB
   \def\psk@armtypeB{0 }}
-\define@key[psset]{}{arm}{%
+\define@key[psset]{pst-node}{arm}{%
   \pst@getlength{#1}\psk@armA%
   \let\psk@armB\psk@armA%
   \def\psk@armtypeA{0 }%
   \def\psk@armtypeB{0 }}
 \psset{arm=10pt}
 %
-\define@key[psset]{}{XarmA}{%
+\define@key[psset]{pst-node}{XarmA}{%
   \pst@getlength{#1}\psk@armA%
   \def\psk@armtypeA{1 }}
-\define@key[psset]{}{XarmB}{%
+\define@key[psset]{pst-node}{XarmB}{%
   \pst@getlength{#1}\psk@armB%
   \def\psk@armtypeB{1 }}
-\define@key[psset]{}{Xarm}{%
+\define@key[psset]{pst-node}{Xarm}{%
   \pst@getlength{#1}\psk@armA%
   \let\psk@armB\psk@armA%
   \def\psk@armtypeA{1 }%
   \def\psk@armtypeB{1 }}
-\define@key[psset]{}{YarmA}{%
+\define@key[psset]{pst-node}{YarmA}{%
   \pst@getlength{#1}\psk@armA%
   \def\psk@armtypeA{2 }}
-\define@key[psset]{}{YarmB}{%
+\define@key[psset]{pst-node}{YarmB}{%
   \pst@getlength{#1}\psk@armB%
   \def\psk@armtypeB{2 }}
-\define@key[psset]{}{Yarm}{%
+\define@key[psset]{pst-node}{Yarm}{%
   \pst@getlength{#1}\psk@armA%
   \let\psk@armB\psk@armA%
   \def\psk@armtypeA{2 }%
   \def\psk@armtypeB{2 }}
-\define@key[psset]{}{offsetA}{\pst@getlength{#1}\psk@offsetA}
-\define@key[psset]{}{offsetB}{\pst@getlength{#1}\psk@offsetB}
-\define@key[psset]{}{offset}{\psset{offsetA=#1}\let\psk@offsetB\psk@offsetA}
-\define@key[psset]{}{angleA}{\pst@getangle{#1}\psk@angleA}
-\define@key[psset]{}{angleB}{\pst@getangle{#1}\psk@angleB}%
-\define@key[psset]{}{angle}{%
+\define@key[psset]{pst-node}{offsetA}{\pst@getlength{#1}\psk@offsetA}
+\define@key[psset]{pst-node}{offsetB}{\pst@getlength{#1}\psk@offsetB}
+\define@key[psset]{pst-node}{offset}{\psset{offsetA=#1}\let\psk@offsetB\psk@offsetA}
+\define@key[psset]{pst-node}{angleA}{\pst@getangle{#1}\psk@angleA}
+\define@key[psset]{pst-node}{angleB}{\pst@getangle{#1}\psk@angleB}%
+\define@key[psset]{pst-node}{angle}{%
   \pst@getangle{#1}\psk@angleA
   \let\psk@angleB\psk@angleA%
 }
-\define@key[psset]{}{arcangleA}{\pst@getangle{#1}\psk@arcangleA}
-\define@key[psset]{}{arcangleB}{\pst@getangle{#1}\psk@arcangleB}%
-\define@key[psset]{}{arcangle}{%
+\define@key[psset]{pst-node}{arcangleA}{\pst@getangle{#1}\psk@arcangleA}
+\define@key[psset]{pst-node}{arcangleB}{\pst@getangle{#1}\psk@arcangleB}%
+\define@key[psset]{pst-node}{arcangle}{%
   \pst@getangle{#1}\psk@arcangleA
   \let\psk@arcangleB\psk@arcangleA}
-\define@key[psset]{}{ncurvA}{\pst@checknum{#1}\psk@ncurvA}
-\define@key[psset]{}{ncurvB}{\pst@checknum{#1}\psk@ncurvB}%
-\define@key[psset]{}{ncurv}{\psset{ncurvA=#1}\let\psk@ncurvB\psk@ncurvA}
+\define@key[psset]{pst-node}{ncurvA}{\pst@checknum{#1}\psk@ncurvA}
+\define@key[psset]{pst-node}{ncurvB}{\pst@checknum{#1}\psk@ncurvB}%
+\define@key[psset]{pst-node}{ncurv}{\psset{ncurvA=#1}\let\psk@ncurvB\psk@ncurvA}
 \psset{ncurv=.67,arcangle=8,angle=0,offset=0pt}
 %
-\define@key[psset]{}{lineAngle}{\psset{armB=0.5}\edef\psk@lineAngle{#1}}%
+\define@key[psset]{pst-node}{lineAngle}{\psset{armB=0.5}\edef\psk@lineAngle{#1}}%
 \psset{lineAngle=0}%
 %
 %
@@ -666,7 +666,7 @@ exch
 \def\pcdiagg{\pst@object{pcdiagg}}
 \def\pcdiagg@i{\pc@object\ncdiagg@ii}
 \def\tx@NCLoop{NCLoop }
-\define@key[psset]{}{loopsize}{\pst@getlength{#1}\psk@loopsize}
+\define@key[psset]{pst-node}{loopsize}{\pst@getlength{#1}\psk@loopsize}
 \psset{loopsize=1cm}
 %
 \def\ncloop{\pst@object{ncloop}}
@@ -697,9 +697,9 @@ exch
 \def\pcbox{\pst@object{pcbox}}
 \def\pcbox@i{\pc@object\ncbox@ii}
 \def\tx@NCArcBox{NCArcBox }
-\define@key[psset]{}{boxheight}{\pst@getlength{#1}\psk@boxheight}
-\define@key[psset]{}{boxdepth}{\pst@getlength{#1}\psk@boxdepth}
-\define@key[psset]{}{boxsize}{%
+\define@key[psset]{pst-node}{boxheight}{\pst@getlength{#1}\psk@boxheight}
+\define@key[psset]{pst-node}{boxdepth}{\pst@getlength{#1}\psk@boxdepth}
+\define@key[psset]{pst-node}{boxsize}{%
   \psset{boxheight=#1}%
   \let\psk@boxdepth\psk@boxheight}
 \psset{boxsize=.4cm}
@@ -720,7 +720,7 @@ exch
 \catcode`\:=13
 \gdef\pst@activerot{\def:{\string:}}
 \endgroup
-\define@key[psset]{}{nrot}{%
+\define@key[psset]{pst-node}{nrot}{%
   \begingroup%
   \pst@activerot%
   \pst@expandafter{\@ifnextchar:{\pstnrot@ii}{\pstrot@ii}}{#1}\@nil%
@@ -733,14 +733,14 @@ exch
 %
 \def\tx@LPutCoor{LPutCoor }
 \def\tx@LPut{LPut }
-\define@key[psset]{}{npos}{%
+\define@key[psset]{pst-node}{npos}{%
   \def\pst@tempa{#1}%
   \ifx\pst@tempa\@empty
     \def\psk@npos{\npos@default}%
   \else%
     \pst@checknum{#1}\psk@npos%
   \fi}
-\psset{nrot=0,npos={}}
+\psset{nrot=0,npos=\@empty}
 %
 \def\ncput{\pst@object{ncput}}
 \def\ncput@i{\pst@killglue\pst@makebox{\ncput@ii}}
@@ -784,7 +784,7 @@ exch
 \pst@shortput}
 \def\nbput{\pst@object{nbput}}
 \def\nbput@i{\pst@killglue\pst@makebox{\naput@ii{NAngle 90 sub}}}
-\define@key[psset]{}{tpos}{%
+\define@key[psset]{pst-node}{tpos}{%
   \pst@checknum{#1}\psk@tpos%
   \ifdim\psk@tpos \p@<\z@%
     \def\psk@tpos{.5}%
@@ -926,7 +926,7 @@ exch
     \fi%
     \pst@tempg}}
 \MakeShortTab{^}{_}
-\define@key[psset]{}{shortput}{%
+\define@key[psset]{pst-node}{shortput}{%
   \def\pst@tempg{#1}%
   \ifx\pst@tempg\@none\let\pst@shortput\ignorespaces%
   \else%
@@ -1036,8 +1036,8 @@ end }}
 \newcount\psmatrixcnt
 \newskip\psrowsep
 \newskip\pscolsep
-\define@key[psset]{}{colsep}{\pssetlength\pscolsep{#1}}
-\define@key[psset]{}{rowsep}{\pssetlength\psrowsep{#1}}
+\define@key[psset]{pst-node}{colsep}{\pssetlength\pscolsep{#1}}
+\define@key[psset]{pst-node}{rowsep}{\pssetlength\psrowsep{#1}}
 \psset{colsep=1.5cm,rowsep=1.5cm}
 \newif\ifpsmatrix
 % DG/SR modification begin - Nov. 27, 1998 - Patch 8
@@ -1131,9 +1131,9 @@ end }}
   \pstiterate%
   \let\pstiterate\relax}
 % DG/SR modification end
-\define@key[psset]{}{name}{\pst@getnode{#1}\psk@name}
+\define@key[psset]{pst-node}{name}{\pst@getnode{#1}\psk@name}
 \let\psk@name\relax
-\define@key[psset]{}{mcol}{%
+\define@key[psset]{pst-node}{mcol}{%
     \ifx r#1\relax%
 	\let\psk@mcol\relax%
     \else%
@@ -1144,7 +1144,7 @@ end }}
 	\fi%
     \fi%
 }
-\define@key[psset]{}{mnodesize}{%
+\define@key[psset]{pst-node}{mnodesize}{%
     \pssetlength\pst@dimg{#1}%
     \ifdim\pst@dimg<\z@
 	\let\psk@mnodesize\relax
@@ -1168,11 +1168,11 @@ end }}
 \def\mnode@dot{\dotnode@ii(\z@,\z@){\psm@thenode}}
 % DG/SR modification end
 \def\mnode@none{\box\pst@hbox}
-\define@key[psset]{}{mnode}{%
+\define@key[psset]{pst-node}{mnode}{%
   \@ifundefined{mnode@#1}%
     {\@pstrickserr{\string\psmatrix\space node `#1' not defined.}\@ehpa}%
     {\edef\psk@mnode{#1}}}
-\define@key[psset]{}{emnode}{%
+\define@key[psset]{pst-node}{emnode}{%
   \@ifundefined{mnode@#1}%
     {\@pstrickserr{\string\psmatrix\space node `#1' not defined.}\@ehpa}%
     {\edef\psk@emnode{#1}}}
@@ -1244,7 +1244,7 @@ end }}
 }
 %
 \newif\ifPst@trueAngle
-\define@key[psset]{}{trueAngle}[true]{\@nameuse{Pst@trueAngle#1}}
+\define@key[psset]{pst-node}{trueAngle}[true]{\@nameuse{Pst@trueAngle#1}}
 \psset{trueAngle=false}
 %
 \def\psRelLine{\pst@object{psRelLine}}
@@ -1348,7 +1348,7 @@ end }}
 %
 %
 \def\resetPSTNodeOptions{%
-\psset{%
+\psset[pst-node]{%  set only the options of pst-node
   nodealign=false,%
   href=0,%
   vref=.7ex,%
