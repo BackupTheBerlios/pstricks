@@ -1,0 +1,113 @@
+\title{Dots with \texttt{pstricks} -- the file \texttt{pst-dots2.pro} version }
+\author{…tienne Riga \and Herbert Voﬂ}
+\date{\today}
+\maketitle
+
+%
+\newpsfontdot{Asterisk}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(k)}
+\newpsfontdot{BoldAsterisk}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(K)}
+\newpsfontdot{SolidAsterisk}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(J)}
+\newpsfontdot{Hexagon}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(h)}
+\newpsfontdot{BoldHexagon}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(H)}
+\newpsfontdot{SolidHexagon}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(G)}
+%
+\newpsfontdot{Bullet}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(b)}
+\newpsfontdot{Circle}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(c)}
+\newpsfontdot{BoldCircle}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(C)}
+\newpsfontdot{SolidCircle}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(u)}
+\newpsfontdot{Triangle}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(t)}
+\newpsfontdot{BoldTriangle}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(T)}
+\newpsfontdot{SolidTriangle}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(u)}
+\newpsfontdot{Square}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(s)}
+\newpsfontdot{BoldSquare}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(S)}
+\newpsfontdot{SolidSquare}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(r)}
+\newpsfontdot{Pentagon}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(p)}
+\newpsfontdot{BoldPentagon}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(P)}
+\newpsfontdot{SolidPentagon}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(q)}
+\newpsfontdot{Add}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(a)}
+\newpsfontdot{BoldAdd}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(A)}
+\newpsfontdot{Mul}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(x)}
+\newpsfontdot{BoldMul}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(X)}
+\newpsfontdot{Oplus}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(m)}
+\newpsfontdot{BoldOplus}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(M)}
+\newpsfontdot{SolidOplus}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(e)}
+\newpsfontdot{Otimes}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(n)}
+\newpsfontdot{BoldOtimes}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(N)}
+\newpsfontdot{SolidOtimes}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(E)}
+\newpsfontdot{Bar}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(i)}
+\newpsfontdot{BoldBar}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(I)}
+\newpsfontdot{Diamond}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(d)}
+\newpsfontdot{BoldDiamond}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(D)}
+\newpsfontdot{SolidDiamond}[1.0 0.0 0.0 1.0 0.0 0.0]{PSTricksDotFont}{(l)}
+
+{
+\psset{dotscale=1.5}
+\def\multiDot#1{\multido{\nA=0+1}{5}{\psdot[dotstyle=#1]\kern1em}}
+\def\cmultiDot#1{\multido{\nA=0+1}{5}{\psdot[fillcolor=cyan,dotstyle=#1]\kern1em}}
+\ttfamily
+\begin{longtable}{l@{\kern2em}cc}
+\caption{Zusammenfassung der Punktstile}\label{tab:dotstyle}\\[-5pt]
+\textrm{Name} & \textrm{Beispiel}    & fillcolor=cyan\\\hline
+\endfirsthead
+\textrm{Name} & \textrm{Beispiel}    & fillcolor=cyan\\\hline
+\endhead
+*             & \multiDot{*}\\
+o             & \multiDot{o}         & \cmultiDot{o}\\
+Bo            & \multiDot{Bo}        & \cmultiDot{Bo}\\
+x             & \multiDot{x}\\
++             & \multiDot{+}\\
+B+            & \multiDot{B+}\\
+asterisk      & \multiDot{asterisk}\\
+Basterisk     & \multiDot{Basterisk}\\
+oplus         & \multiDot{oplus}     & \cmultiDot{oplus}\\
+otimes        & \multiDot{otimes}    & \cmultiDot{otimes}\\
+|             & \multiDot{|}\\
+B|            & \multiDot{B|}\\
+square        & \multiDot{square}    & \cmultiDot{square}\\
+Bsquare       & \multiDot{Bsquare}   & \cmultiDot{Bsquare}\\
+square*       & \multiDot{square*}\\
+diamond       & \multiDot{diamond}   & \cmultiDot{diamond}\\
+Bdiamond      & \multiDot{Bdiamond}  & \cmultiDot{Bdiamond}\\
+diamond*      & \multiDot{diamond*}\\
+triangle      & \multiDot{triangle}  & \cmultiDot{triangle}\\
+Btriangle     & \multiDot{Btriangle} & \cmultiDot{Btriangle}\\
+triangle*     & \multiDot{triangle*}\\
+pentagon      & \multiDot{pentagon}  & \cmultiDot{pentagon}\\
+Bpentagon     & \multiDot{Bpentagon} & \cmultiDot{Bpentagon}\\
+pentagon*     & \multiDot{pentagon*}\\
+Bullet        & \multiDot{Bullet}    & \cmultiDot{Bullet}\\
+Circle        & \multiDot{Circle}    & \cmultiDot{Circle}\\
+BoldCircle    & \multiDot{BoldCircle}& \cmultiDot{BoldCircle}\\
+Triangle      & \multiDot{Triangle}  & \cmultiDot{Triangle}\\
+SolidTriangle & \multiDot{SolidTriangle} & \cmultiDot{SolidTriangle}\\
+BoldTriangle  & \multiDot{BoldTriangle}  & \cmultiDot{BoldTriangle}\\
+Square        & \multiDot{Square}    & \cmultiDot{Square}\\
+SolidSquare   & \multiDot{SolidSquare}   & \cmultiDot{SolidSquare}\\
+BoldSquare    & \multiDot{BoldSquare}    & \cmultiDot{BoldSquare}\\
+Pentagon      & \multiDot{Pentagon}  & \cmultiDot{Pentagon}\\
+SolidPentagon & \multiDot{SolidPentagon} & \cmultiDot{SolidPentagon}\\
+BoldPentagon  & \multiDot{BoldPentagon}  & \cmultiDot{BoldPentagon}\\
+Asterisk      & \multiDot{Asterisk}  & \cmultiDot{Asterisk}\\
+SolidAsterisk & \multiDot{SolidAsterisk} & \cmultiDot{SolidAsterisk}\\
+BoldAsterisk  & \multiDot{BoldAsterisk}  & \cmultiDot{BoldAsterisk}\\
+Hexagon       & \multiDot{Hexagon}   & \cmultiDot{Hexagon}\\
+SolidHexagon  & \multiDot{SolidHexagon}  & \cmultiDot{SolidHexagon}\\
+BoldHexagon   & \multiDot{BoldHexagon}   & \cmultiDot{BoldHexagon}\\
+Add           & \multiDot{Add}       & \cmultiDot{Add}\\
+BoldAdd       & \multiDot{BoldAdd}   & \cmultiDot{BoldAdd}\\
+Mul           & \multiDot{Mul}       & \cmultiDot{Mul}\\
+BoldMul       & \multiDot{BoldMul}   & \cmultiDot{BoldMul}\\
+Oplus         & \multiDot{Oplus}     & \cmultiDot{Oplus}\\
+BoldOplus     & \multiDot{BoldOplus} & \cmultiDot{BoldOplus}\\
+SolidOplus    & \multiDot{SolidOplus}   & \cmultiDot{SolidOplus}\\
+Otimes        & \multiDot{Otimes}    & \cmultiDot{Otimes}\\
+BoldOtimes    & \multiDot{BoldOtimes}   & \cmultiDot{BoldOtimes}\\
+SolidOtimes   & \multiDot{SolidOtimes}  & \cmultiDot{SolidOtimes}\\
+Bar           & \multiDot{Bar}       & \cmultiDot{Bar}\\
+BoldBar       & \multiDot{BoldBar}   & \cmultiDot{BoldBar}\\
+Diamond       & \multiDot{Diamond}   & \cmultiDot{Diamond}\\
+SolidDiamond  & \multiDot{SolidDiamond}  & \cmultiDot{SolidDiamond}\\
+BoldDiamond   & \multiDot{BoldDiamond}   & \cmultiDot{BoldDiamond}\\
+\end{longtable}
+}
+
