@@ -635,9 +635,9 @@
 %    \begin{macrocode}
 \def\pst@@pyth#1#2#3{%
   \ifdim4#1>9#2%
-  #3=#1\advance#3 .2122#2%
+    #3=#1\advance#3 .2122#2%
   \else
-  #3=.8384#1\advance#3 .5758#2%
+    #3=.8384#1\advance#3 .5758#2%
   \fi}
 %    \end{macrocode}
 % \end{macro}
@@ -3873,40 +3873,11 @@ closepath}%
 \catcode`\@=\PstAtCode\relax
 %    \end{macrocode}
 % \subsubsection{Former pst-plot.tex (adapted)}
+% Load |multido.tex|
+% that is required packages and avoid to load it twice.
 %    \begin{macrocode}
-\csname PSTplotLoaded\endcsname
-%    \end{macrocode}
-% \begin{macro}{\PSTplotLoaded}
-% All pstricks packages define a \texttt{\bs PST\emph{package}Loaded}
-% macro.
-%    \begin{macrocode}
-\let\PSTplotLoaded\endinput
-%    \end{macrocode}
-% \end{macro}
-% Load |pstricks2.tex|, |multido.tex| and |pst-xkey.tex|
-% that are riquired packages and avoid to load them twice.
-%    \begin{macrocode}
-\ifx\PSTricksLoaded\endinput\else\input pstricks \fi
 \ifx\MultidoLoaded\endinput\else\input multido \fi
-\ifx\PSTXKeyLoaded\endinput\else\input pst-xkey \fi
-%    \end{macrocode}
-% \begin{macro}{\PstAtCode}
-% Adjust some catcodes to safely define macros.
-%    \begin{macrocode}
-\edef\PstAtCode{\the\catcode`\@}
-\catcode`\@=11\relax
-%    \end{macrocode}
-% \end{macro}
-%    \begin{macrocode}
-\def\fileversion{2.00}
-\def\filedate{2004/11/23}
-\message{ v\fileversion, \filedate}
-\message{`pst-plot2' v\fileversion, \filedate\space (tvz,hv)}
-
 \SpecialCoor
-
-%\pstheader{pst-eqdf.pro}%
-
 %    \end{macrocode}
 % \paragraph{Common macros for data and mathematical plottings}
 %    \begin{macrocode}
@@ -4698,10 +4669,15 @@ closepath}%
   \@nameuse{endplot@\psk@plotstyle}}
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\parametricplot@i}
+% \begin{macro}{\psparametricplot}
 %    \begin{macrocode}
-\def\parametricplot@i#1#2#3{%
-  \pst@killglue%
+\def\psparametricplot{\def\pst@par{}\pst@object{psparametricplot}}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\psparametricplot@i}
+%    \begin{macrocode}
+\def\psparametricplot@i#1#2#3#4{%
+  \pst@killglue
   \begingroup
     \use@par
     \@nameuse{beginplot@\psk@plotstyle}%
@@ -4710,9 +4686,15 @@ closepath}%
       /t #1 def
       /t1 #2 def
       /dt t1 t sub \psk@plotpoints div def
-      \ifnum\psk@infix<\z@\space /F@pstplot (#3) tx@EqdfDict begin AlgParser end cvx def \fi
+      \ifnum\psk@infix<\z@\space
+        /F@pstplot {
+          (#3) tx@EqdfDict begin AlgParser end cvx
+          (#4) tx@EqdfDict begin AlgParser end cvx } def
+      \else
+        /F@pstplot { #3\space #4 } def
+      \fi
       /xy {
-        \ifnum\psk@infix<\z@\space  F@pstplot \else #3 \fi
+        F@pstplot
         \pst@number\psyunit mul exch
         \pst@number\psxunit mul exch
       } def}%
@@ -4720,17 +4702,17 @@ closepath}%
     \@pstfalse
     \@nameuse{testqp@\psk@plotstyle}%
     \if@pst
-      \parametricplot@ii
+      \psparametricplot@ii
     \else
-      \parametricplot@iii
+      \psparametricplot@iii
     \fi
   \endgroup
   \ignorespaces}
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\parametricplot@ii}
+% \begin{macro}{\psparametricplot@ii}
 %    \begin{macrocode}
-\def\parametricplot@ii{%
+\def\psparametricplot@ii{%
     \addto@pscode{%
       xy \@nameuse{beginqp@\psk@plotstyle}
       \psk@plotpoints 1 sub {
@@ -4742,9 +4724,9 @@ closepath}%
   \@nameuse{endqp@\psk@plotstyle}}
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\parametricplot@iii}
+% \begin{macro}{\psparametricplot@iii}
 %    \begin{macrocode}
-\def\parametricplot@iii{%
+\def\psparametricplot@iii{%
     \addto@pscode{%
       mark
       /n 2 def
@@ -4760,6 +4742,20 @@ closepath}%
   \@nameuse{endplot@\psk@plotstyle}}
 %    \end{macrocode}
 % \end{macro}
+%    \begin{macrocode}
+\def\pspolarplot{\def\pst@par{}\pst@object{pspolarplot}}
+\def\pspolarplot@i#1#2#3{%
+  \begingroup
+  \use@par
+  \ifnum\psk@infix<\z@
+    \psparametricplot{#1}{#2}{(#3)*cos(t)}{(#3)*sin(t)}%
+  \else
+    \show\psk@infix
+    \psparametricplot{#1}{#2}{#3 t cos mul}{#3 t sin mul}%
+  \fi
+  \endgroup
+}
+%    \end{macrocode}
 % \paragraph{Axis}
 %    \begin{macrocode}
 \newcount\@zero\@zero=0\relax
@@ -5562,47 +5558,47 @@ closepath}%
 \@namedef{psgraph*}{\psgraph*}
 \@namedef{endpsgraph*}{\endpsgraph}
 %
-%\def\resetPSTPlotOptions{%
-%  \@zero=0%
-%  \pstScalePoints(1,1){}{}% reset
-%  \psset{%
-%       infix=none,% TeX | PS
-%       xyAxes=true,
-%       xyDecimals={},%
-%       xyLabel={},
-%       xylogBase={},
-%       logLines=none,
-%       xlabelFactor=\relax,ylabelFactor=\relax,
-%       nStep=1,nStart=0,nEnd={},%
-%       xStep=0,yStep=0,xStart={},xEnd={},yStart={},yEnd={},comma=false,%
-%       plotNo=1,plotNoMax=1,
-%       xAxisLabel=x,yAxisLabel=y,
-%       yAxisLabelPos=\@empty,xAxisLabelPos=\@empty,
-%       plotstyle=line,
-%       plotpoints=50,
-%       method=default, whichabs=default, whichord=default,%
-%       plotfuncx=default, plotfuncy=default, buildvector=false,
+\def\resetPSTPlotOptions{%
+ \@zero=0%
+ \pstScalePoints(1,1){}{}% reset
+  \psset{%
+      infix=none,% TeX | PS
+      xyAxes=true,
+      xyDecimals={},%
+      xyLabel={},
+      xylogBase={},
+      logLines=none,
+      xlabelFactor=\relax,ylabelFactor=\relax,
+      nStep=1,nStart=0,nEnd={},%
+      xStep=0,yStep=0,xStart={},xEnd={},yStart={},yEnd={},comma=false,%
+      plotNo=1,plotNoMax=1,
+      xAxisLabel=x,yAxisLabel=y,
+      yAxisLabelPos=\@empty,xAxisLabelPos=\@empty,
+       plotstyle=line,
+       plotpoints=50,
+     method=default, whichabs=default, whichord=default,
+     plotfuncx=default, plotfuncy=default, buildvector=false,
 %%       algebraic=false,
-%       VarStep=default,
-%       dimen=middle,% remark of ML
-%       ticks=all,
-%       labels=all,
-%       Ox=0,Dx=1,dx=0,Oy=0,Dy=1,dy=0,
-%       showorigin=true,
-%       xticksize=-4pt 4pt,yticksize=-4pt 4pt,
-%       tickstyle=full,
-%       subticksize=0.75,subticks=1,tickcolor=black,ticklinestyle=solid,%
-%       subticklinestyle=solid,%
-%       subtickcolor=gray,%
-%       tickwidth=0.5\pslinewidth,%
-%       subtickwidth=0.25\pslinewidth,
-%       axesstyle=axes,
-%       barwidth=0.25cm,
-%       xAxisLabel=x,yAxisLabel=y,
-%       yAxisLabelPos=\@empty,xAxisLabelPos=\@empty,
-%       llx=\z@, lly=\z@, urx=\z@, ury=\z@}% prevents rounding errors
-%}
-%\resetPSTPlotOptions%
+       VarStep=default,
+      dimen=middle,% remark of ML
+      ticks=all,
+      labels=all,
+      Ox=0,Dx=1,dx=0,Oy=0,Dy=1,dy=0,
+      showorigin=true,
+%       xticksize={-4pt 4pt},yticksize={-4pt 4pt},
+       tickstyle=full,
+       subticksize=0.75,subticks=1,tickcolor=black,ticklinestyle=solid,%
+       subticklinestyle=solid,%
+       subtickcolor=gray,%
+       tickwidth=0.5\pslinewidth,%
+       subtickwidth=0.25\pslinewidth,
+       axesstyle=axes,
+       barwidth=0.25cm,
+       xAxisLabel=x,yAxisLabel=y,
+       yAxisLabelPos=\@empty,xAxisLabelPos=\@empty,
+       llx=\z@, lly=\z@, urx=\z@, ury=\z@}% prevents rounding errors
+}
+\resetPSTPlotOptions
 %    \end{macrocode}
 % Finalize.
 %    \begin{macrocode}
@@ -8091,18 +8087,36 @@ end
   InitParser
   SetExpr
   LexStr
-  0 exch AnalyzeListOfE
+  0 AnalyzeListOfE
   ExpressionVector
   /ExpressionVector [] def
   } def
-
+%    \end{macrocode}
+% Initialize some arrays.
+%    \begin{macrocode}
 /InitParser {
+%    \end{macrocode}
+% |AddVector| stores the index of the addition and the subtract operators in
+% the string |ExpressionString| (remember that the first element of an array
+% is indexed by 0 in PostScript). In fact, it is not really the index for the subtract
+% operator, it is the opposite of the index. Say for instance that a |-|
+% is the eighth character of the string: its index stored in |AddVector| is $-7$.
+%
+% The string is read right to left, so is the array |AddVector|.
+%    \begin{macrocode}
   /AddVector [] def
   /AddVectorfree [] def
+%    \end{macrocode}
+% |MulVector| is the same as |AddVector| for the multiplication and the division operators.
+%    \begin{macrocode}
   /MulVector [] def
   /MulVectorfree [] def
   /PowVector [] def
   /PowVectorfree [] def
+%    \end{macrocode}
+% |OpParVector| stores the index of the opening parenthesis \emph{and}
+% opening brackets.
+%    \begin{macrocode}
   /OpParVector [] def
   /ClParVector [] def
   /ParVectorFree [] def
@@ -8112,22 +8126,26 @@ end
   /ExpressionVector [] def
   } def
 %    \end{macrocode}
-% \verb|/SetExpr| takes one parameter (the Expression String) and stores it in
-% \verb|ExpressionString|.
+% |/SetExpr| takes one parameter (the Expression String) and stores it in
+% |ExpressionString|.
 %    \begin{macrocode}
 /SetExpr {
   /ExpressionString exch def
   } def
 %    \end{macrocode}
-% Lexical analysis of the string stored in \verb|ExpressionString|.
+% Lexical analysis of the string stored in |ExpressionString|.
 %    \begin{macrocode}
 /LexStr {
   /freepar 0 def
   /lastpar 0 def
   /lastchar 0 def
-  0 ExpressionString
 %    \end{macrocode}
-% Here, we start a loop on every characters that belongs to the string \verb|ExpressionString|.
+% Put $0$ on the stack, in order to know when to stop the lexical analysis.
+%    \begin{macrocode}
+  0
+  ExpressionString
+%    \end{macrocode}
+% Here, we start a loop on every characters that belongs to the string |ExpressionString|.
 % The lexical analysis begins with the last character.
 %    \begin{macrocode}
   {
@@ -8140,14 +8158,14 @@ end
 %    \begin{macrocode}
     1 index 91 eq
     or {
-      /OpParVector OpParVector aload length dup 3 add index exch 1 add array astore def
-      /ClParVector ClParVector aload length -1 exch 1 add array astore def
-      /lastpar freepar def
-      /freepar freepar 1 add def
-      /NoPar false def
-      } if
+        /OpParVector OpParVector aload length dup 3 add index exch 1 add array astore def
+        /ClParVector ClParVector aload length -1 exch 1 add array astore def
+        /lastpar freepar def
+        /freepar freepar 1 add def
+        /NoPar false def
+        } if
 %    \end{macrocode}
-% Tests if current char is an closing parenthesis (ASCII code: 41),
+% Tests if current char is a closing parenthesis (ASCII code: 41),
 %    \begin{macrocode}
     dup 41 eq
 %    \end{macrocode}
@@ -8155,20 +8173,21 @@ end
 %    \begin{macrocode}
     1 index 93 eq
     or {
-      ClParVector lastpar 3 index put lastpar
-      dup 0 eq {
-        pop
-        }{
-          { 1 sub dup ClParVector exch get -1 eq {
-            /lastpar exch def exit
-            }{
-            dup 0 eq {
-              pop exit
-              } if
-            } ifelse
-          } loop
-        } ifelse
-      } if
+        ClParVector lastpar 3 index put lastpar
+        dup 0
+        eq {
+          pop
+            }
+            {{ 1 sub dup ClParVector exch get -1 eq {
+              /lastpar exch def exit
+              }{
+              dup 0 eq {
+                pop exit
+                } if
+              } ifelse
+            } loop
+          } ifelse
+        } if
 %    \end{macrocode}
 % Tests if current char is a star (ASCII code: 42) that stands for the multiplication operator.
 %    \begin{macrocode}
@@ -8290,7 +8309,7 @@ end
 %% analyze Expression List
 %% first last
 /AnalyzeListOfE {
-  exch SemVector {
+  SemVector {
     exch 1 index 1 sub AnalyzeExpr 1 add
   } forall%%last_char
   exch AnalyzeExpr
