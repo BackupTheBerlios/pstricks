@@ -20,15 +20,17 @@
 % See the PSTricks User's Guide for description.
 % This uses the header file `pstricks.pro'.
 %
-    %
 \csname PSTricksLoaded\endcsname
 \let\PSTricksLoaded\endinput
 \ifx\PSTXKeyLoaded\endinput\else\input pst-xkey \fi
 %
-\def\fileversion{2.00}
-\def\filedate{2004/11/23}
-\message{ v\fileversion, \filedate}
-\message{`pstricks2' v\fileversion, \filedate\space (tvz,hv)}
+\def\fileversion{2.00a}
+\def\filedate{2005/02/17}% RN; was: \def\filedate{2004/11/23}
+%%% begin RN 2005-02-12 
+%%%\message{ v\fileversion, \filedate}
+%%%\message{`pstricks2' v\fileversion, \filedate\space (tvz,hv)}
+\message{`PSTricks2' v\fileversion, \filedate\space (tvz,hv)}
+%%% end
 %
 \edef\PstAtCode{\the\catcode`\@} \catcode`\@=11\relax
 \pst@addfams{pstricks}
@@ -63,7 +65,9 @@
 \def\:{\@xifnch} \expandafter\gdef\: {\futurelet\@tempc\@ifnch}
 \endgroup
 \fi
-\typeout{`PSTricks' v\fileversion\space\space <\filedate> (tvz)}
+%%% begin RN 2005-02-12
+%%%\typeout{`PSTricks' v\fileversion\space\space <\filedate> (tvz)}
+%%% end
 \def\@pstrickserr#1#2{%
   \begingroup
   \newlinechar`\^^J
@@ -226,14 +230,26 @@
 \@ifundefined{pstcustomize}%
 {\def\pstcustomize{\endinput\let\pstcustomize\relax}}{}
 \input pstricks.con
-\newif\ifPSTricks
-\PSTrickstrue
+%%% begin RN 2005-01-28
+\let\pstheader@sav\pstheader
+\let\pstverb@sav\pstverb
+\let\pstVerb@sav\pstVerb
+\def\PSTricksOn{%
+\let\pstheader\pstheader@sav
+\let\pstverb\pstverb@sav
+\let\pstVerb\pstVerb@sav
+\PSTrickstrue}
+%%% end
 \def\PSTricksOff{%
 \def\pstheader##1{}%
 \def\pstverb##1{}%
 \def\pstVerb##1{}%
 \PSTricksfalse}
-%
+%%% begin RN 2005-01-26
+\@ifundefined{PSTrickstrue}
+{\newif\ifPSTricks\PSTrickstrue}
+{\ifPSTricks\else\PSTricksOff\fi}
+%%% end
 \pstheader{pstricks2.pro}
 %
 \@ifundefined{pst@def}{\def\pst@def#1<#2>{\@namedef{tx@#1}{#2 }}}{}
@@ -570,7 +586,10 @@ moveto}
   \edef\psk@origin{\pst@coor \tx@NET }}
 \def\psk@origin{}
 \newif\ifswapaxes
-\define@key[psset]{pstricks}{swapaxes}{%
+%%% begin RN 2005-02-12
+%%%\define@key[psset]{pstricks}{swapaxes}{%
+\define@key[psset]{pstricks}{swapaxes}[true]{%
+%%% end
   \@nameuse{@pst#1}%
   \if@pst
     \def\psk@swapaxes{-90 rotate -1 1 scale }%
@@ -578,20 +597,29 @@ moveto}
     \def\psk@swapaxes{}%
   \fi}
 \newif\ifshowpoints
-\define@key[psset]{pstricks}{showpoints}{\@nameuse{showpoints#1}}
+%%% begin RN 2005-02-12
+\define@key[psset]{pstricks}{showpoints}[true]{\@nameuse{showpoints#1}}
+%%% \define@key[psset]{pstricks}{showpoints}{\@nameuse{showpoints#1}}
+%%% end
 \let\pst@setrepeatarrowsflag\relax
 \define@key[psset]{pstricks}{border}{%
   \pst@getlength{#1}\psk@border
   \pst@setrepeatarrowsflag}
 \define@key[psset]{pstricks}{bordercolor}{\pst@getcolor{#1}\psbordercolor}
 \newif\ifpsdoubleline
-\define@key[psset]{pstricks}{doubleline}{%
+%%% begin RN 2005-02-12
+%%%\define@key[psset]{pstricks}{doubleline}{%
+\define@key[psset]{pstricks}{doubleline}[true]{%
+%%% end
   \@nameuse{psdoubleline#1}%
   \pst@setrepeatarrowsflag}
 \define@key[psset]{pstricks}{doublesep}{\def\psdoublesep{#1}}
 \define@key[psset]{pstricks}{doublecolor}{\pst@getcolor{#1}\psdoublecolor}
 \newif\ifpsshadow
-\define@key[psset]{pstricks}{shadow}{%
+%%% begin RN 2005-02-12
+%%%\define@key[psset]{pstricks}{shadow}{%
+\define@key[psset]{pstricks}{shadow}[true]{%
+%%% end
   \@nameuse{psshadow#1}%
   \pst@setrepeatarrowsflag}
 \define@key[psset]{pstricks}{shadowsize}{\pst@getlength{#1}\psk@shadowsize}
@@ -638,7 +666,10 @@ moveto}
 \expandafter\next#1 \relax}
 %
 \newif\ifpsdashadjust
-\define@key[psset]{pstricks}{dashadjust}{\@nameuse{psdashadjust#1}}
+%%% begin RN 2005-02-12
+%%%\define@key[psset]{pstricks}{dashadjust}{\@nameuse{psdashadjust#1}}
+\define@key[psset]{pstricks}{dashadjust}[true]{\@nameuse{psdashadjust#1}}
+%%% end
 \def\psls@dashed{%
   \ifpsdashadjust
     \psk@dash \pst@linetype\space \tx@DashLine
@@ -676,7 +707,22 @@ moveto}
 \define@key[psset]{pstricks}{hatchcolor}{\pst@getcolor{#1}\pshatchcolor}
 \define@key[psset]{pstricks}{hatchangle}{\pst@getangle{#1}\psk@hatchangle}
 %
+% D.G. addition begin - Sep.  1, 2002
+% To define dashed and dotted hatched styles
+\def\pshs@solid{0 setlinecap }
+\def\pshs@dashed{[ \psk@dash ] 0 setdash }
+\def\pshs@dotted{[ 0 \psk@dotsep CLW add ] 0 setdash 1 setlinecap }
+\define@key[psset]{pstricks}{hatchstyle}{%
+  \@ifundefined{pshs@#1}%
+    {\@pstrickserr{Hatch style `#1' not defined}\@eha}%
+    {\edef\pshatchstyle{#1}}}
+%
+\psset{hatchstyle=solid}
+%
 \def\pst@linefill{%
+% D.G. modification begin - Sep.  1, 2002
+  \@nameuse{pshs@\pshatchstyle}
+% D.G. modification end
   \psk@hatchangle rotate
   \psk@hatchwidth SLW
   \pst@usecolor\pshatchcolor
@@ -750,7 +796,10 @@ moveto}
 \def\tx@Arrow{Arrow }
 % New parameter "arrowfill", with default as "true"
 \newif\ifpsArrowFill
-\define@key[psset]{pstricks}{ArrowFill}{\@nameuse{psArrowFill#1}}
+%%% begin RN 2005-02-12
+%%%\define@key[psset]{pstricks}{ArrowFill}{\@nameuse{psArrowFill#1}}
+\define@key[psset]{pstricks}{ArrowFill}[true]{\@nameuse{psArrowFill#1}}
+%%% end
 
 % Modification of the PostScript macro Arrow to choose to fill or not the arrow
 % (it require to restore the current linewidth, despite of the scaling)
@@ -1936,8 +1985,10 @@ n { transform floor .5 add exch floor .5 add exch itransform Dot } repeat}
 \newdimen\psframesep
 \define@key[psset]{pstricks}{framesep}{\pssetlength\psframesep{#1}}
 \newif\ifpsboxsep
-\define@key[psset]{pstricks}{boxsep}{\@nameuse{psboxsep#1}}
-%
+%%% begin RN 2005-02-12
+%%%\define@key[psset]{pstricks}{boxsep}{\@nameuse{psboxsep#1}}
+\define@key[psset]{pstricks}{boxsep}[true]{\@nameuse{psboxsep#1}}
+%%% end
 \def\pst@useboxpar{%
 \use@par
 \if@star
@@ -3062,9 +3113,47 @@ closepath}%
 %
 \define@key[psset]{pstricks}{shift}{\def\psk@shift{#1}}
 \newif\ifPst@frame
-\define@key[psset]{pstricks}{frame}{\@nameuse{Pst@frame#1}}
-\newpsstyle{psframestyle}{linewidth=0.1pt,linestyle=dashed}
-%
+%%% begin RN 2005-02-12
+%%%\define@key[psset]{pstricks}{frame}{\@nameuse{Pst@frame#1}}
+\define@key[psset]{pstricks}{frame}[true]{\@nameuse{Pst@frame#1}}
+%%%\newpsstyle{psframestyle}{linewidth=0.1pt,linestyle=dashed}
+\newpsstyle{psframestyle}{linewidth=0.4pt,linestyle=dashed,framesep=0pt}
+%%% end
+%%% begin RN 2005-02-06
+\let\pst@llx\pst@dima
+\let\pst@lly\pst@dimb
+\let\pst@urx\pst@dimc
+\let\pst@ury\pst@dimd
+\def\psk@addto@llx#1{\psk@addto@bb{llx}{#1}}
+\def\psk@addto@lly#1{\psk@addto@bb{lly}{#1}}
+\def\psk@addto@urx#1{\psk@addto@bb{urx}{#1}}
+\def\psk@addto@ury#1{\psk@addto@bb{ury}{#1}}
+\let\psk@@addto@llx\relax
+\let\psk@@addto@lly\relax
+\let\psk@@addto@urx\relax
+\let\psk@@addto@ury\relax
+\def\psk@addto@bb#1#2{%
+  \begingroup
+    \pst@dimg=#2\relax
+    \@nameuse{pst@#1}=\z@\@nameuse{psk@@addto@#1}%
+    \advance\pst@dimg\@nameuse{pst@#1}%
+    \edef\x{\def\@nameuse{psk@@addto@#1}{%
+      \advance\@nameuse{pst@#1}\the\pst@dimg}}%
+  \expandafter\endgroup\x
+}
+%%% end
+%%% begin RN 2005-02-03
+\define@key[psset]{pstricks}{trim}{%
+  \pst@expandafter\pst@@trim#1 %
+    {\pst@missing} {\pst@missing} {\pst@missing} {\pst@missing}\@nil
+  \psk@addto@llx{\pst@dima}\psk@addto@lly{\pst@dimb}%
+  \psk@addto@urx{\pst@dimc}\psk@addto@ury{\pst@dimd}%
+}
+\def\pst@@trim#1 #2 #3 #4 #5\@nil{%
+  \pssetlength\pst@dima{#1}\pssetlength\pst@dimb{#2}%
+  \pssetlength\pst@dimc{#3}\pssetlength\pst@dimd{#4}%
+}
+%%% end
 \def\pspicture{\pst@object{pstpicture}}
 \def\pstpicture@i{%
   \@ifnextchar({\pstpicture@ii}{\pstpicture@iii(0,0)(10,10)}%
@@ -3072,6 +3161,10 @@ closepath}%
 \def\pstpicture@ii(#1,#2){%
   \@ifnextchar({\pstpicture@iii(#1,#2)}{\pstpicture@iii(0,0)(#1,#2)}%
 }
+%%% begin RN 2005-01-28
+\def\pstpicture@BEGIN{}
+\def\pstpicture@END{}
+%%% end
 \def\pstpicture@iii(#1,#2)(#3,#4){%
   \begin@ClosedObj
   \pssetxlength\pst@dima{#1}%
@@ -3093,16 +3186,26 @@ closepath}%
   \@ifundefined{@latexerr}{}{\let\unitlength\psunit}%
   \edef\pic@coor{(#1,#2)(#1,#2)(#3,#4)}%
 %  \ignorespaces%
+%%% begin RN 2005-01-28
+  \pstpicture@BEGIN
+%%% end
 }
 \def\pic@coor{(0,0)(0,0)(10,10)}
 \def\endpspicture{%
-  \pst@killglue%
+%%% begin RN 2005-01-28
+  \pstpicture@END
+%%% end
+  \pst@killglue
   \endgroup%
   \egroup%
   \ifdim\wd\pst@hbox=\z@\else%
 %\@pstrickserr{Extraneous space in the pspicture environment}%
 %{Type \space <return> \space to procede.}%
   \fi%
+%%% begin RN 2005-02-06
+  \psk@@addto@llx\psk@@addto@lly
+  \psk@@addto@urx\psk@@addto@ury
+%%% end
   \ht\pst@hbox=\pst@dimd%
   \dp\pst@hbox=-\pst@dimb%
   \setbox\pst@hbox=\hbox{%
@@ -3200,7 +3303,7 @@ closepath}%
 %
 \def\resetPSTOptions{% hv
   \psset[pstricks]{%
-       shift=0,frame=false,%framestyle=dashed,%
+       shift=0,frame=false,%
        PstDebug=0,%
        swapaxes=false,showpoints=false,border=0pt,bordercolor=white,%
        doubleline=false,doublesep=1.25\pslinewidth,doublecolor=white,%

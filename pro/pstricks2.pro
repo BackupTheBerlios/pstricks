@@ -66,19 +66,32 @@ def
   a 0 gt { 0 }{ y 2 div a -2 gt { neg }if } ifelse 
   setdash 1 setlinecap stroke 
 } def
-/LineFill { gsave abs CLW add /a ED a 0 dtransform round exch round exch
-2 copy idtransform exch Atan rotate idtransform pop /a ED .25 .25
+/LineFill { 
+  gsave abs CLW add /a ED 
+  a 0 dtransform round exch round exch
+  2 copy idtransform exch 
+  Atan rotate idtransform pop /a ED 
+  .25 .25
 % DG/SR modification begin - Dec. 12, 1997 - Patch 2
 %itransform translate pathbbox /y2 ED a Div ceiling cvi /x2 ED /y1 ED a
-itransform pathbbox /y2 ED a Div ceiling cvi /x2 ED /y1 ED a
+  itransform pathbbox /y2 ED a Div ceiling cvi /x2 ED /y1 ED a
 % DG/SR modification end
-Div cvi /x1 ED /y2 y2 y1 sub def clip newpath 2 setlinecap systemdict
-/setstrokeadjust known { true setstrokeadjust } if x2 x1 sub 1 add { x1
+  Div cvi /x1 ED /y2 y2 y1 sub def clip newpath 
+% D.G. modification begin - Sep.  1, 2002
+%  2 setlinecap
+% D.G. modification end
+  systemdict
+  /setstrokeadjust known { true setstrokeadjust } if 
+  x2 x1 sub 1 add { 
+    x1
 % DG/SR modification begin - Jun.  1, 1998 - Patch 3 (from Michael Vulis)
 % a mul y1 moveto 0 y2 rlineto stroke /x1 x1 1 add def } repeat grestore }
 % def
-a mul y1 moveto 0 y2 rlineto stroke /x1 x1 1 add def } repeat grestore
-pop pop } def
+    a mul y1 moveto 
+    0 y2 rlineto 
+    stroke /x1 x1 1 add def } repeat 
+    grestore
+  pop pop } def
 % DG/SR modification end
 /BeginArrow { ADict begin /@mtrx CM def gsave 2 copy T 2 index sub neg
 exch 3 index sub exch Atan rotate newpath } def

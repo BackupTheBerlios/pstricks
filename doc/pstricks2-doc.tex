@@ -248,6 +248,44 @@ with \verb+rmultiput+:
 \end{example}
 
 
+\bigskip
+%--------------------------------------------------------------------------------------
+\section{Fill style}
+%--------------------------------------------------------------------------------------
+There is one new option \verb+hatchstyle+ with three possible values:
+%
+\begin{verbatim}
+solid | dotted | dashed
+\end{verbatim}
+
+\begin{example}[width=5cm,wide=true]
+\begin{pspicture}(5,5)
+  \psframe[fillstyle=hlines](5,5)
+  \pscircle[fillstyle=solid,fillcolor=white](2.5,2.5){1.5}
+\end{pspicture}
+\end{example}
+
+\begin{example}[width=5cm,wide=true]
+\begin{pspicture}(5,5)
+  \psframe[fillstyle=hlines,hatchstyle=dotted](5,5)
+  \pscircle[fillstyle=solid,fillcolor=white](2.5,2.5){1.5}
+\end{pspicture}
+\end{example}
+
+
+\begin{example}[width=5cm,wide=true]
+\begin{pspicture}(5,5)
+  \psframe[fillstyle=hlines,hatchstyle=dashed,dash=0.3 0.15](5,5)
+  \pscircle[fillstyle=solid,fillcolor=white](2.5,2.5){1.5}
+\end{pspicture}
+\end{example}
+
+\begin{example}[width=5cm,wide=true]
+\begin{pspicture}(5,5)
+  \psframe[fillstyle=vlines,hatchstyle=dashed,hatchsep=0.4,hatchcolor=red](5,5)
+  \pscircle[fillstyle=solid,fillcolor=white](2.5,2.5){1.5}
+\end{pspicture}
+\end{example}
 
 
 %--------------------------------------------------------------------------------------
@@ -737,14 +775,15 @@ All examples are printed with \verb|\psset{arrowscale=2,linecolor=red}|.
 \end{example}
 
 
-\begin{example}[pos=a]
+%\begin{example}[pos=a]
 \makebox[\linewidth]{
 \begin{pspicture}(-3,-5)(0.75\linewidth,3)
   \psbezier[ArrowInsideNo=19,%
       ArrowInside=->,ArrowFill=false,%
       showpoints=true,arrowscale=3]{->}(-3,0)(5,-5)(8,3)(0.75\linewidth,-5)
-\end{pspicture}}
-\end{example}
+\end{pspicture}
+}
+%\end{example}
 
 
 %--------------------------------------------------------------------------------------
