@@ -911,7 +911,7 @@ moveto}
     2 div /w ED	 		% (size*CLW+length)/2  -> w 
     mul dup /h ED mul 		% (size*CLW+length)
     /a ED  
-    w neg h moveto 0 0 L 
+    w neg h abs moveto 0 0 L 
     gsave 
     stroke grestore 
   } def
@@ -1764,15 +1764,15 @@ n { transform floor .5 add exch floor .5 add exch itransform Dot } repeat}
     \pst@getcoors[\psline@ii}}
 \def\psline@ii{%
   \addto@pscode{%
-    (\psk@ArrowInside) length 0 gt { true }{ false } ifelse /IfArrowInside exch def
-    \psk@ArrowInsidePos\space /ArrowInsidePos exch def
-    \psk@ArrowInsideOffset\space /ArrowInsideOffset exch def
-    \psk@ArrowInsideNo\space cvi /ArrowInsideNo exch def
     \pst@cp 
     \psline@iii 
     \tx@Line}%
   \end@OpenObj}
 \def\psline@iii{%
+  (\psk@ArrowInside) length 0 gt { true }{ false } ifelse /IfArrowInside exch def
+  \psk@ArrowInsidePos\space /ArrowInsidePos exch def
+  \psk@ArrowInsideOffset\space /ArrowInsideOffset exch def
+  \psk@ArrowInsideNo\space cvi /ArrowInsideNo exch def
   \ifdim\pslinearc>\z@
     /r \pst@number\pslinearc def
     /Lineto { \tx@Arcto } def
@@ -1797,10 +1797,10 @@ n { transform floor .5 add exch floor .5 add exch itransform Dot } repeat}
   \pst@getcoors[\pspolygon@ii}
 \def\pspolygon@ii{%
   \addto@pscode{
-    (\psk@ArrowInside) length 0 gt { true }{ false } ifelse /IfArrowInside exch def
-    \psk@ArrowInsidePos\space /ArrowInsidePos exch def
-    \psk@ArrowInsideOffset\space /ArrowInsideOffset exch def
-    \psk@ArrowInsideNo\space cvi /ArrowInsideNo exch def
+%    (\psk@ArrowInside) length 0 gt { true }{ false } ifelse /IfArrowInside exch def
+%    \psk@ArrowInsidePos\space /ArrowInsidePos exch def
+%    \psk@ArrowInsideOffset\space /ArrowInsideOffset exch def
+%    \psk@ArrowInsideNo\space cvi /ArrowInsideNo exch def
     \psline@iii 
     \tx@Polygon}%
   \def\pst@linetype{1}%
@@ -1905,38 +1905,38 @@ n { transform floor .5 add exch floor .5 add exch itransform Dot } repeat}
 \def\psgrid@iii(#1)(#2){\@ifnextchar(%
 {\psgrid@iv(#1)(#2)}{\psgrid@iv(#1)(#1)(#2)}}
 \def\psgrid@iv(#1)(#2)(#3){%
-\begin@SpecialObj
-\pst@getcoor{#1}\pst@tempa
-\pst@getcoor{#2}\pst@tempb
-\pst@@getcoor{#3}%
-\ifnum\psk@subgriddiv>1
-\addto@pscode{gsave
-\psk@subgridwidth SLW \pst@usecolor\pssubgridcolor
-\pst@tempb \pst@coor \pst@tempa
-\pst@number\psxunit \pst@number\psyunit
-\psk@subgriddiv\space \psk@subgriddots\space
-{} 0 \tx@Grid grestore}%
-\fi
-\addto@pscode{gsave
-\psk@gridwidth SLW \pst@usecolor\psgridcolor
-\pst@tempb \pst@coor \pst@tempa
-\pst@number\psxunit \pst@number\psyunit
-1 \psk@griddots\space { \pst@usecolor\psgridlabelcolor }
-\psk@gridlabels \tx@Grid grestore}%
-\end@SpecialObj}
+  \begin@SpecialObj
+  \pst@getcoor{#1}\pst@tempa
+  \pst@getcoor{#2}\pst@tempb
+  \pst@@getcoor{#3}%
+  \ifnum\psk@subgriddiv>1
+    \addto@pscode{gsave
+      \psk@subgridwidth SLW \pst@usecolor\pssubgridcolor
+      \pst@tempb \pst@coor \pst@tempa
+      \pst@number\psxunit \pst@number\psyunit
+      \psk@subgriddiv\space \psk@subgriddots\space
+      {} 0 \tx@Grid grestore}%
+  \fi
+  \addto@pscode{gsave
+    \psk@gridwidth SLW \pst@usecolor\psgridcolor
+    \pst@tempb \pst@coor \pst@tempa
+    \pst@number\psxunit \pst@number\psyunit
+    1 \psk@griddots\space { \pst@usecolor\psgridlabelcolor }
+    \psk@gridlabels \tx@Grid grestore}%
+  \end@SpecialObj}
 \newif\ifpsmathbox
 \psmathboxtrue
 \def\pst@mathflag{\z@}
 \newtoks\everypsbox
 \let\pst@thisbox\relax
 \long\def\pst@makenotverbbox#1#2{%
-\edef\pst@mathflag{%
-\ifpsmathbox\ifmmode\ifinner 1\else 2\fi\else \z@\fi\else \z@\fi}%
-\setbox\pst@hbox=\hbox{%
-\ifcase\pst@mathflag\or$\m@th\textstyle\or$\m@th\displaystyle\fi
-{\pst@thisbox\the\everypsbox#2}%
-\ifnum\pst@mathflag>\z@$\fi}%
-#1}
+  \edef\pst@mathflag{%
+    \ifpsmathbox\ifmmode\ifinner 1\else 2\fi\else \z@\fi\else \z@\fi}%
+  \setbox\pst@hbox=\hbox{%
+    \ifcase\pst@mathflag\or$\m@th\textstyle\or$\m@th\displaystyle\fi
+    {\pst@thisbox\the\everypsbox#2}%
+    \ifnum\pst@mathflag>\z@$\fi}%
+  #1}
 \def\pst@makeverbbox#1{%
 \def\pst@afterbox{#1}%
 \edef\pst@mathflag{%

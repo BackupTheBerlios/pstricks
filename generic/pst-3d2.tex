@@ -643,7 +643,7 @@
 %
 % \begin{macro}{\psTshadowcolor}
 %    \begin{macrocode}
-\define@key[psset]{pst-3d}{Tshadowcolor}{\pst@getcolor{#1}\psTshadowcolor}
+\define@key[psset]{pst-3d}{Tshadowcolor}{\def\psTshadowcolor{\color{#1}}}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -668,7 +668,7 @@
               0 0
             ] concat
           } \tx@TMChange}}%
-      \hbox to\z@{{\@nameuse{\psTshadowcolor}\copy\pst@hbox\hss}}%
+      \hbox to\z@{{\psTshadowcolor\copy\pst@hbox\hss}}%
       \pst@Verb{\tx@TMRestore}%
       \box\pst@hbox}%
   \endgroup}
