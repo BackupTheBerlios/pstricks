@@ -365,6 +365,8 @@
 % in { Helvetica-Bold}.
 % \end{itemize}
 %
+%
+%
 %\begin{command}
 % `\ci{fileplot*}\oarg{parameters}\marg{file}'
 %\end{command}
@@ -392,7 +394,7 @@
 %}
 %
 % \section{Implementation}\label{sec:imple}
-% \subsection{\TeX\ program}
+% \subsection{\TeX{} program}
 % \subsubsection{Former pstricks.tex (adapted)}
 % Check whether file has been loaded already.
 %    \begin{macrocode}
@@ -4530,31 +4532,25 @@ closepath}%
 % \end{macro}
 % \paragraph{Mathematical function plotting}
 %    \begin{macrocode}
-\define@key[psset]{}{method}{\edef\psk@method{#1}}%
-\define@key[psset]{}{whichabs}{\edef\psk@whichabs{#1}}%
-\define@key[psset]{}{whichord}{\edef\psk@whichord{#1}}%
-\define@key[psset]{}{plotfuncx}{\edef\psk@plotfuncx{#1}}%
-\define@key[psset]{}{plotfuncy}{\edef\psk@plotfuncy{#1}}%
-\define@key[psset]{}{expression}{\edef\psk@expression{#1}}%
-\define@key[psset]{}{VarStep}{\edef\psk@VarStep{#1}}%
+\define@key[psset]{}{method}{\edef\psk@method{#1}}
+\define@key[psset]{}{whichabs}{\edef\psk@whichabs{#1}}
+\define@key[psset]{}{whichord}{\edef\psk@whichord{#1}}
+\define@key[psset]{}{plotfuncx}{\edef\psk@plotfuncx{#1}}
+\define@key[psset]{}{plotfuncy}{\edef\psk@plotfuncy{#1}}
+\define@key[psset]{}{expression}{\edef\psk@expression{#1}}
+\define@key[psset]{}{VarStep}{\edef\psk@VarStep{#1}}
 
-\newif\ifPst@buildvector%
-\define@key[psset]{}{buildvector}[true]{\@nameuse{Pst@buildvector#1}}%
+\newif\ifPst@buildvector
+\define@key[psset]{}{buildvector}[true]{\@nameuse{Pst@buildvector#1}}
 
 \def\@rkiv{rk4}%
 \def\@adams{adams}%
 \def\@undef{undef}%
 \def\@default{default}%
 
-% none= 0 (postfix) , TeX=1 (conversion by TeX), PS=-1 (conversion by PostScript)
-\define@key[psset]{}{infix}{\pst@expandafter\pstinfix@i{#1}\@nil}
-\def\pstinfix@i#1#2\@nil{%
-  \ifx#1n\let\psk@infix\z@\else
-    \ifx#1T\let\psk@infix\@ne\else
-      \ifx#1P\let\psk@infix\m@ne\else
-        \@pstrickserr{Bad infix modus: `#1#2'}\@ehpa
-  \fi\fi\fi}
-%
+\newif\ifPst@infix
+\define@key[psset]{}{infix}[true]{\@nameuse{Pst@infix#1}}
+
 \def\psplotinit#1{\xdef\psplot@init{#1 }}
 \def\psplot@init{}
 %
@@ -4576,7 +4572,7 @@ closepath}%
       /x #1 def
       /x1 #2 def
       /dx x1 x sub \psk@plotpoints div def
-      /F@pstplot \ifnum\psk@infix<\z@\space (#3) tx@EqdfDict begin AlgParser end cvx
+      /F@pstplot \ifPst@infix (#3) tx@EqdfDict begin AlgParser end cvx
                  \else { #3 } \fi  def
       /xy {
         x \pst@number\psxunit mul F@pstplot \pst@number\psyunit mul
@@ -4596,7 +4592,6 @@ closepath}%
 % \begin{macro}{\psplot@ii}
 %    \begin{macrocode}
 \def\psplot@ii{%
-  \ifx\psk@VarStep\@default
     \addto@pscode{%
       xy \@nameuse{beginqp@\psk@plotstyle}
       \psk@plotpoints 1 sub {
@@ -4605,34 +4600,13 @@ closepath}%
       } repeat
       /x x1 def
       xy \@nameuse{doqp@\psk@plotstyle}}%
-  \else
-    \addto@pscode{%
-      xy \@nameuse{beginqp@\psk@plotstyle}
-      /Olddt dx def /OldOlddt dx def /Oldy F@pstplot def /y 0 def
-      /Ndt dx def /Ny 0 def
-      { /Ndt Ndt 1.5 mul def %%new step is 50% larger
-        x1 x sub dup Ndt lt { /Ndt exch def } { pop } ifelse
-        { /x x /Ny /x x Ndt add def tx@EqdfDict begin F@pstplot end def def
-          /x x /y /x x Ndt 2 div add def tx@EqdfDict begin F@pstplot end def def
-              /Oldy tx@EqdfDict begin F@pstplot end def
-         Ny y sub Ndt div y Oldy sub Ndt div dup 0 eq { pop pop exit } if div abs
-         dup 1 gt { 1 exch div } if \psk@VarStep\space gt%%if greater than rate OK
-         { exit } { /Ndt Ndt 2 div def } ifelse
-          Ndt dx lt { exit } if
-       } loop
-        /x x Ndt add def xy \@nameuse{doqp@\psk@plotstyle}
-        x x1 eq { exit } if
-        /Olddt Ndt def
-        /OldOlddt Olddt def
-       /y Ny def} loop}%
-  \fi
-  \@nameuse{endqp@\psk@plotstyle}}
+  \@nameuse{endqp@\psk@plotstyle}%
+}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\psplot@iii}
 %    \begin{macrocode}
 \def\psplot@iii{%
-  \ifx\psk@VarStep\@default
     \addto@pscode{%
       mark
       /n 2 def
@@ -4645,28 +4619,8 @@ closepath}%
       /x x1 def
       xy
       n 2 roll}%
-  \else\pst@killglue
-    \addto@pscode{%
-      /Olddt dx def /OldOlddt dx def /Oldy F@pstplot def /y 0 def
-      /Ndt dx def /Ny 0 def /n 2 def
-      mark xy
-      { /Ndt Ndt 1.5 mul def %%new step is 50% larger
-        x1 x sub dup Ndt lt { /Ndt exch def } { pop } ifelse
-        { /x x /Ny /x x Ndt add def tx@EqdfDict begin F@pstplot end def def
-          /x x /y /x x Ndt 2 div add def tx@EqdfDict begin F@pstplot end def def
-              /Oldy tx@EqdfDict begin F@pstplot end def
-         Ny y sub Ndt div y Oldy sub Ndt div dup 0 eq { pop pop exit } if div abs
-         dup 1 gt { 1 exch div } if \psk@VarStep\space gt%%if greater than rate OK
-         { exit } { /Ndt Ndt 2 div def } ifelse
-          Ndt dx lt { exit } if
-       } loop
-        /x x Ndt add def xy /n n 2 add def n 2 roll
-        x x1 eq { exit } if
-        /Olddt Ndt def
-        /OldOlddt Olddt def
-       /y Ny def} loop}%
-  \fi
-  \@nameuse{endplot@\psk@plotstyle}}
+  \@nameuse{endplot@\psk@plotstyle}%
+}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\psparametricplot}
@@ -4676,7 +4630,7 @@ closepath}%
 % \end{macro}
 % \begin{macro}{\psparametricplot@i}
 %    \begin{macrocode}
-\def\psparametricplot@i#1#2#3#4{%
+\def\psparametricplot@i#1#2{
   \pst@killglue
   \begingroup
     \use@par
@@ -4685,14 +4639,38 @@ closepath}%
       \psplot@init
       /t #1 def
       /t1 #2 def
-      /dt t1 t sub \psk@plotpoints div def
-      \ifnum\psk@infix<\z@\space
-        /F@pstplot {
-          (#3) tx@EqdfDict begin AlgParser end cvx
-          (#4) tx@EqdfDict begin AlgParser end cvx } def
-      \else
-        /F@pstplot { #3\space #4 } def
-      \fi
+      /dt t1 t sub \psk@plotpoints div def}%
+    \ifPst@infix
+      \let\next\psparametricplot@ii
+    \else
+      \let\next\psparametricplot@iii
+    \fi
+    \next}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\psparametricplot@ii}
+%    \begin{macrocode}
+\def\psparametricplot@ii#1#2{%
+    \show#1\show#2
+    \addto@pscode{%
+      tx@EqdfDict begin (#1) AlgParser
+      (#2) AlgParser concatarray end cvx
+      /F@pstplot exch cvx def}%
+    \psparametricplot@iv}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\psparametricplot@iii}
+%    \begin{macrocode}
+\def\psparametricplot@iii#1{%
+    \addto@pscode{%
+      /F@pstplot { #1 } def}%
+    \psparametricplot@iv}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\psparametricplot@iv}
+%    \begin{macrocode}
+\def\psparametricplot@iv{%
+    \addto@pscode{%
       /xy {
         F@pstplot
         \pst@number\psyunit mul exch
@@ -4702,17 +4680,17 @@ closepath}%
     \@pstfalse
     \@nameuse{testqp@\psk@plotstyle}%
     \if@pst
-      \psparametricplot@ii
+      \psparametricplot@v
     \else
-      \psparametricplot@iii
+      \psparametricplot@vi
     \fi
   \endgroup
   \ignorespaces}
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\psparametricplot@ii}
+% \begin{macro}{\psparametricplot@v}
 %    \begin{macrocode}
-\def\psparametricplot@ii{%
+\def\psparametricplot@v{%
     \addto@pscode{%
       xy \@nameuse{beginqp@\psk@plotstyle}
       \psk@plotpoints 1 sub {
@@ -4724,9 +4702,9 @@ closepath}%
   \@nameuse{endqp@\psk@plotstyle}}
 %    \end{macrocode}
 % \end{macro}
-% \begin{macro}{\psparametricplot@iii}
+% \begin{macro}{\psparametricplot@vi}
 %    \begin{macrocode}
-\def\psparametricplot@iii{%
+\def\psparametricplot@vi{%
     \addto@pscode{%
       mark
       /n 2 def
@@ -4742,19 +4720,113 @@ closepath}%
   \@nameuse{endplot@\psk@plotstyle}}
 %    \end{macrocode}
 % \end{macro}
+% \begin{macro}{\pspolarplot}
 %    \begin{macrocode}
 \def\pspolarplot{\def\pst@par{}\pst@object{pspolarplot}}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\pspolarplot@i}
+%    \begin{macrocode}
 \def\pspolarplot@i#1#2#3{%
   \begingroup
   \use@par
-  \ifnum\psk@infix<\z@
+  \ifPst@infix
     \psparametricplot{#1}{#2}{(#3)*cos(t)}{(#3)*sin(t)}%
   \else
-    \show\psk@infix
     \psparametricplot{#1}{#2}{#3 t cos mul}{#3 t sin mul}%
   \fi
   \endgroup
 }
+%    \end{macrocode}
+% \end{macro}
+%    \begin{macrocode}
+\def\psplotequadiff{\def\pst@par{}\pst@object{psplotequadiff}}
+\def\psplotequadiff@i#1#2#3#4{%
+  \pst@killglue
+  \begingroup
+    \use@par
+    \@nameuse{beginplot@\psplotstyle}%
+  \addto@pscode{%
+    /x #1 def
+    /x1 #2 def
+    /y [ #3 ] def
+    /ylength y length def
+    /addvect
+     { 1 1 ylength
+       { /i exch def ylength i sub 2 add -1 roll add ylength 2 mul i sub 1 roll } for } def
+    /dx x1 x sub \psk@plotpoints div def
+    /mulvect { ylength exch 1 index { dup 4 -1 roll mul 2 index 2 add 1 roll } repeat pop pop } def
+    /divvect { ylength exch 1 index { dup 4 -1 roll exch div 2 index 2 add 1 roll } repeat pop pop } def
+    /k0 0 def /k1 0 def /k2 0 def /k3 0 def
+    \ifPst@infix/F@psteqdf (#4) tx@EqdfDict begin AlgParser end cvx def \fi
+    /Func
+      { \ifPst@algebraic
+          F@psteqdf ylength array astore
+        \else
+          \ifPst@buildvector\else y aload pop \fi#4
+          \ifPst@buildvector\else ylength array astore \fi
+        \fi} def
+    \ifx\psk@method\@adams%%
+      /F1 0 def /F2 0 def /F3 0 def /F4 0 def /F5 0 def /F6 0 def /INIT 0 def
+    \fi
+    \ifx\psk@method\@default\else%% RUNGE-KUTTA & ADAMS  methods
+      /RK {
+         /k0 Func { dx mul } forall ylength array astore def %% y
+         dup aload pop k0 { 2 div } forall addvect ylength array astore /y exch def %
+         x dup dx 2 div add /x exch def %% y x
+         /k1 Func { dx mul } forall ylength array astore def %% y x
+         exch dup aload pop k1 { 2 div } forall addvect y astore pop %% x y
+         /k2 Func { dx mul } forall ylength array astore def %% x y
+         dup aload pop k2 aload pop addvect y astore pop exch dup dx add /x exch def %% y x
+         /k3 Func { dx mul } forall ylength array astore def %% y x
+         /x exch def %% y
+         dup aload pop k0 aload pop k1 aload pop k2 aload pop addvect
+         2 mulvect addvect k3 aload pop addvect
+         6 divvect addvect y astore pop } def
+       \ifx\psk@method\@adams
+         /ADAMS {
+           F6 aload pop  4277  mulvect
+           F5 aload pop -7923  mulvect addvect
+           F4 aload pop  9982  mulvect addvect
+           F3 aload pop -7298  mulvect addvect
+           F2 aload pop  2877  mulvect addvect
+           F1 aload pop  -475  mulvect addvect
+           dx mulvect 1440 divvect
+           y aload pop addvect ylength array astore /y exch def } def
+       \fi
+    \fi
+    /xy {
+      \ifx\psk@plotfuncx\@default
+        \ifx\psk@whichabs\@default x \else y \psk@whichabs\space get \fi%
+      \else\psk@plotfuncx\space\fi%
+      \pst@number\psxunit mul y
+      \ifx\psk@method\@default%% EULER method
+        /y Func { dx mul } forall y aload pop addvect ylength array astore def
+      \else%
+        \ifx\psk@method\@rkiv%% RUNGE-KUTTA method
+          RK
+        \else%% ADAMS method
+          /F1 F2 def /F2 F3 def /F3 F4 def /F4 F5 def /F5 F6 def /F6 Func def
+          INIT 5 lt
+          { RK /INIT INIT 1 add def }
+          { ADAMS } ifelse
+        \fi
+      \fi
+      \ifx\psk@plotfuncy\@default
+        \ifx\psk@whichord\@default 0 \else\psk@whichord\space\fi get %
+      \else\psk@plotfuncy\space\fi
+      \pst@number\psyunit mul
+    } def}%
+    \gdef\psplot@init{}%
+    \@pstfalse
+    \@nameuse{testqp@\psplotstyle}%
+    \if@pst
+      \psplot@ii
+    \else
+      \psplot@iii
+    \fi
+  \endgroup
+  \ignorespaces}
 %    \end{macrocode}
 % \paragraph{Axis}
 %    \begin{macrocode}
@@ -4942,15 +5014,26 @@ closepath}%
 %    \end{macrocode}
 % \begin{macro}{\psaxes}
 %    \begin{macrocode}
-% These axes macros are complicated. Be careful.
 \def\psaxes{\pst@object{psaxes}}
-
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\psaxes@i}
+%    \begin{macrocode}
 \def\psaxes@i{\pst@getarrows\psaxes@ii}
-
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\psaxes@ii}
+%    \begin{macrocode}
 \def\psaxes@ii(#1){\@ifnextchar({\psaxes@iii(#1)}{\psaxes@iv(0,0)(0,0)(#1)}}
-
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\psaxes@iii}
+%    \begin{macrocode}
 \def\psaxes@iii(#1)(#2){\@ifnextchar({\psaxes@iv(#1)(#2)}{\psaxes@iv(#1)(#1)(#2)}}
-
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\psaxes@iv}
+%    \begin{macrocode}
 \def\psaxes@iv(#1,#2)(#3,#4)(#5,#6){%
   \pst@killglue
   \begingroup
@@ -5562,9 +5645,9 @@ closepath}%
  \@zero=0%
  \pstScalePoints(1,1){}{}% reset
   \psset{%
-      infix=none,% TeX | PS
+      infix=true,
       xyAxes=true,
-      xyDecimals={},%
+      xyDecimals={},
       xyLabel={},
       xylogBase={},
       logLines=none,
@@ -6971,7 +7054,7 @@ end }}
 \catcode`\@=\PstAtCode\relax
 %</tex>
 %    \end{macrocode}
-% \subsection{\LaTeX\ program}
+% \subsection{\LaTeX{} program}
 % Initialize the package.
 %    \begin{macrocode}
 %<*latex>
@@ -8626,6 +8709,14 @@ end
     exch pop } ifelse
 } def
 /fact { 1 exch 2 exch 1 exch { mul } for } def
+%    \end{macrocode}
+% Concatenate two arrays (from Fan\c{c}ois Robert, comp.lang.postscript).
+%    \begin{macrocode}
+/concatarray
+{
+  exch 2 copy length exch length add array
+  dup dup 5 2 roll copy length exch putinterval
+} bind def
 end
 %</dvips>
 %    \end{macrocode}
