@@ -1,0 +1,85 @@
+\title{\texttt{pst-tree2}\\Trees\thanks{%
+    This document was written with \texttt{Kile: 1.7} (\texttt{Qt: 3.1.1; KDE: 3.3;}
+    \url{http://sourceforge.net/projects/kile/}) and the PDF output
+    was build with VTeX/Free (\url{http://www.micropress-inc.com/linux})}\\
+    \small v.\psttreeFV}
+\author{Herbert Voﬂ}
+\date{\today}
+
+\maketitle
+
+\begin{abstract}
+This version of \verb+pst-node+ includes all the macros which were for testing
+part of the  \verb+pstricks-add+-package. This documentation shows only these
+extensions. For the other macros have a look into the old PSTricks
+documentation.
+
+\verb+pst-node+ uses the extended version of the keyval package. So be sure, that
+you have installed \verb+pst-xkey+ which is part of the \verb+xkeyval+-package and that all
+packages, that uses the old keyval interface are loaded \textbf{before} the \verb+xkeyval+.
+\end{abstract}
+
+\tableofcontents
+
+\clearpage
+
+
+
+\lstset{wide=true}
+
+
+\vspace{0.5cm}
+%--------------------------------------------------------------------------------------
+\section{\CMD{resetPSTTreeOptions}}
+%--------------------------------------------------------------------------------------
+
+Sometimes it is difficult to know what options which are changed inside a long document
+are different to the default one. With this
+macro all options depending to \verb+pst-plot+ can be reset. This depends to all
+options of the package \verb+pst-plot+.
+
+\begin{lstlisting}
+\def\resetPSTTreeOptions{%
+  \psset[pst-tree]{%
+    treefit=tight,
+    thistreefit=tight,
+    shortput=tab,%
+    treesep=.75cm,%
+    treenodesize=-1pt,%
+    levelsep=2cm,%
+    treeflip=false,%
+    showbbox=false,%
+    edge=\ncline,%
+    fansize=1cm,%
+    tnsep={},%
+    tnyref={},%
+    tnheight=\ht\strutbox,%
+    tndepth=\dp\strutbox,%
+    tnpos={}%
+  }
+}
+\end{lstlisting}
+
+%--------------------------------------------------------------------------------------
+\section{Credits}
+%--------------------------------------------------------------------------------------
+%{Hendri Adriaans | } 
+%{Ulrich Dirr | } 
+%{Hubert G‰ﬂlein |}
+%{Denis Girou | } 
+%{Peter Hutnick | } 
+%{Christophe Jorssen | } 
+%{Manuel Luque | } 
+%{Jens-Uwe Morawski |}
+%{Tobias N‰hring |}
+%{Rolf Niepraschk |}
+%{Dominique Rodriguez |}
+%{Timothy Van Zandt}
+
+
+
+\nocite{*}
+\bibliographystyle{plain}
+\bibliography{pstricks}
+
+
