@@ -3021,7 +3021,7 @@ closepath}%
 \def\pstpicture@ii(#1,#2){%
   \@ifnextchar({\pstpicture@iii(#1,#2)}{\pstpicture@iii(0,0)(#1,#2)}%
 }
-\def\pstpicture@iii[#1](#1,#2)(#3,#4){%
+\def\pstpicture@iii(#1,#2)(#3,#4){%
   \begin@ClosedObj
   \pssetxlength\pst@dima{#1}%
   \pssetylength\pst@dimb{#2}%
