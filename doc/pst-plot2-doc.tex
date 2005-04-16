@@ -19,6 +19,8 @@ you have installed \verb+pst-xkey+ which is part of the \verb+xkeyval+-package a
 packages, that uses the old keyval interface are loaded \textbf{before} the \verb+xkeyval+.
 \end{abstract}
 
+\clearpage
+
 \tableofcontents
 
 \clearpage
@@ -53,6 +55,7 @@ xyLabel               & <anything> & \{\}\\%ok
 tickstyle             & full|top|bottom & full\\%ok
 ticks                 & <all|x|y|none>   & all\\%ok
 labels                & <all|x|y|none>   & all\\%ok
+trigLabels            & false|true       & false\\%ok
 subticks              & <number>         & 0\\
 xsubticks             & <number>         & 0\\
 ysubticks             & <number>         & 0\\
@@ -119,15 +122,15 @@ on \TeX{} level (inside \verb+pst-plot+) and with \verb+infix=PS+ it is done on 
 user, but allows advanced users further developing.
 
 
-\begin{example}[pos=a,wide]
+\begin{showexample}[pos=a,wide]
 \psgraph(-10,-3.5)(10,3.5){.9\linewidth}{5cm}
   \psset{infix=PS, plotpoints=101}
   \psplot[linecolor=yellow, linewidth=4\pslinewidth]{-10}{10}{3*sin(x)}%
   \psplot[linecolor=red, showpoints=true,VarStep=0.8]{-10}{10}{3*sin(x)}
 \endpsgraph
-\end{example}
+\end{showexample}
 
-\begin{example}[pos=a,wide]
+\begin{showexample}[pos=a,wide]
 \psgraph(0,-4.25)(20,4.25){.9\linewidth}{5cm}
   \psset{infix=PS, plotpoints=501}
   \psplot[linecolor=yellow, linewidth=4\pslinewidth]{0.01}{20}{ln(x)}%
@@ -135,15 +138,15 @@ user, but allows advanced users further developing.
   \psplot[linecolor=yellow, linewidth=4\pslinewidth]{0}{20}{cos(x)*2.71^(-x/10)}
   \psplot[linecolor=blue, showpoints=true,VarStep=0.8]{0}{20}{cos(x)*2.71^(-x/10)}
 \endpsgraph
-\end{example}
+\end{showexample}
 
-\begin{example}[pos=a,wide]
+\begin{showexample}[pos=a,wide]
 \begin{psgraph}(0,-4)(0.2,4){.9\linewidth}{5cm}
   \psset{infix=PS, plotpoints=501}
   \psplot[linecolor=yellow, linewidth=4\pslinewidth]{0.02}{.2}{4*cos(1/x)}%
   \psplot[linecolor=red,VarStep=0.95]{.02}{.2}{4*cos(1/x)}%
 \end{psgraph}
-\end{example}
+\end{showexample}
 
 
 %--------------------------------------------------------------------------------------
@@ -158,14 +161,14 @@ of the dot. \verb|comma| and \verb|comma=true| is the same.
 
 \resetPSTPlotOptions
 \medskip
-\begin{example}[width=5.5cm]
+\begin{showexample}[width=5.5cm]
 \begin{pspicture}(-0.5,-0.5)(5,5.5)
 \psaxes[Dx=1.5,Dy=0.5,comma]{->}(5,5)
 \psplot[linecolor=red,linewidth=3pt]{0}{4.5}%
    {x 180 mul 1.52 div cos 2 mul 2.5 add}
 \psline[linestyle=dashed](0,2.5)(4.5,2.5)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 
@@ -186,7 +189,7 @@ to set both, x and y to true with only one command again to the default, because
 
 
 \resetPSTPlotOptions%
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \begin{pspicture}(8,1)
 \psaxes[yAxis=false,linecolor=blue]{->}(0,0.5)(8,0.5)
 \end{pspicture}%
@@ -199,7 +202,7 @@ to set both, x and y to true with only one command again to the default, because
 \begin{pspicture}(1,8)
 \psaxes[xAxis=false,linecolor=red]{->}(0.5,0)(0.501,8)
 \end{pspicture}%
-\end{example}
+\end{showexample}
 
 As seen in the example, a single y axis gets the labels on the right side. This can be
 changed in two ways, first with the option \verb+labelsep+ and second with a very
@@ -223,20 +226,20 @@ where the option \verb|xyDecimals| sets this identical for both axes.
 The default setting \verb|{}| means, that you'll get the standard behaviour.
 
 
-\begin{example}[width=6cm]
+\begin{showexample}[width=6cm]
 \begin{pspicture}(-1.5,-0.5)(5,4.75)
   \psaxes[xyDecimals=2]{->}(0,0)(4.5,4.5)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \psset{xunit=10cm, yunit=0.01cm}
 \begin{pspicture}(-0.15,-150)(1.5,550.0)
   \psaxes[Dx=0.25,Dy=100,tickstyle=bottom,xyLabel=\footnotesize,comma=true,%
     xDecimals=3,yDecimals=1]{->}(0,0)(0,-100)(1.4,520)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 
@@ -253,13 +256,13 @@ There are no special keywords to change the \index{labelstyle}labelstyle for the
 macro. With \verb|xyLabel| it is possible to set both axes with the same command sequence. Unlike to the default \verb|pst-plot| package the coordinates are not printed in mathmode. This makes it easier to choose other text styles.
 
 \resetPSTPlotOptions
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \psset{yunit=1cm,xunit=3cm}
 \begin{pspicture}(-0.3,-0.5)(5,4.75)
 \psaxes[xLabel={\scriptsize\itshape},yLabel={\sffamily\footnotesize},%
    Dy=0.5, Dx=0.25]{->}(0,0)(4.5,4.5)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 
@@ -274,7 +277,7 @@ tickstyle=full|bottom|top
 This option is already in the \verb+pst-plot+ package and only mentioned here for
 some completness.
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \begin{pspicture}(-1,-1)(2,2)
 \psaxes[tickstyle=bottom,subticks=5]{->}(0,0)(-1,-1)(2,2)
 \end{pspicture}\\[0.5cm]
@@ -282,9 +285,9 @@ some completness.
 \begin{pspicture}(-1,-1)(2,2)
 \psaxes[tickstyle=bottom,subticks=5]{->}(0,0)(2,2)(-1,-1)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \begin{pspicture}(-1,-1)(2,2)
 \psaxes[tickstyle=top,subticks=5]{->}(0,0)(-1,-1)(2,2)
 \end{pspicture}\\[0.5cm]
@@ -292,7 +295,7 @@ some completness.
 \begin{pspicture}(-1,-1)(2,2)
 \psaxes[tickstyle=top,subticks=5]{->}(0,0)(2,2)(-1,-1)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 The \verb+tickstyle+ option changes the position of the labels by default.
@@ -310,30 +313,30 @@ ticks=all|x|y|none
 This option is also already in the \verb+pst-plot+ package and only mentioned here for
 some completness.
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \psset{ticksize=6pt}
 \begin{pspicture}(-1,-1)(2,2)
 \psaxes[ticks=all,subticks=5]{->}(0,0)(-1,-1)(2,2)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \begin{pspicture}(-1,-1)(2,2)
 \psaxes[ticks=y,subticks=5]{->}(0,0)(-1,-1)(2,2)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \begin{pspicture}(-1,-1)(2,2)
 \psaxes[ticks=x,subticks=5]{->}(0,0)(2,2)(-1,-1)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \begin{pspicture}(-1,-1)(2,2)
 \psaxes[ticks=none,subticks=5]{->}(0,0)(2,2)(-1,-1)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 %--------------------------------------------------------------------------------------
@@ -347,31 +350,65 @@ labels=all|x|y|none
 This option is also already in the \verb+pst-plot+ package and only mentioned here for
 some completness.
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \psset{ticksize=6pt}
 \begin{pspicture}(-1,-1)(2,2)
 \psaxes[labels=all,subticks=5]{->}(0,0)(-1,-1)(2,2)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \begin{pspicture}(-1,-1)(2,2)
 \psaxes[labels=y,subticks=5]{->}(0,0)(-1,-1)(2,2)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \begin{pspicture}(-1,-1)(2,2)
 \psaxes[labels=x,subticks=5]{->}(0,0)(2,2)(-1,-1)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \begin{pspicture}(-1,-1)(2,2)
 \psaxes[labels=none,subticks=5]{->}(0,0)(2,2)(-1,-1)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
+
+%--------------------------------------------------------------------------------------
+\subsection{Axis with trigonmetrical units}
+%--------------------------------------------------------------------------------------
+With the option \verb+trigLabels=true+ the labels on the x axis are trigonometrical ones:
+
+\medskip
+\begin{showexample}[pos=a]
+\begin{pspicture}(-0.5,-1.25)(10,1.25)
+  \psplot[linecolor=red,linewidth=1.5pt]%
+     {0}{9.424777961}{x 180 mul 3.141592654 div sin}
+  \psaxes[xunit=1.570796327,showorigin=false,trigLabels]{->}(0,0)(-0.5,-1.25)(6.4,1.25)
+\end{pspicture}
+\end{showexample}
+
+With the value of \verb+xunit+ one can change the labels.
+
+\medskip
+\begin{showexample}[pos=a]
+\begin{pspicture}(-0.5,-1.25)(10,1.25)
+  \psplot[linecolor=red,linewidth=1.5pt]%
+     {0}{9.424777961}{x 180 mul 3.141592654 div sin}
+  \psaxes[xunit=0.7853981635,showorigin=false,trigLabels]{->}(0,0)(-1,-1.25)(12.8,1.25)
+\end{pspicture}
+\end{showexample}
+
+\medskip
+\begin{showexample}[pos=a]
+\begin{pspicture}(-0.5,-1.25)(10,1.25)
+  \psplot[linecolor=red,linewidth=1.5pt]%
+     {0}{9.424777961}{x 180 mul 3.141592654 div sin}
+  \psaxes[xunit=0.7853981635,showorigin=false,trigLabels,Dx=2]{->}(0,0)(-1,-1.25)(12.8,1.25)
+\end{pspicture}
+\end{showexample}
 
 %--------------------------------------------------------------------------------------
 \subsection{\texttt{ticksize}, \texttt{xticksize}, \texttt{yticksize}}
@@ -389,28 +426,28 @@ yticksize=value[unit] value[unit]
 
 \verb+ticksize+ sets both values.
 
-\begin{example}[width=6cm]
+\begin{showexample}[width=6cm]
 \psset{arrowscale=3}
 \begin{pspicture}(-1.5,-1.5)(4,3.5)
   \psaxes[ticksize=0.5cm]{->}(0,0)(-1.5,-1.5)(4,3.5)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=6cm]
+\begin{showexample}[width=6cm]
 \psset{arrowscale=3}
 \begin{pspicture}(-1.5,-1.5)(4,3.5)
   \psaxes[xticksize=-10pt 0,yticksize=0 10pt]{->}(0,0)(-1.5,-1.5)(4,3.5)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 A grid is also possible by setting the values to the max/min coordinates.
 
-\begin{example}[width=6cm]
+\begin{showexample}[width=6cm]
 \psset{arrowscale=3}
 \begin{pspicture}(-.5,-.5)(5,4.5)
   \psaxes[ticklinestyle=dashed,ticksize=0 4cm]{->}(0,0)(-.5,-.5)(5,4.5)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 %--------------------------------------------------------------------------------------
 \subsection{\texttt{subticks}}
@@ -422,30 +459,30 @@ subticks=<number>
 
 By default subticks cannot have labels.
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \psset{ticksize=6pt}
 \begin{pspicture}(-1,-1)(2,2)
 \psaxes[ticks=all,subticks=5]{->}(0,0)(-1,-1)(2,2)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \begin{pspicture}(-1,-1)(2,2)
 \psaxes[ticks=y,subticks=5]{->}(0,0)(-1,-1)(2,2)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \begin{pspicture}(-1,-1)(2,2)
 \psaxes[ticks=x,subticks=5]{->}(0,0)(2,2)(-1,-1)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \begin{pspicture}(-1,-1)(2,2)
 \psaxes[ticks=none,subticks=5]{->}(0,0)(2,2)(-1,-1)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 %--------------------------------------------------------------------------------------
@@ -462,14 +499,14 @@ ysubticksize=value
 \verb+subticksize+ sets both values, which are relative to the ticksize length and 
 can have any number. 1 sets it to the same length as the main ticks.
 
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \psset{yunit=1.5cm,xunit=3cm}
 \begin{pspicture}(-1.25,-4.5)(3.25,.75)
   \psaxes[xticksize=-4 0.5,ticklinestyle=dashed,subticks=5,xsubticksize=1,%
      ysubticksize=0.75,xsubticklinestyle=dotted,xsubtickwidth=1pt,
      subtickcolor=gray]{->}(0,0)(-1,-4)(3.25,0.5)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 %--------------------------------------------------------------------------------------
 \subsection{\texttt{tickcolor}, \texttt{subtickcolor}}
@@ -486,23 +523,23 @@ ysubtickcolor=<color>
 
 \verb+tickcolor+ and \verb+subtickcolor+ set both for the x- and the y-Axis.
 
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \begin{pspicture}(0,-0.75)(10,1)
 \psaxes[xLabel=\footnotesize,labelsep=2pt,yAxis=false,%
   labelsep=-10pt,ticksize=0 10mm,subticks=10,subticksize=0.75,%
   tickcolor=red,subtickcolor=blue,tickwidth=1pt,%
   subtickwidth=0.5pt](10.01,0)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=5cm]
+\begin{showexample}[width=5cm]
 \begin{pspicture}(5,-0.75)(10,1)
 \psaxes[xLabel=\footnotesize,labelsep=2pt,yAxis=false,%
   labelsep=5pt,ticksize=0 -10mm,subticks=10,subticksize=0.75,%
   tickcolor=red,subtickcolor=blue,tickwidth=1pt,%
   subtickwidth=0.5pt,Ox=5](5,0)(5,0)(10.01,0)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 %--------------------------------------------------------------------------------------
 \subsection{\texttt{ticklinestyle} and \texttt{subticklinestyle}}
@@ -521,7 +558,7 @@ ysubticklinestyle=solid|dashed|dotted|none
 value \verb+none+ doesn't really makes sense, because it is the same to 
 \verb+[sub]ticklines=0+
 
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \psset{unit=4cm}
 \pspicture(-0.15,-0.15)(2.5,1)
   \psaxes[axesstyle=frame,logLines=y,xticksize=0 1,xsubticksize=1,%
@@ -529,7 +566,7 @@ value \verb+none+ doesn't really makes sense, because it is the same to
     subticks=20,xsubticks=10,xticklinestyle=dashed,%
     xsubticklinestyle=dashed](2.5,1)
 \endpspicture
-\end{example}
+\end{showexample}
 
 
 %--------------------------------------------------------------------------------------
@@ -540,28 +577,28 @@ Syntax:
 loglines=all|x|y
 \end{verbatim}
 
-\begin{example}[width=5.5cm]
+\begin{showexample}[width=5.5cm]
 \pspicture(0,-1)(5,5)
    \psaxes[subticks=5,axesstyle=frame,xylogBase=10,logLines=all](5,5)
 \endpspicture
-\end{example}
+\end{showexample}
 
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \psset{unit=4cm}
 \pspicture(-0.15,-0.15)(2.5,3)
   \psaxes[axesstyle=frame,logLines=y,xticksize=0 3,xsubticksize=1,%
     ylogBase=10,tickcolor=red,subtickcolor=blue,tickwidth=1pt,%
     subticks=20,xsubticks=10](2.5,3)
 \endpspicture
-\end{example}
+\end{showexample}
 
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \psset{unit=4}
 \pspicture(0,-0.3)(3,1.2)
    \psaxes[axesstyle=frame,logLines=x,xlogBase=10,Dy=0.5,%
      tickcolor=red,subtickcolor=blue,tickwidth=1pt,ysubticks=5,xsubticks=10](3,1)
 \endpspicture
-\end{example}
+\end{showexample}
 
 %--------------------------------------------------------------------------------------
 \subsection{\texttt{xylogBase}, \texttt{xlogBase} and \texttt{ylogBase}}
@@ -580,7 +617,7 @@ parameters to empty values \verb|Ox={},Oy={}|, in this case \verb|pstricks-add| 
 This mode is in math also called double logarithm. It is a combination of the two forgoing modes and the function is now $y=\log x$ and is shown in the following example.
 
 \medskip
-\begin{example}[width=7cm]
+\begin{showexample}[width=7cm]
 \begin{pspicture}(-3.5,-3.5)(3.5,3.5)
   \psplot[linewidth=2pt,linecolor=red]{0.001}{3}{x log}
   \psaxes[xylogBase=10,Oy=-3]{->}(-3,-3)(3.5,3.5)
@@ -588,7 +625,7 @@ This mode is in math also called double logarithm. It is a combination of the tw
   \uput[180](-3,3.5){y}
   \rput(2.5,1){$y=\log x$}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 
@@ -601,7 +638,7 @@ The values for the \texttt{psaxes} y-coordinate are now the exponents to the bas
 with an drawing intervall of $1.001\ldots 6$.
 
 \medskip
-\begin{example}[width=7cm]
+\begin{showexample}[width=7cm]
 \begin{pspicture}(-0.5,-3.5)(6.5,1.5)
   \psaxes[ylogBase=10]{->}(0,-3)(6.5,1.5)
   \uput[-90](6.5,-3){x}
@@ -610,10 +647,10 @@ with an drawing intervall of $1.001\ldots 6$.
   \psplot[linewidth=2pt,%
   plotpoints=100,linecolor=red]{1.001}{6}{x log log} % log(x)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 \medskip
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \begin{pspicture}(-0.5,-3.5)(6.5,1.5)
   \psplot[linewidth=2pt,plotpoints=100,linecolor=red]%
     {1.04}{6}{/ln {log 0.4343 div} def x ln ln} % log(x)
@@ -622,50 +659,50 @@ with an drawing intervall of $1.001\ldots 6$.
   \uput[0](0,1.5){y}
   \rput(5,1){$y=\ln x$}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 
 \medskip
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
   \begin{pspicture}(-0.5,1.5)(6.5,4.5)
     \psaxes[ylogBase=10,Oy=2]{->}(0,2)(0,2)(6.5,4.5)
   \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 
 \medskip
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
   \begin{pspicture}(-0.5,-0.5)(6.5,4.5)
     \psplot{0}{6}{x x cos add log}                       % x   + cox(x)
     \psplot[linecolor=red]{0}{6}{x 3 exp x cos add log}  % x^3 + cos(x)
     \psplot[linecolor=cyan]{0}{6}{x 5 exp x cos add log} % x^5 + cos(x)
     \psaxes[ylogBase=10]{->}(6.5,4.5)
   \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 
 \medskip
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \begin{pspicture}(-0.5,-1.5)(6.5,4.5)
   \psplot{0}{6}{x x cos add log}                       % x   + cox(x)
   \psplot[linecolor=red]{0}{6}{x 3 exp x cos add log}  % x^3 + cos(x)
   \psplot[linecolor=cyan]{0}{6}{x 5 exp x cos add log} % x^5 + cos(x)
   \psaxes[ylogBase=10]{->}(0,-1)(0,-1)(6.5,4.5)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 
 \medskip
-\begin{example}[width=4cm]
+\begin{showexample}[width=4cm]
 \begin{pspicture}(2.5,1.75)(6.5,4.5)
   \psplot[linecolor=cyan]{3}{6}{x 5 exp x cos add log} % x^5 + cos(x)
   \psaxes[ylogBase=10,Ox=3,Oy=2]{->}(3,2)(3,2)(6.5,4.5)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 
@@ -676,7 +713,7 @@ with an drawing intervall of $1.001\ldots 6$.
 Now we have to use the easy math function $y=x$ because the x axis is still $\log x$.
 
 \medskip
-\begin{example}[width=7cm]
+\begin{showexample}[width=7cm]
 \begin{pspicture}(-3.5,-3.5)(3.5,3.5)
   \psplot[linewidth=2pt,linecolor=red]{-3}{3}{x} % log(x)
   \psplot[linewidth=2pt,linecolor=blue]{-1.3}{1.5}{x 0.4343 div} % ln(x)
@@ -686,10 +723,10 @@ Now we have to use the easy math function $y=x$ because the x axis is still $\lo
   \rput(2.5,1){$y=\log x$}
   \rput[lb](0,-1){$y=\ln x$}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \psset{yunit=3cm,xunit=2cm}
 \begin{pspicture}(-1.25,-1.25)(4.25,1.5)
   \uput[-90](4.25,-1){x}
@@ -698,25 +735,25 @@ Now we have to use the easy math function $y=x$ because the x axis is still $\lo
   \psplot[linewidth=2pt,plotpoints=5000,linecolor=red]{-1}{3.5}{10 x exp sin }
   \psaxes[xlogBase=10,Oy=-1]{->}(-1,-1)(4.25,1.25)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \begin{pspicture}(-3.5,-2.75)(3.5,2.5)
   \psaxes[xlogBase=10]{->}(0,0)(-3.5,-2.5)(3.5,2.5)
   \psplot{-2.5}{2.5}{10 x exp log}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 
 \medskip
-\begin{example}[width=7cm]
+\begin{showexample}[width=7cm]
 \begin{pspicture}(-3.5,-2.75)(3.5,2.5)
   \psaxes[xlogBase=10,Ox={},Oy={}]{->}(0,0)(-3.5,-2.5)(3.5,2.5)
   \psplot{-2.5}{2.5}{10 x exp log}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 %------------------------------------------------------------------------------------
@@ -725,7 +762,7 @@ Now we have to use the easy math function $y=x$ because the x axis is still $\lo
 This is only a demonstration that the default option \verb|logBase={}| still works ... :-)
 
 \medskip
-\begin{example}[width=7cm]
+\begin{showexample}[width=7cm]
 \begin{pspicture}(-3.5,-0.5)(3.5,2.5)
   \psplot[linewidth=2pt,linecolor=red,xylogBase={}]{0.5}{3}{x log} % log(x)
   \psaxes{->}(0,0)(-3.5,0)(3.5,2.5)
@@ -733,7 +770,7 @@ This is only a demonstration that the default option \verb|logBase={}| still wor
   \uput[180](0,2.5){y}
   \rput(2.5,1){$y=\log x$}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 
@@ -802,85 +839,85 @@ This is only a demonstration that the default option \verb|logBase={}| still wor
      ticksize=10pt,subtickcolor=blue,subticksize=0.75]{->}(0,0)(5,5)(-5,-5)
 \end{lstlisting}
    
-\begin{example}[width=5.5cm]
+\begin{showexample}[width=5.5cm]
 \pspicture(5,5.5)
 \psaxes[subticks=4,ticksize=6pt,subticksize=0.5,%
    tickcolor=red,subtickcolor=blue]{->}(5.4,5)
 \endpspicture
-\end{example}
+\end{showexample}
 
-\begin{example}[width=5.5cm]
+\begin{showexample}[width=5.5cm]
 \pspicture(5,5.5)
    \psaxes[subticks=5,ticksize=6pt,subticksize=0.5,tickstyle=top]{->}(5.4,5)
 \endpspicture
-\end{example}
+\end{showexample}
 
-\begin{example}[width=5.5cm]
+\begin{showexample}[width=5.5cm]
 \pspicture(5,5.5)
    \psaxes[subticks=5,ticksize=6pt,subticksize=0.5,tickstyle=bottom]{->}(5.4,5)
 \endpspicture
-\end{example}
+\end{showexample}
 
-\begin{example}[width=6.5cm]
+\begin{showexample}[width=6.5cm]
 \pspicture(-3,-3)(3,3.5)
    \psaxes[subticks=5,ticksize=6pt,subticksize=0.5,tickstyle=top]{->}(0,0)(3,3)(-3,-3)
 \endpspicture
-\end{example}
+\end{showexample}
 
-\begin{example}[width=6.5cm]
+\begin{showexample}[width=6.5cm]
 \pspicture(0,0.5)(-3,-3)
    \psaxes[subticks=5,ticksize=6pt,subticksize=0.5,%
       tickstyle=bottom,linecolor=red]{->}(-3,-3)
 \endpspicture
-\end{example}
+\end{showexample}
 
 
 
-\begin{example}[width=5.5cm]
+\begin{showexample}[width=5.5cm]
 \psset{axesstyle=frame}
 \pspicture(5,5.5)
    \psaxes[subticks=4,tickcolor=red,subtickcolor=blue](5,5)
 \endpspicture
-\end{example}
+\end{showexample}
 
 \vspace{1cm}
-\begin{example}[width=5.5cm]
+\begin{showexample}[width=5.5cm]
 \pspicture(5,5.5)
    \psaxes[subticks=5,subticksize=1,subtickcolor=lightgray](5,5)
 \endpspicture
-\end{example}
+\end{showexample}
 
-\begin{example}[width=5.5cm]
+\begin{showexample}[width=5.5cm]
 \pspicture(5,5.5)
    \psaxes[subticks=2,subticksize=1,subtickcolor=lightgray](5,5)
 \endpspicture
-\end{example}
+\end{showexample}
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \pspicture(3,4.5)
    \psaxes[subticks=5,ticksize=-7pt 0](3,4)
 \endpspicture
-\end{example}
+\end{showexample}
 
 
-\begin{example}[width=3.75cm]
+\begin{showexample}[width=3.75cm]
 \pspicture(0,1)(-3,-4)
    \psaxes[subticks=5](-3,-4)
 \endpspicture
-\end{example}
+\end{showexample}
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \pspicture(3,4.5)
    \psaxes[axesstyle=axes,subticks=5](3,4)
 \endpspicture
-\end{example}
+\end{showexample}
 
-\begin{example}[width=4cm]
+\begin{showexample}[width=4cm]
 \pspicture(0,1)(-3,-4)
   \psaxes[axesstyle=axes,subticks=5,%
     ticksize=0 10pt,labelsep=13pt](-3,-4)
 \endpspicture
-\end{example}
+\end{showexample}
 
 
 %--------------------------------------------------------------------------------------
@@ -891,7 +928,7 @@ as ${<number>\cdot 10^{<exp>}}$. These new options allow to define the additiona
 of the value.
 
 \resetPSTPlotOptions
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \readdata{\data}{demo1.dat}
 \pstScalePoints(1,0.000001){}{}% (x,y){additional x operator}{y op}
 \psset{llx=-1cm,lly=-1cm}
@@ -899,7 +936,7 @@ of the value.
    \listplot[linecolor=red, linewidth=2pt, showpoints=true]{\data}
 \endpsgraph
 \pstScalePoints(1,1){}{}% reset
-\end{example}
+\end{showexample}
 
 
 %--------------------------------------------------------------------------------------
@@ -941,7 +978,7 @@ value of \verb+0.25cm+, which is the total width.
 28 0.11 
 }
 
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \psset{xunit=.44cm,yunit=.3cm}
 \begin{pspicture}(-2,-1.75)(29,13)
   \psaxes[axesstyle=axes,Ox=1466,Oy=0,Dx=4,Dy=2,%
@@ -950,9 +987,9 @@ value of \verb+0.25cm+, which is the total width.
      fillcolor=red,fillstyle=solid]{\barData}
   \rput{90}(-3,6.25){Amount}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \psset{xunit=.44cm,yunit=.3cm}
 \begin{pspicture}(-2,-1.75)(29,13)
   \psaxes[axesstyle=axes,Ox=1466,Oy=0,Dx=4,Dy=2,%
@@ -961,9 +998,9 @@ value of \verb+0.25cm+, which is the total width.
      fillcolor=red,fillstyle=crosshatch]{\barData}
   \rput{90}(-3,6.25){Amount}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \psset{xunit=.44cm,yunit=.3cm}
 \begin{pspicture}(-2,-1.75)(29,13)
   \psaxes[axesstyle=axes,Ox=1466,Oy=0,Dx=4,Dy=2,%
@@ -973,7 +1010,7 @@ value of \verb+0.25cm+, which is the total width.
   \listplot[showpoints=true]{\barData}
   \rput{90}(-3,6.25){Amount}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 
@@ -1039,7 +1076,7 @@ both values.
 
 The datafile \verb|data.dat| contains $1000$ data records. The thin blue line is the plot
 of all records with the plotstyle option \verb|curve|.
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \readdata{\data}{examples/data.dat}
 \psset{xunit=0.125mm,yunit=0.00015mm}
 \begin{pspicture}(-80,-30000)(1000,310000)
@@ -1047,39 +1084,39 @@ of all records with the plotstyle option \verb|curve|.
 \listplot[nStep=50,linewidth=3pt,linecolor=red,plotstyle=dots]{\data}
 \listplot[linewidth=1pt,linecolor=blue]{\data}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 
 %--------------------------------------------------------------------------------------
 \subsection{Example for \texttt{nStart/xStart}}
 %--------------------------------------------------------------------------------------
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \readdata{\data}{examples/data.dat}
 \psset{xunit=0.125mm,yunit=0.00015mm}
 \begin{pspicture}(-80,-30000)(1000,310000)
 \psaxes[axesstyle=frame,Dx=100,dx=100,Dy=50000,dy=50000](1000,300000)
 \listplot[nStart=200,linewidth=3pt,linecolor=blue]{\data}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 %--------------------------------------------------------------------------------------
 \subsection{Example for \texttt{nEnd/xEnd}}
 %--------------------------------------------------------------------------------------
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \readdata{\data}{examples/data.dat}
 \psset{xunit=0.125mm,yunit=0.00015mm}
 \begin{pspicture}(-80,-30000)(1000,310000)
 \psaxes[axesstyle=frame,Dx=100,dx=100,Dy=50000,dy=50000](1000,300000)
 \listplot[nEnd=800,linewidth=3pt,linecolor=blue]{\data}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 %--------------------------------------------------------------------------------------
 \subsection{Example for all new options}
 %--------------------------------------------------------------------------------------
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \readdata{\data}{examples/data.dat}
 \psset{xunit=0.125mm,yunit=0.00015mm}
 \begin{pspicture}(-80,-30000)(1000,310000)
@@ -1087,7 +1124,7 @@ of all records with the plotstyle option \verb|curve|.
 \listplot[nStart=200, nEnd=800, nStep=50,linewidth=3pt,linecolor=blue,%
 	plotstyle=dots]{\data}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 %--------------------------------------------------------------------------------------
@@ -1100,7 +1137,7 @@ To show the important part of the curve there is another one plotted with a
 greater \verb|yunit| and a start value of \verb|xStart=0.35|. This makes it
 possible to have a kind of a zoom to the original graphic.
 
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \psset{xunit=10cm, yunit=0.01cm,xLabel={\scriptsize\sffamily},yLabel={\scriptsize\sffamily}}
 \readdata{\data}{examples/data3.dat}
 \begin{pspicture}(-0.1,-100)(1.5,700.0)
@@ -1122,7 +1159,7 @@ possible to have a kind of a zoom to the original graphic.
   \psline[linewidth=.01]{->}(0.78,200)(1,100)
   \rput[l](1.02,100){\footnotesize\sffamily closing volume}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 
@@ -1130,7 +1167,7 @@ possible to have a kind of a zoom to the original graphic.
 \subsection{Example for \texttt{yStart}/\texttt{yEnd}}
 %--------------------------------------------------------------------------------------
 
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \readdata{\data}{examples/data.dat}
 \psset{xunit=0.125mm,yunit=0.00015mm}
 \begin{pspicture}(-80,-30000)(1000,310000)
@@ -1140,7 +1177,7 @@ possible to have a kind of a zoom to the original graphic.
   \psline(0,175000)(1000,175000)
   \listplot[yStart=40000, yEnd=175000,linewidth=3pt,linecolor=blue,plotstyle=dots]{\data}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 
@@ -1181,7 +1218,7 @@ We have the following data file:
 \noindent which holds data records for multiple plots (\verb+x y1 y2 y3+). This can be plotted
 without any modification to the data file:
 
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \readdata\Data{examples/dataMul.dat}
 \psset{xunit=0.1cm, yunit=0.3cm}
 \begin{pspicture}(0,-7.5)(150,10)
@@ -1191,7 +1228,7 @@ without any modification to the data file:
 \listplot[linecolor=red,plotNo=2,plotNoMax=3]{\Data}
 \listplot[linecolor=blue,plotNo=3,plotNoMax=3]{\Data}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 
@@ -1213,7 +1250,7 @@ x sin dup mul x cos dup mul add sqrt
 \end{verbatim}
 
 \medskip
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \resetPSTPlotOptions
 \psset{plotpoints=200,unit=0.75}
 \begin{pspicture}*(-5,-5)(3,3)
@@ -1228,11 +1265,11 @@ x sin dup mul x cos dup mul add sqrt
   \psplot[linecolor=cyan]{140}{310}{6 neg x sin mul x cos mul x sin 3 exp x cos 3 exp add div}
   \psplot[linecolor=blue]{140}{310}{9 neg x sin mul x cos mul x sin 3 exp x cos 3 exp add div}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 \medskip
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \resetPSTPlotOptions
 \psset{plotpoints=200,unit=1}
 \begin{pspicture}(-2.5,-2.5)(2.5,2.5)% Ulrich Dirr
@@ -1246,12 +1283,12 @@ x sin dup mul x cos dup mul add sqrt
   \psplot[linecolor=green]{0}{360}{x cos 3 mul x sin mul}
   \psplot[linecolor=blue]{0}{360}{x cos 4 mul x sin mul}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 
 \medskip
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \psset{plotpoints=200,unit=0.5}
 \begin{pspicture}(-8.5,-8.5)(9,9)% Ulrich Dirr 
 \psaxes[Dx=2,dx=2,Dy=2,dy=2,labelsep=.75mm,xyLabel=\footnotesize,%
@@ -1263,7 +1300,7 @@ x sin dup mul x cos dup mul add sqrt
 \psset{linewidth=.35mm,plotstyle=curve,polarplot=true}
 \psplot[linecolor=blue]{0}{720}{8 2.5 x mul sin mul}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 
@@ -1286,7 +1323,7 @@ are additional PostScript code to the x- and y-values of the data records. This 
 is only valid for the \CMD{listplot} macro! 
 
 \resetPSTPlotOptions
-\begin{example}[width=6cm]
+\begin{showexample}[width=6cm]
 \def\data{0 0
 1 3
 2 4
@@ -1300,7 +1337,7 @@ is only valid for the \CMD{listplot} macro!
 \pstScalePoints(1,0.5){}{3 add}
 \listplot[showpoints=true,linecolor=blue]{\data}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 \bigskip
 
@@ -1334,7 +1371,7 @@ the data values can be scaled (by the macro \verb+\pstSclaePoints+) to get value
 which causes no division error.
 
 
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \readdata{\data}{demo1.dat}
 \pstScalePoints(1,0.000001){}{}% (x,y){additional x operator}{y op}
 \psset{llx=-0.5cm,lly=-1cm}
@@ -1343,10 +1380,10 @@ which causes no division error.
     Dx=5,dy=100\psyunit,Dy=100](0,0)(25,750){12cm}{9cm}         % parameters
    \listplot[linecolor=red, linewidth=2pt, showpoints=true]{\data}
 \endpsgraph
-\end{example}
+\end{showexample}
 
 
-\begin{example}[width=7cm]
+\begin{showexample}[width=7cm]
 \readdata{\data}{demo1.dat}
 \psset{xAxisLabel=x-Axes,yAxisLabel=y-Axes,llx=-1cm,%
    xAxisLabelPos={3cm,-1cm},yAxisLabelPos={-1.5cm,2.5cm}}
@@ -1355,10 +1392,10 @@ which causes no division error.
      ylabelFactor={\cdot 10^8},Dx=5,Dy=1,xsubticks=2](0,0)(25,7.5){5.5cm}{5cm}
   \listplot[linecolor=red, linewidth=2pt, showpoints=true]{\data}
 \end{psgraph}
-\end{example}
+\end{showexample}
 
 
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \readdata{\data}{demo1.dat}
 \psset{llx=-0.5cm,lly=-1cm}
 \pstScalePoints(1,0.000001){}{}
@@ -1367,38 +1404,38 @@ which causes no division error.
     subtickwidth=0.1pt](0,0)(25,750){5.5cm}{5cm}
 \listplot[linecolor=red,linewidth=2pt,showpoints=true,]{\data}
 \endpsgraph
-\end{example}
+\end{showexample}
 
 
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \pstScalePoints(1,0.2){}{log}
 \psset{lly=-0.75cm}
 \psgraph[ylogBase=10,Dx=5,Dy=1,subticks=5](0,0)(25,2){12cm}{4cm}
   \listplot[linecolor=red, linewidth=2pt, showpoints=true]{\data}
 \endpsgraph
-\end{example}
+\end{showexample}
 
 
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \readdata{\data}{demo0.dat}
 \pstScalePoints(1,1){}{log}
 \begin{psgraph}[arrows=->,Dx=0.5,ylogBase=10,Oy=-1,xsubticks=10,%
      ysubticks=2](0,-3)(3,1){12cm}{4cm}
   \listplot[linecolor=red, linewidth=2pt, showpoints=true]{\data}
 \end{psgraph}
-\end{example}
+\end{showexample}
 
 
-\begin{example}[width=6.5cm]
+\begin{showexample}[width=6.5cm]
 \readdata{\data}{demo0.dat}
 \pstScalePoints(1,1){}{log}
 \psgraph[arrows=->,Dx=0.5,ylogBase=10,Oy=-1,subticks=4](0,-3)(3,1){6cm}{3cm}
   \listplot[linecolor=red, linewidth=2pt, showpoints=true]{\data}
 \endpsgraph
-\end{example}
+\end{showexample}
 
 
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \readdata{\data}{demo2.dat}%
 \readdata{\dataII}{demo3.dat}%
 \pstScalePoints(1,1){1989 sub}{}
@@ -1409,9 +1446,9 @@ which causes no division error.
   \listplot[linecolor=blue,linewidth=2pt]{\dataII}
   \listplot[linecolor=cyan,linewidth=2pt,yunit=0.5]{\dataII}
 \endpsgraph
-\end{example}
+\end{showexample}
 
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \psset{llx=-0.5cm,lly=-0.75cm}
 \pstScalePoints(1,1){1989 sub}{2 sub}
 \begin{psgraph}[axesstyle=frame,Dx=2,Ox=1989,Oy=2,subticks=2](0,0)(12,4){6in}{3in}%
@@ -1419,18 +1456,18 @@ which causes no division error.
   \listplot[linecolor=blue,linewidth=2pt]{\dataII}
   \listplot[linecolor=cyan,linewidth=2pt,yunit=0.5]{\dataII}
 \end{psgraph}
-\end{example}
+\end{showexample}
 
 %\newpage
 An example with ticks on every side of the frame:
 
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \def\data{0 0 1 1 2 4 3 9}
 \begin{psgraph}[axesstyle=frame,tickstyle=top](0,-0.5)(3.0,9.0){12cm}{5cm}
   \psaxes[axesstyle=frame,labels=none,tickstyle=bottom](3,9)(0,0)(3,9)
   \listplot[linecolor=red,linewidth=2pt]{\data}
 \end{psgraph}
-\end{example}
+\end{showexample}
 
 
 %-------------------------------------------------------------------------------------------
@@ -1458,7 +1495,7 @@ as parameters of \verb+psgraph+ itself.
 \medskip
 \resetPSTPlotOptions
 
-\begin{example}[pos=a,wide=false]
+\begin{showexample}[pos=a,wide=false]
 \psset{llx=-1cm,lly=-1.25cm,urx=0.5cm,ury=0.1in,xAxisLabel=Year,%
    yAxisLabel=Whatever,xAxisLabelPos={.4\linewidth,-0.4in},%
    yAxisLabelPos={-0.4in,2in}}
@@ -1470,7 +1507,7 @@ as parameters of \verb+psgraph+ itself.
   \listplot[linecolor=cyan,linewidth=2pt,yunit=0.5]{\dataII}%
 \end{psgraph}%
 }
-\end{example}
+\end{showexample}
 \pstScalePoints(1,1){}{}% reset
 
 

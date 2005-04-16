@@ -19,7 +19,7 @@
 \ifx\PSTXKeyLoaded\endinput\else\input pst-xkey \fi
 %
 \def\fileversion{2.00}
-\def\filedate{2004/11/23}
+\def\filedate{2005/03/14}
 \message{ v\fileversion, \filedate}
 \message{`pst-plot2' v\fileversion, \filedate\space (tvz,hv)}
 %
@@ -50,9 +50,9 @@
 \define@key[psset]{pst-plot}{xLabel}{\def\psk@xLabel{#1}}
 \define@key[psset]{pst-plot}{yLabel}{\def\psk@yLabel{#1}}
 %
-\define@key[psset]{pst-plot}{xlogBase}{\edef\psk@xlogBase{#1}}
-\define@key[psset]{pst-plot}{ylogBase}{\edef\psk@ylogBase{#1}}
-\define@key[psset]{pst-plot}{xylogBase}{\edef\psk@xlogBase{#1}\edef\psk@ylogBase{#1}}%
+\define@key[psset]{pst-plot}{xlogBase}{\def\psk@xlogBase{#1}}
+\define@key[psset]{pst-plot}{ylogBase}{\def\psk@ylogBase{#1}}
+\define@key[psset]{pst-plot}{xylogBase}{\def\psk@xlogBase{#1}\def\psk@ylogBase{#1}}%
 %
 %logLines=all|x|y|none  (0,1,2,3)
 \define@key[psset]{pst-plot}{logLines}{\pst@expandafter\logLines@ii{#1}\@nil\psk@logLines}
@@ -64,8 +64,34 @@
           \@pstrickserr{Bad argument: `#1#2'}\@ehpa
   \fi\fi\fi\fi}
 %
-\define@key[psset]{pst-plot}{ylabelFactor}{\edef\psk@ylabelFactor{#1}}
-\define@key[psset]{pst-plot}{xlabelFactor}{\edef\psk@xlabelFactor{#1}}
+\define@key[psset]{pst-plot}{ylabelFactor}{\def\psk@ylabelFactor{#1}}
+\define@key[psset]{pst-plot}{xlabelFactor}{\def\psk@xlabelFactor{#1}}
+%
+\newif\ifPst@trigLabels
+\define@key[psset]{pst-plot}{trigLabels}[true]{%
+  \@nameuse{Pst@trigLabels#1}%
+  \ifPst@trigLabels
+    \def\pst@@@hlabel##1{\pshlabel{##1}}
+    \def\pshlabel##1{$%
+      \pst@mod{##1}{2}\pst@cnta%                   0 oder 1
+      \ifnum1>\pst@cnta\relax%                    ungerade?
+        \pst@cntb=##1\divide\pst@cntb by 2       % #1/2
+          \ifnum\pst@cntb>1 \the\pst@cntb\fi\pi % n*pi
+      \else\frac{\ifnum##1>1 ##1\fi\pi}{2}\fi$}%                  n/2*pi
+  \else
+    \def\pst@@@hlabel##1{%
+      \edef\@xyDecimals{\psk@xDecimals}%
+      \ifnum\psk@ticks<\tw@ % ticks=all|x
+        \ifx\psk@xlogBase\@empty
+          \pshlabel{\expandafter\@LabelComma##1..\@nil\psk@xlabelFactor}%
+        \else%
+          \pshlabel{\psk@xlogBase\textsuperscript{\expandafter\@stripDecimals##1..\@nil }}
+        \fi%
+      \fi%
+    }%
+    \def\pshlabel##1{$##1$}%
+  \fi%
+}
 %
 % Using lists of data is optimized for \dataplot and \fileplot
 % Here is the tricky part. As each line is read from file,
@@ -671,14 +697,14 @@ D\space##1%
 %
 \define@key[psset]{pst-plot}{labels}{\pst@expandafter\ticks@i{#1}\@nil\psk@labels}
 %
-\define@key[psset]{pst-plot}{Ox}{\edef\psk@Ox{#1}}
-\define@key[psset]{pst-plot}{Dx}{\edef\psk@Dx{#1}}
+\define@key[psset]{pst-plot}{Ox}{\def\psk@Ox{#1}}
+\define@key[psset]{pst-plot}{Dx}{\def\psk@Dx{#1}}
 \define@key[psset]{pst-plot}{dx}{%
   \pssetxlength\pst@dimg{#1}%
   \edef\psk@dx{\number\pst@dimg}}
 %
-\define@key[psset]{pst-plot}{Oy}{\edef\psk@Oy{#1}}
-\define@key[psset]{pst-plot}{Dy}{\edef\psk@Dy{#1}}
+\define@key[psset]{pst-plot}{Oy}{\def\psk@Oy{#1}}
+\define@key[psset]{pst-plot}{Dy}{\def\psk@Dy{#1}}
 \define@key[psset]{pst-plot}{dy}{%
   \pssetylength\pst@dimg{#1}%
   \edef\psk@dy{\number\pst@dimg}}
@@ -687,7 +713,7 @@ D\space##1%
 \define@key[psset]{pst-plot}{showorigin}{\@nameuse{showorigin#1}}
 %%-------------- hv patch 3 2004-05-23 --------------------------
 % to get axesstyle=dashed run
-\edef\pst@linetype{0}
+\def\pst@linetype{0}
 %%---------------hv end ----------------------------------------
 %
 %% #1 integer
@@ -698,19 +724,6 @@ D\space##1%
   \ifx\dummy\@empty\the\@zero\else#1\fi% the integer part
 }
 %
-\def\pst@@@hlabel#1{%
-  \edef\@xyDecimals{\psk@xDecimals}%
-  \psk@xLabel%
-  \ifnum\psk@ticks<\tw@ % ticks=all|x
-    \ifx\psk@xlogBase\@empty
-      \ifPst@plot@comma\pshlabel{\expandafter\@LabelComma#1..\@nil\psk@xlabelFactor}%
-      \else\pshlabel{#1}%
-      \fi%
-    \else%
-      {\psk@xLabel\pshlabel{\psk@xlogBase\textsuperscript{\expandafter\@stripDecimals#1..\@nil }}}
-    \fi%
-  \fi%
-}
 \def\pst@@@vlabel#1{%
   \edef\@xyDecimals{\psk@yDecimals}%
   \psk@yLabel%
@@ -1325,6 +1338,7 @@ D\space##1%
        xyDecimals={},%
        xyLabel={},
        xylogBase={},
+       trigLabels=false,
        logLines=none,
        xlabelFactor=\relax,ylabelFactor=\relax,
        nStep=1,nStart=0,nEnd={},%
