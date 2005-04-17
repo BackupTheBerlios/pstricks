@@ -77,6 +77,7 @@ xlogBase              & <number> or empty   & \{\}\\
 ylogBase              & <number> or empty   & \{\}\\
 xylogBase             & <number> or empty   & \{\}\\
 logLines              & <none|x|y|all>   & none\\
+ignoreLines           & <number>          & 0\\
 nStep                 & <number>          & 1\\
 nStart                & <number>          & 0\\
 nEnd                  & <number> or empty          & \{\}\\
@@ -1038,27 +1039,62 @@ to plot only a selected part of the data records, e.g. \verb|nStep=10|. These "n
 
 
 \begin{center}
-\begin{tabular}{l|l}
+\begin{tabular}{>{\small\ttfamily}l|l}
 Name & Default setting\\\hline
-\verb|nStart| &  \verb|1|\\
-\verb|nEnd|   &  \verb|{}|\\
-\verb|nStep|  &  \verb|1|\\
-\verb|xStart| &  \verb|{}|\\
-\verb|xEnd|   &  \verb|{}|\\
-\verb|yStart| &  \verb|{}|\\
-\verb|yEnd|   &  \verb|{}|\\
-\verb|xStep|  &  \verb|0|\\
-\verb|plotNo|  &  \verb|1|\\
-\verb|plotNoMax|  &  \verb|1|
+ignoreLines          &  $0$\\
+nStart &  $1$\\
+nEnd   &  \verb|{}|\\
+nStep  &  $1$\\
+xStart &  \verb|{}|\\
+xEnd   &  \verb|{}|\\
+yStart &  \verb|{}|\\
+yEnd   &  \verb|{}|\\
+xStep  &  $0$\\
+plotNo  &  $1$\\
+plotNoMax|  &  $1$
 \end{tabular}
 \end{center}
 
-These new options are only available
+Except the \verb+ignoreLines+ options all new ones are only available
 for the \verb|\listplot| macro, which is not a real limitation, because all data records can be read
 from a file with the \verb|\readdata| macro (see example files or \cite{dtk02.2:jackson.voss:plot-funktionen}):
 \begin{verbatim}
+\readdata[ignoreLines=2]{\data}{/home/voss/data/data1.dat}
 \readdata[nStep=10]{\data}{/home/voss/data/data1.dat}
 \end{verbatim}
+
+
+%--------------------------------------------------------------------------------------
+\subsection{Example for \texttt{ignoreLines}}
+%--------------------------------------------------------------------------------------
+By default the macro \verb|\readdata| reads every
+data record line, which could be annoying when you have some text lines at top of your
+data files or when there are more than 10000 records to read. 
+
+The default value for  \verb+ignoreLines+ is $0$.
+The following data file has two text lines which shall be ignored by the \verb+\readdata+ macro.
+Without the \verb+ignoreLine+ option there will be an error when reading this data file.
+
+\begin{showexample}[width=4cm]
+\begin{filecontents*}{pstricks-add-data9.dat}
+some nonsense in this line äöüÖÜß
+time forcex forcey
+0 0.2
+1 1
+2 4
+\end{filecontents*}
+\readdata[ignoreLines=2]{\data}{pstricks-add-data9.dat}
+\pspicture(2,4)
+  \listplot[showpoints=true]{\data}
+  \psaxes{->}(2,4)
+\endpspicture
+\end{showexample}
+
+
+
+%--------------------------------------------------------------------------------------
+\subsection{Example for \texttt{nStep/xStep}}
+%--------------------------------------------------------------------------------------
 
 The use \verb|nStep| and \verb|xStep| options make only real sense when also using the
 option \verb|plotstyle=dots|. Otherwise the coordinates are connected by a line as usual. Also the \verb|xStep| option needs increasing x values.
@@ -1070,9 +1106,6 @@ is read and plotted.
 When both, \verb|x/yStart/End| are defined then the values are also compared with
 both values.
 
-%--------------------------------------------------------------------------------------
-\subsection{Example for \texttt{nStep/xStep}}
-%--------------------------------------------------------------------------------------
 
 The datafile \verb|data.dat| contains $1000$ data records. The thin blue line is the plot
 of all records with the plotstyle option \verb|curve|.

@@ -128,24 +128,25 @@ D\space##1%
 \let(,\let),\let{,\let},\let ,\let^^M,\let_\@empty*% End def
 \endgroup
 %
-\define@key[psset]{pst-plot}{nStep}{\edef\psk@nStep{#1}}
-\define@key[psset]{pst-plot}{nStart}{\edef\psk@nStart{#1}}
-\define@key[psset]{pst-plot}{nEnd}{\edef\psk@nEnd{#1}}
-\define@key[psset]{pst-plot}{xStep}{\edef\psk@xStep{#1}}
-\define@key[psset]{pst-plot}{yStep}{\edef\psk@yStep{#1}}
+\define@key[psset]{pst-plot}{ignoreLines}{\def\psk@ignoreLines{#1}}
+\define@key[psset]{pst-plot}{nStep}{\def\psk@nStep{#1}}
+\define@key[psset]{pst-plot}{nStart}{\def\psk@nStart{#1}}
+\define@key[psset]{pst-plot}{nEnd}{\def\psk@nEnd{#1}}
+\define@key[psset]{pst-plot}{xStep}{\def\psk@xStep{#1}}
+\define@key[psset]{pst-plot}{yStep}{\def\psk@yStep{#1}}
 %
-\define@key[psset]{pst-plot}{xStart}{\edef\psk@xStart{#1}}
-\define@key[psset]{pst-plot}{xEnd}{\edef\psk@xEnd{#1}}
-\define@key[psset]{pst-plot}{yStart}{\edef\psk@yStart{#1}}
-\define@key[psset]{pst-plot}{yEnd}{\edef\psk@yEnd{#1}}
+\define@key[psset]{pst-plot}{xStart}{\def\psk@xStart{#1}}
+\define@key[psset]{pst-plot}{xEnd}{\def\psk@xEnd{#1}}
+\define@key[psset]{pst-plot}{yStart}{\def\psk@yStart{#1}}
+\define@key[psset]{pst-plot}{yEnd}{\def\psk@yEnd{#1}}
 %
-\define@key[psset]{pst-plot}{plotNo}{\edef\psk@plotNo{#1}}
-\define@key[psset]{pst-plot}{plotNoMax}{\edef\psk@plotNoMax{#1}}
+\define@key[psset]{pst-plot}{plotNo}{\def\psk@plotNo{#1}}
+\define@key[psset]{pst-plot}{plotNoMax}{\def\psk@plotNoMax{#1}}
 %
-\define@key[psset]{pst-plot}{xAxisLabel}{\edef\psk@xAxisLabel{#1}}
-\define@key[psset]{pst-plot}{yAxisLabel}{\edef\psk@yAxisLabel{#1}}
-\define@key[psset]{pst-plot}{xAxisLabelPos}{\edef\psk@xAxisLabelPos{#1}}
-\define@key[psset]{pst-plot}{yAxisLabelPos}{\edef\psk@yAxisLabelPos{#1}}
+\define@key[psset]{pst-plot}{xAxisLabel}{\def\psk@xAxisLabel{#1}}
+\define@key[psset]{pst-plot}{yAxisLabel}{\def\psk@yAxisLabel{#1}}
+\define@key[psset]{pst-plot}{xAxisLabelPos}{\def\psk@xAxisLabelPos{#1}}
+\define@key[psset]{pst-plot}{yAxisLabelPos}{\def\psk@yAxisLabelPos{#1}}
 %
 \newcount\linecnt
 \begingroup
@@ -182,6 +183,12 @@ D\space##1%
     \pst@datadelimiters
     \catcode`\[=1
     \catcode`\]=2
+    \pst@cnta=0
+    \loop \ifnum\the\pst@cnta<\psk@ignoreLines
+      \advance\pst@cnta by 1\relax
+      \read1 to \pst@tempa
+    \repeat
+    \typeout{>>> ignored \the\pst@cnta\space data lines}
     \global\linecnt=\psk@nStep
     \readdata@%
   \fi
@@ -1339,6 +1346,7 @@ D\space##1%
        xyLabel={},
        xylogBase={},
        trigLabels=false,
+       ignoreLines=0,
        logLines=none,
        xlabelFactor=\relax,ylabelFactor=\relax,
        nStep=1,nStart=0,nEnd={},%
