@@ -1282,9 +1282,11 @@ circle with radius 1 as $r=\sqrt{\sin^2x+\cos^2x}$:
 x sin dup mul x cos dup mul add sqrt 
 \end{verbatim}
 
+
+\resetPSTPlotOptions
+
 \medskip
 \begin{showexample}[pos=a]
-\resetPSTPlotOptions
 \psset{plotpoints=200,unit=0.75}
 \begin{pspicture}*(-5,-5)(3,3)
   \psaxes[labelsep=.75mm,xyLabel=\footnotesize,
@@ -1302,8 +1304,8 @@ x sin dup mul x cos dup mul add sqrt
 
 
 \medskip
-\begin{showexample}[pos=a]
 \resetPSTPlotOptions
+\begin{showexample}[pos=a]
 \psset{plotpoints=200,unit=1}
 \begin{pspicture}(-2.5,-2.5)(2.5,2.5)% Ulrich Dirr
  \psaxes[labelsep=.75mm,xyLabel=\footnotesize,%

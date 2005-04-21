@@ -68,7 +68,7 @@
 \define@key[psset]{pst-plot}{xlabelFactor}{\def\psk@xlabelFactor{#1}}
 %
 \newif\ifPst@trigLabels
-\define@key[psset]{pstricks-add}{trigLabels}[true]{%
+\define@key[psset]{pst-plot}{trigLabels}[true]{%
   \@nameuse{Pst@trigLabels#1}%
   \ifPst@trigLabels
     \def\pst@@@hlabel##1{\pshlabel{##1}}
