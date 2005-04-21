@@ -68,16 +68,19 @@
 \define@key[psset]{pst-plot}{xlabelFactor}{\def\psk@xlabelFactor{#1}}
 %
 \newif\ifPst@trigLabels
-\define@key[psset]{pst-plot}{trigLabels}[true]{%
+\define@key[psset]{pstricks-add}{trigLabels}[true]{%
   \@nameuse{Pst@trigLabels#1}%
   \ifPst@trigLabels
     \def\pst@@@hlabel##1{\pshlabel{##1}}
     \def\pshlabel##1{$%
-      \pst@mod{##1}{2}\pst@cnta%                   0 oder 1
-      \ifnum1>\pst@cnta\relax%                    ungerade?
-        \pst@cntb=##1\divide\pst@cntb by 2       % #1/2
-          \ifnum\pst@cntb>1 \the\pst@cntb\fi\pi % n*pi
-      \else\frac{\ifnum##1>1 ##1\fi\pi}{2}\fi$}%                  n/2*pi
+      \def\pst@sign{\ifnum##1<0 -\fi}
+      \typeout{Vorzeichen: \pst@sign}
+      \pst@abs{##1}\pst@cnta
+      \pst@mod{\pst@cnta}{2}\pst@cntc          % pst@cntc-> 0 or 1
+      \ifnum1>\pst@cntc                        % 0: ##1\pi  1: ##1/2 \pi
+        \pst@cntb=\pst@cnta \divide\pst@cntb by 2     % ##1/2
+          \pst@sign\ifnum\pst@cntb>1 \the\pst@cntb\fi\pi % n*pi
+      \else\pst@sign\frac{\ifnum\pst@cnta>1 \the\pst@cnta \fi\pi}{2}\fi$}%                  n/2*pi
   \else
     \def\pst@@@hlabel##1{%
       \edef\@xyDecimals{\psk@xDecimals}%
@@ -88,9 +91,9 @@
           \pshlabel{\psk@xlogBase\textsuperscript{\expandafter\@stripDecimals##1..\@nil }}
         \fi%
       \fi%
-    }%
+    }
     \def\pshlabel##1{$##1$}%
-  \fi%
+  \fi
 }
 %
 % Using lists of data is optimized for \dataplot and \fileplot
