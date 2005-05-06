@@ -22,6 +22,7 @@ packages, that uses the old keyval interface are loaded \textbf{before} the \ver
 
 \end{abstract}
 
+\clearpage
 \tableofcontents
 
 \clearpage
@@ -37,7 +38,7 @@ not compatible to the old versions of \PST!
 
 
 
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \begin{center}
 \textcolor{red}{\rule{5mm}{1pt}}%
 \begin{pspicture}[shift=-0.5](-0.5,-0.5)(0.5,0.5)
@@ -56,10 +57,10 @@ not compatible to the old versions of \PST!
 \end{pspicture}%
 \textcolor{red}{\rule{5mm}{1pt}}
 \end{center}
-\end{example}
+\end{showexample}
 
 
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \textcolor{red}{\rule{5mm}{1pt}}
 \begin{pspicture}[frame=true](-1,-0.5)(1.5,1)
   \psaxes[labels=none]{->}(0,0)(-1,-0.5)(1.5,1)
@@ -74,7 +75,7 @@ not compatible to the old versions of \PST!
   \psaxes[labels=none]{->}(0,0)(-1,-0.5)(1.5,1)
 \end{pspicture}
 \textcolor{red}{\rule{5mm}{1pt}}
-\end{example}
+\end{showexample}
 
 %--------------------------------------------------------------------------------------
 \section{Numeric functions}
@@ -102,12 +103,12 @@ all these new numeric macros are primary for use in combination with the \PST re
 \pst@divide{<dividend>}{<divisor>}{<result as a macro>}
 \end{verbatim}
 
-\begin{example}[width=2cm]
+\begin{showexample}[width=2cm]
 \makeatletter
 \pst@divide{34pt}{6pt}\quotient \quotient\\
 \pst@divide{-6pt}{34pt}\quotient \quotient
 \makeatother
-\end{example}
+\end{showexample}
 
 \noindent this gives the output $5.66666$. The result is not a length!
 
@@ -120,12 +121,12 @@ all these new numeric macros are primary for use in combination with the \PST re
 \pst@mod{<integer>}{<integer>}{<result as a macro>}
 \end{verbatim}
 
-\begin{example}[width=2cm]
+\begin{showexample}[width=2cm]
 \makeatletter
 \pst@mod{34}{6}\modulo \modulo\\
 \pst@mod{25}{-6}\modulo \modulo
 \makeatother
-\end{example}
+\end{showexample}
 
 \noindent this gives the output $4$. Using this internal numeric functions in documents
 requires a setting inside the \verb+makeatletter+ and \verb+makeatother+ environment.
@@ -140,13 +141,13 @@ It makes some sense to define a new macroname in the preamble to use it througho
 \pst@max{<integer>}{<integer>}{<result as count register>}
 \end{verbatim}
 
-\begin{example}[width=2cm]
+\begin{showexample}[width=2cm]
 \newcount\maxNo
 \makeatletter
 \pst@max{-34}{-6}\maxNo \the\maxNo\\
 \pst@max{0}{11}\maxNo \the\maxNo
 \makeatother
-\end{example}
+\end{showexample}
 
 
 %--------------------------------------------------------------------------------------
@@ -157,13 +158,13 @@ It makes some sense to define a new macroname in the preamble to use it througho
 \pst@maxdim{<dimension>}{<dimension>}{<result as dimension register>}
 \end{verbatim}
 
-\begin{example}[width=2cm]
+\begin{showexample}[width=2cm]
 \newdimen\maxDim
 \makeatletter
 \pst@maxdim{34cm}{1234pt}\maxDim \the\maxDim\\
 \pst@maxdim{34cm}{123pt}\maxDim \the\maxDim
 \makeatother
-\end{example}
+\end{showexample}
 
 %--------------------------------------------------------------------------------------
 \subsection{\CMD{pst\textat{}abs}}
@@ -173,13 +174,13 @@ It makes some sense to define a new macroname in the preamble to use it througho
 \pst@abs{<integer>}{<result as a count register>}
 \end{verbatim}
 
-\begin{example}[width=2cm]
+\begin{showexample}[width=2cm]
 \newcount\absNo
 \makeatletter
 \pst@abs{-34}\absNo \the\absNo\\
 \pst@abs{4}\absNo \the\absNo
 \makeatother
-\end{example}
+\end{showexample}
 
 %--------------------------------------------------------------------------------------
 \subsection{\CMD{pst\textat{}absdim}}
@@ -189,13 +190,13 @@ It makes some sense to define a new macroname in the preamble to use it througho
 \pst@absdim{<dimension>}{<result as a dimension register>}
 \end{verbatim}
 
-\begin{example}[width=2cm]
+\begin{showexample}[width=2cm]
 \newdimen\absDim
 \makeatletter
 \pst@absdim{-34cm}\absDim \the\absDim\\
 \pst@absdim{4sp}\absDim \the\absDim
 \makeatother
-\end{example}
+\end{showexample}
 
 
 
@@ -211,7 +212,7 @@ dash=value1[unit] value2[unit] ...
 
 
 \lstset{wide=true}
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \begin{pspicture}(-5,-4)(5,4)
  \psset{linewidth=2.5pt}
  \psgrid[subgriddiv=0,griddots=10,gridlabels=0pt]
@@ -222,7 +223,7 @@ dash=value1[unit] value2[unit] ...
   \psccurve[linestyle=dashed,dash=5mm 2mm 0.1 0.2,linetype=0](0,0)(-2.5,0)(-2.5,-2.5)(0,-2.5)
   \pscurve[dash=3mm 3mm 1mm 1mm,linecolor=red,linewidth=2pt](5,-4)(5,2)(4.5,3.5)(3,4)(-5,4)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 %--------------------------------------------------------------------------------------
 \section{\texttt{\textbackslash rmultiput}, a multiple \texttt{\textbackslash rput}}
@@ -236,7 +237,7 @@ with \verb+rmultiput+:
 \rmultiput*[<options>]{<any material>}(x1,y1)(x2,y2) ... (xn,yn)
 \end{verbatim}
 
-\begin{example}[width=6.2cm]
+\begin{showexample}[width=6.2cm]
 \psset{unit=0.75}
 \begin{pspicture}(-4,-4)(4,4)
 \rmultiput[rot=45]{\red\psscalebox{3}{\ding{250}}}%
@@ -245,7 +246,7 @@ with \verb+rmultiput+:
     (-2,2.5)(-2,2.5)(-3,2.5)(-2,1)(1,-2)(1.5,-3)(3,-3)
 \psgrid[subgriddiv=0,gridcolor=lightgray]
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 \bigskip
@@ -258,34 +259,34 @@ There is one new option \verb+hatchstyle+ with three possible values:
 solid | dotted | dashed
 \end{verbatim}
 
-\begin{example}[width=5cm,wide=true]
+\begin{showexample}[width=5cm,wide=true]
 \begin{pspicture}(5,5)
   \psframe[fillstyle=hlines](5,5)
   \pscircle[fillstyle=solid,fillcolor=white](2.5,2.5){1.5}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=5cm,wide=true]
+\begin{showexample}[width=5cm,wide=true]
 \begin{pspicture}(5,5)
   \psframe[fillstyle=hlines,hatchstyle=dotted](5,5)
   \pscircle[fillstyle=solid,fillcolor=white](2.5,2.5){1.5}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
-\begin{example}[width=5cm,wide=true]
+\begin{showexample}[width=5cm,wide=true]
 \begin{pspicture}(5,5)
   \psframe[fillstyle=hlines,hatchstyle=dashed,dash=0.3 0.15](5,5)
   \pscircle[fillstyle=solid,fillcolor=white](2.5,2.5){1.5}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=5cm,wide=true]
+\begin{showexample}[width=5cm,wide=true]
 \begin{pspicture}(5,5)
   \psframe[fillstyle=vlines,hatchstyle=dashed,hatchsep=0.4,hatchcolor=red](5,5)
   \pscircle[fillstyle=solid,fillcolor=white](2.5,2.5){1.5}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 %--------------------------------------------------------------------------------------
@@ -390,16 +391,16 @@ is set by the new options \verb+hooklength+ and \verb+hookwidth+, which are by d
 %
 If the line begins with a right hook then the line ends with a left hook and vice versa:
 
-\begin{example}[width=3cm]
+\begin{showexample}[width=3cm]
 \begin{pspicture}(3,4)
 \psline[linewidth=5pt,linecolor=blue,hooklength=5mm,hookwidth=-3mm]{H->}(0,3.5)(3,3.5)
 \psline[linewidth=5pt,linecolor=red,hooklength=5mm,hookwidth=3mm]{H->}(0,2.5)(3,2.5)
 \psline[linewidth=5pt,hooklength=5mm,hookwidth=3mm]{H-H}(0,1.5)(3,1.5)
 \psline[linewidth=1pt]{H-H}(0,0.5)(3,0.5)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=7.25cm]
+\begin{showexample}[width=7.25cm]
 $\begin{psmatrix}
 E&W_i(X)&&Y\\
 &&W_j(X)
@@ -411,20 +412,20 @@ E&W_i(X)&&Y\\
 \ncline{1,2}{2,3}<{W_{ij}}
 \ncline{2,3}{1,4}>{\tilde{s}}
 \end{psmatrix}$
-\end{example}
+\end{showexample}
 
 \bigskip
 For the arrowtype \verb+h+ the width and length are set by \verb+arrowlength+ and \verb+arrowsize+
 parameters.
 
-\begin{example}[width=3cm]
+\begin{showexample}[width=3cm]
 \begin{pspicture}(3,4)
 \psline[linecolor=blue,arrowsize=-3mm]{h->}(0,3.5)(3,3.5)
 \psline[linecolor=red,arrowlength=2,arrowsize=3mm]{h->}(0,2.5)(3,2.5)
 \psline[arrowsize=-3mm]{h-h}(0,1.5)(3,1.5)
 \psline{h-h}(0,0.5)(3,0.5)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 %--------------------------------------------------------------------------------------
@@ -508,36 +509,36 @@ are overpainted with the line.
 
 \resetPSTOptions
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \psset{arrowscale=3}
 \psline[linecolor=red,arrowinset=0]{<->}(0,0)(3,0)
-\end{example}
+\end{showexample}
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \psset{arrowscale=3}
 \psline[linecolor=red,arrowinset=0,ArrowFill=false]{<->}(0,0)(3,0)
-\end{example}
+\end{showexample}
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \psline[linecolor=red,arrowinset=0,arrowsize=0.5,ArrowFill=false]{<->}(0,0)(3,0)
-\end{example}
+\end{showexample}
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \psline[linecolor=blue,arrowscale=3,ArrowFill=true]{>>->>}(0,0)(3,0)
-\end{example}
+\end{showexample}
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \psline[linecolor=blue,arrowscale=3,ArrowFill=false]{>>->>}(0,0)(3,0)
 \rule{3cm}{0pt}\\[30pt]
-\end{example}
+\end{showexample}
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \psline[linecolor=blue,arrowscale=3,ArrowFill=true]{>|->|}(0,0)(3,0)
-\end{example}
+\end{showexample}
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \psline[linecolor=blue,arrowscale=3,ArrowFill=false]{>|->|}(0,0)(3,0)%
-\end{example}
+\end{showexample}
 
 
 %--------------------------------------------------------------------------------------
@@ -548,81 +549,81 @@ All examples are printed with \verb|\psset{arrowscale=2,linecolor=red}|.
 \subsubsection{\texttt{\textbackslash psline}}
 
 \bigskip
-\begin{example}[width=2.5cm]
+\begin{showexample}[width=2.5cm]
 \begin{pspicture}(2,2)
 \psset{arrowscale=2,ArrowFill=true}
 \psline[ArrowInside=->]{|<->|}(2,1)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=2.5cm]
+\begin{showexample}[width=2.5cm]
 \begin{pspicture}(2,2)
 \psset{arrowscale=2,ArrowFill=true}
 \psline[ArrowInside=-|]{|-|}(2,1)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=2.5cm]
+\begin{showexample}[width=2.5cm]
 \begin{pspicture}(2,2)
 \psset{arrowscale=2,ArrowFill=true}
 \psline[ArrowInside=->,ArrowInsideNo=2]{->}(2,1)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=2.5cm]
+\begin{showexample}[width=2.5cm]
 \begin{pspicture}(2,2)
 \psset{arrowscale=2,ArrowFill=true}
 \psline[ArrowInside=->,ArrowInsideNo=2,ArrowInsideOffset=0.1]{->}(2,1)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=6.5cm]
+\begin{showexample}[width=6.5cm]
 \begin{pspicture}(6,2)
 \psset{arrowscale=2,ArrowFill=true}
 \psline[ArrowInside=-*]{->}(0,0)(2,1)(3,0)(4,0)(6,2)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=6.5cm]
+\begin{showexample}[width=6.5cm]
 \begin{pspicture}(6,2)
 \psset{arrowscale=2,ArrowFill=true}
 \psline[ArrowInside=-*,ArrowInsidePos=0.25]{->}(0,0)(2,1)(3,0)(4,0)(6,2)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=6.5cm]
+\begin{showexample}[width=6.5cm]
 \begin{pspicture}(6,2)
 \psset{arrowscale=2,ArrowFill=true}
 \psline[ArrowInside=-*,ArrowInsidePos=0.25,ArrowInsideNo=2]{->}%
    (0,0)(2,1)(3,0)(4,0)(6,2)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=6.5cm]
+\begin{showexample}[width=6.5cm]
 \begin{pspicture}(6,2)
 \psset{arrowscale=2,ArrowFill=true}
 \psline[ArrowInside=->, ArrowInsidePos=0.25]{->}%
         (0,0)(2,1)(3,0)(4,0)(6,2)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=6.5cm]
+\begin{showexample}[width=6.5cm]
 \begin{pspicture}(6,2)
 \psset{arrowscale=2,ArrowFill=true}
 \psline[linestyle=none,ArrowInside=->,ArrowInsidePos=0.25]{->}%
         (0,0)(2,1)(3,0)(4,0)(6,2)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=6.5cm]
+\begin{showexample}[width=6.5cm]
 \begin{pspicture}(6,2)
 \psset{arrowscale=2,ArrowFill=true}
 \psline[ArrowInside=-<, ArrowInsidePos=0.75]{->}%
      (0,0)(2,1)(3,0)(4,0)(6,2)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=6.5cm]
+\begin{showexample}[width=6.5cm]
 \begin{pspicture}(6,2)
 \psset{arrowscale=2,ArrowFill=true,ArrowInside=-*}
 \psline(0,0)(2,1)(3,0)(4,0)(6,2)
@@ -630,22 +631,22 @@ All examples are printed with \verb|\psset{arrowscale=2,linecolor=red}|.
 \psline[ArrowInsidePos=0](0,0)(2,1)(3,0)(4,0)(6,2)
 \psline[ArrowInsidePos=1](0,0)(2,1)(3,0)(4,0)(6,2)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=6.5cm]
+\begin{showexample}[width=6.5cm]
 \begin{pspicture}(6,5)
 \psset{arrowscale=2,ArrowFill=true}
 \psline[ArrowInside=->,ArrowInsidePos=20](0,0)(3,0)%
        (3,3)(1,3)(1,5)(5,5)(5,0)(7,0)(6,3)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=6.5cm]
+\begin{showexample}[width=6.5cm]
 \begin{pspicture}(6,2)
 \psset{arrowscale=2,ArrowFill=true}
 \psline[linearc=0.5,ArrowInside=-|]{<->}(0,2)(2,0)(3,2)(4,0)(6,2)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 %--------------------------------------------------------------------------------------
@@ -653,38 +654,38 @@ All examples are printed with \verb|\psset{arrowscale=2,linecolor=red}|.
 %--------------------------------------------------------------------------------------
 % Polygons (\pspolygon macro)
 
-\begin{example}[width=6.5cm]
+\begin{showexample}[width=6.5cm]
 \begin{pspicture}(6,3)
 \psset{arrowscale=2}
 \pspolygon[ArrowInside=-|](0,0)(3,3)(6,3)(6,1)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=6.5cm]
+\begin{showexample}[width=6.5cm]
 \begin{pspicture}(6,3)
 \psset{arrowscale=2}
 \pspolygon[ArrowInside=->,ArrowInsidePos=0.25]%
      (0,0)(3,3)(6,3)(6,1)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=6.5cm]
+\begin{showexample}[width=6.5cm]
 \begin{pspicture}(6,3)
 \psset{arrowscale=2}
 \pspolygon[ArrowInside=->,ArrowInsideNo=4]%
        (0,0)(3,3)(6,3)(6,1)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=6.5cm]
+\begin{showexample}[width=6.5cm]
 \begin{pspicture}(6,3)
 \psset{arrowscale=2}
 \pspolygon[ArrowInside=->,ArrowInsideNo=4,%
    ArrowInsideOffset=0.1](0,0)(3,3)(6,3)(6,1)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=6.5cm]
+\begin{showexample}[width=6.5cm]
 \begin{pspicture}(6,3)
 \psset{arrowscale=2}
  \pspolygon[ArrowInside=-|](0,0)(3,3)(6,3)(6,1)
@@ -695,15 +696,15 @@ All examples are printed with \verb|\psset{arrowscale=2,linecolor=red}|.
  \pspolygon[ArrowInsidePos=0.25](0,0)(3,3)(6,3)(6,1)
  \pspolygon[ArrowInsidePos=0.75](0,0)(3,3)(6,3)(6,1)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=6.5cm]
+\begin{showexample}[width=6.5cm]
 \begin{pspicture}(6,5)
 \psset{arrowscale=2}
   \pspolygon[ArrowInside=->,ArrowInsidePos=20]%
     (0,0)(3,0)(3,3)(1,3)(1,5)(5,5)(5,0)(7,0)(6,3)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 %--------------------------------------------------------------------------------------
@@ -711,7 +712,7 @@ All examples are printed with \verb|\psset{arrowscale=2,linecolor=red}|.
 %--------------------------------------------------------------------------------------
 % Bezier curves (\psbezier macro)
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \begin{pspicture}(3,3)
 \psset{arrowscale=2}
   \psbezier[ArrowInside=-|](1,1)(2,2)(3,3)
@@ -722,44 +723,44 @@ All examples are printed with \verb|\psset{arrowscale=2,linecolor=red}|.
   \psbezier[ArrowInsidePos=0](1,1)(2,2)(3,3)
   \psbezier[ArrowInsidePos=1](1,1)(2,2)(3,3)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=4.5cm]
+\begin{showexample}[width=4.5cm]
 \begin{pspicture}(4,3)
 \psset{arrowscale=2}
   \psbezier[ArrowInside=->,showpoints=true]%
      {*-*}(2,3)(3,0)(4,2)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
-\begin{example}[width=4.5cm]
+\begin{showexample}[width=4.5cm]
 \begin{pspicture}(4,3)
 \psset{arrowscale=2}
   \psbezier[ArrowInside=->,showpoints=true,%
       ArrowInsideNo=2](2,3)(3,0)(4,2)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
-\begin{example}[width=4.5cm]
+\begin{showexample}[width=4.5cm]
 \begin{pspicture}(4,3)
 \psset{arrowscale=2}
   \psbezier[ArrowInside=->,showpoints=true,%
       ArrowInsideNo=2,ArrowInsideOffset=-0.2]{->}(2,3)(3,0)(4,2)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
-\begin{example}[width=5.5cm]
+\begin{showexample}[width=5.5cm]
 \begin{pspicture}(5,3)
 \psset{arrowscale=2}
   \psbezier[ArrowInsideNo=9,ArrowInside=-|,%
     showpoints=true]{*-*}(1,3)(3,0)(5,3)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=4.5cm]
+\begin{showexample}[width=4.5cm]
 \begin{pspicture}(4,3)
 \psset{arrowscale=2}
   \psset{ArrowInside=-|}
@@ -767,9 +768,9 @@ All examples are printed with \verb|\psset{arrowscale=2,linecolor=red}|.
   \psset{linestyle=none}
   \psbezier[ArrowInsidePos=0.75](2,3)(3,0)(4,2)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=5.5cm]
+\begin{showexample}[width=5.5cm]
 \begin{pspicture}(5,6)
 \psset{arrowscale=2}
   \pnode(3,4){A}\pnode(5,6){B}\pnode(5,0){C}
@@ -784,10 +785,10 @@ All examples are printed with \verb|\psset{arrowscale=2,linecolor=red}|.
   \psbezier[ArrowInsidePos=0.3](A)(B)(C)
   \psbezier[ArrowInsidePos=0.7](A)(B)(C)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
-%\begin{example}[pos=a]
+%\begin{showexample}[pos=a]
 \makebox[\linewidth]{
 \begin{pspicture}(-3,-5)(0.75\linewidth,3)
   \psbezier[ArrowInsideNo=19,%
@@ -795,7 +796,31 @@ All examples are printed with \verb|\psset{arrowscale=2,linecolor=red}|.
       showpoints=true,arrowscale=3]{->}(-3,0)(5,-5)(8,3)(0.75\linewidth,-5)
 \end{pspicture}
 }
-%\end{example}
+%\end{showexample}
+
+
+%--------------------------------------------------------------------------------------
+\section{\CMD{psarc}}
+%--------------------------------------------------------------------------------------
+The changes to the code of \verb+psarc@v+ now allows to draw the arc with a negative
+radius, which is only important for the \verb+\nccircle+ macro of(\verb+\pst-node+) to
+draw the lines clockwise below a node. But this new feature of a negative radius can also be used
+with \verb+\psarc+
+
+
+\begin{showexample}[pos=a]
+  \begin{pspicture}(5,5)\psgrid[subgriddiv=0,gridcolor=lightgray]
+    \psdot[dotscale=2](2.5,2.5)
+    \psarc[arrowscale=2]{->}(2.5,2.5){2}{0}{135}
+    \psarc[linecolor=red,arrowscale=2]{->}(2.5,2.5){-2}{0}{135}
+  \end{pspicture}
+\hspace{1cm}
+  \begin{pspicture}(5,5)\psgrid[subgriddiv=0,gridcolor=lightgray]
+    \psdot[dotscale=2](2.5,2.5)
+    \psarcn[arrowscale=2]{->}(2.5,2.5){2}{0}{135}
+    \psarcn[linecolor=red,arrowscale=2]{->}(2.5,2.5){-2}{0}{135}
+  \end{pspicture}
+\end{showexample}
 
 
 %--------------------------------------------------------------------------------------
@@ -827,7 +852,7 @@ name & default\\\hline
 \end{center}
 
 
-\begin{example}[pos=a,wide=false]
+\begin{showexample}[pos=a,wide=false]
 \psset{unit=5cm}
 \begin{pspicture}(1,1)
   \psRandom[dotsize=1pt,fillstyle=solid](1,1){\pscircle(0.5,0.5){0.5}}
@@ -836,9 +861,9 @@ name & default\\\hline
   \psRandom[dotsize=2pt,randomPoints=5000,color,%
       fillstyle=solid](1,1){\pscircle(0.5,0.5){0.5}}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[pos=a,wide=false]
+\begin{showexample}[pos=a,wide=false]
 \psset{unit=5cm}
 \begin{pspicture}(1,1)
   \psRandom[randomPoints=200,dotsize=8pt,dotstyle=+]{}
@@ -846,16 +871,16 @@ name & default\\\hline
 \begin{pspicture}(1.5,1)
   \psRandom[dotsize=5pt,color](0,0)(1.5,0.8){\psellipse(0.75,0.4)(0.75,0.4)}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[pos=a,wide=false]
+\begin{showexample}[pos=a,wide=false]
 \psset{unit=3cm}
 \begin{pspicture}(0,-1)(3,1)
   \psRandom[dotsize=4pt,dotstyle=o,linecolor=blue,fillcolor=red,%
      fillstyle=solid,randomPoints=1000]%
       (0,-1)(3,1){\psplot{0}{3.14}{ x 114 mul sin }}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 \section{''Transparent``colors}
@@ -881,7 +906,7 @@ On loading the package \verb+pstricks-add+ this macro is
 already available, and so a crossing of definitions is possible. Parameters are
 options, name and base colour, which needs to be defined.
 
-\begin{example}[width=5cm]
+\begin{showexample}[width=5cm]
 \defineTColor{tRot}{red}
 \defineTColor{tCyan}{cyan}
 \begin{pspicture}(0,-1)(5,6)
@@ -889,7 +914,7 @@ options, name and base colour, which needs to be defined.
 \rput{-30}(1,1){\psframe[style=tRot](2.5,4)}
 \rput{30}(2.5,1){\psframe[style=tCyan](2.5,4)}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 Remember  that when printing, moire effects\index{moire effect} may
 occur, since the lines may overlap unpropitiously. Alternatives are other angles

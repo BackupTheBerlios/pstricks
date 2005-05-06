@@ -1359,8 +1359,8 @@ grestore}}
     msavematrx
 %----------------- hv end 2004-05-07 ------------- patch 15
 }
-\def\tx@MRestore{%
-tx@Dict /msavemtrx known { length 0 gt } { false } ifelse
+\def\tx@MRestore{% fixed a typo in the original pstricks
+tx@Dict /msavematrx known { length 0 gt } { false } ifelse
 { /msavematrx [ msavematrx aload pop setmatrix ] def }
 if }
 \newtoks\pst@customdefs
@@ -2422,21 +2422,32 @@ y add exch x add exch
 moveto
 \fi
 \fi}
+%
+% hv 2005-05-05 ---> begin
+% to make arc the other way round working
 \def\psarc@v{%
   x y r
   angleA
   \ifx\psk@arrowA\@empty\else
     { ArrowA CP }
-    { \ifcase\psarc@type add \or sub \fi }
+    r 0 gt \pslbrace
+    { \ifcase\psarc@type add \or sub \fi } \psrbrace\pslbrace
+    { \ifcase\psarc@type sub \or add \fi } \psrbrace ifelse
+%    { \ifcase\psarc@type add \or sub \fi }
     \tx@ArcArrow
   \fi
   angleB
   \ifx\psk@arrowB\@empty\else
     { ArrowB }
-    { \ifcase\psarc@type sub \or add \fi }
+    r 0 gt \pslbrace
+      { \ifcase\psarc@type sub \or add \fi } \psrbrace\pslbrace
+      { \ifcase\psarc@type add \or sub \fi } \psrbrace ifelse
+%      { \ifcase\psarc@type sub \or add \fi }
  \tx@ArcArrow
   \fi
 \ifcase\psarc@type arc \or arcn \fi}
+% hv 2005-05-05 ---> end
+%
 \def\psarc@type{0}
 \def\psarc@showpoints{%
   gsave

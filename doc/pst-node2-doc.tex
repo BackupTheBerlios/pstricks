@@ -19,6 +19,7 @@ you have installed \verb+pst-xkey+ which is part of the \verb+xkeyval+-package a
 packages, that uses the old keyval interface are loaded \textbf{before} the \verb+xkeyval+.
 \end{abstract}
 
+\clearpage
 \tableofcontents
 
 \clearpage
@@ -50,7 +51,7 @@ name & meaning\\\hline
 \end{tabularx}
 
 \resetPSTNodeOptions
-\begin{example}[width=5.5cm]
+\begin{showexample}[width=5.5cm]
 \begin{pspicture}(5,6)
   \circlenode{A}{A}\quad\circlenode{C}{C}%
     \quad\circlenode{E}{E}
@@ -66,7 +67,7 @@ name & meaning\\\hline
   \ncdiag[lineAngle=20]{->}{E}{F}
   \ncput*[nrot=:U]{line III}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 The \verb|ncdiag| macro sets the \verb|armB| dynamically to the calculated value. Any
 user setting of \verb|armB| is overwritten by the macro. The \verb|armA| could be set to
@@ -74,7 +75,7 @@ a zero length:
 
 
 
-\begin{example}[width=4.5cm]
+\begin{showexample}[width=4.5cm]
 \begin{pspicture}(4,3)
   \rput(0.5,0.5){\circlenode{A}{A}}
   \rput(3.5,3){\circlenode{B}{B}}
@@ -84,10 +85,10 @@ a zero length:
   \ncdiag[lineAngle=60,%
       armA=0,angleA=90,angleB=180]{A}{B}}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
-\begin{example}[width=4.5cm]
+\begin{showexample}[width=4.5cm]
 \begin{pspicture}(4,3)
   \rput(1,0.5){\circlenode{A}{A}}
   \rput(4,3){\circlenode{B}{B}}
@@ -99,9 +100,9 @@ a zero length:
   \ncdiag[lineAngle=60,%
       armA=0.5,angleA=180,angleB=180]{A}{B}}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=4.5cm]
+\begin{showexample}[width=4.5cm]
 \begin{pspicture}(4,5.5)
   \cnode*(0,0){2pt}{A}%
   \cnode*(0.25,0){2pt}{C}%
@@ -118,7 +119,7 @@ a zero length:
   \pcdiag[lineAngle=20]{->}(E)(F)
   \pcdiag[lineAngle=20]{->}(G)(H)}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 
@@ -136,7 +137,7 @@ like a \verb+\pcdiagg+ line. The syntax of \verb|ncdiagg|/\verb+pcdiagg+ is
 \pcdiag[<options>](<Node A>)(<Node B>)
 \end{verbatim}
 
-\begin{example}[width=5cm]
+\begin{showexample}[width=5cm]
 \begin{pspicture}(4,6)
   \psset{linecolor=black}
   \circlenode{A}{A}%
@@ -153,9 +154,9 @@ like a \verb+\pcdiagg+ line. The syntax of \verb|ncdiagg|/\verb+pcdiagg+ is
   \ncdiagg[lineAngle=-160]{->}{E}{F}
   \ncput*[nrot=:U]{line III}}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=5cm]
+\begin{showexample}[width=5cm]
 \begin{pspicture}(4,6)
   \psset{linecolor=black}
   \cnode*(0,0){2pt}{A}%
@@ -172,7 +173,7 @@ like a \verb+\pcdiagg+ line. The syntax of \verb|ncdiagg|/\verb+pcdiagg+ is
   \pcdiagg[lineAngle=20]{->}(E)(F)
   \pcdiagg[lineAngle=20]{->}(G)(H)}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 The only catch for \verb+\ncdiagg+ is, that you need the right value for \verb+lineAngle+.
 If the node connection is on the wrong side
@@ -180,29 +181,29 @@ of the second node, then choose the corresponding angle, e.g.: if $20$ is wrong 
 $-160$, the corresponding to $180$.
 
 
-\begin{example}[width=4cm]
+\begin{showexample}[width=4cm]
 \begin{pspicture}(4,1.5)
   \circlenode{a}{A}
   \rput[l](3,1){\rnode{b}{H}}
   \ncdiagg[lineAngle=60,angleA=180,armA=.5,nodesepA=3pt,linecolor=blue]{b}{a}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=4cm]
+\begin{showexample}[width=4cm]
 \begin{pspicture}(4,1.5)
   \circlenode{a}{A}
   \rput[l](3,1){\rnode{b}{H}}
   \ncdiagg[lineAngle=60,armA=.5,nodesepB=3pt,linecolor=blue]{a}{b}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=4cm]
+\begin{showexample}[width=4cm]
 \begin{pspicture}(4,1.5)
   \circlenode{a}{A}
   \rput[l](3,1){\rnode{b}{H}}
   \ncdiagg[lineAngle=-120,armA=.5,nodesepB=3pt,linecolor=blue]{a}{b}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 %--------------------------------------------------------------------------------------
@@ -215,40 +216,63 @@ Other values are possible but don't make really sense. \verb+AngleB+ is in geenr
 symmetrical to the distance of the two nodes and can be set with the option \verb+tpos+ ($0\le tpos\le 1$).
 
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \psset{arrowscale=2}%
 \circlenode{X}{X}\\[1cm]
 \circlenode{Y}{Y}
 \ncbarr[angleA=0,arrows=->,arrowscale=2]{X}{Y}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \psset{arrowscale=2}%
 \ovalnode{X}{Xxxxx}\\[1cm]
 \circlenode{Y}{Yyyy}
 \ncbarr[angleA=180,arrows=->,arrowscale=2,linecolor=red,armB=0.75]{X}{Y}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \psset{arrowscale=2}%
 \ovalnode{X}{Xxxxx}\\[1cm]
 \circlenode{Y}{Yyyy}
 \ncbarr[angleA=180,arrows=->,arrowscale=2,linecolor=red,armB=0.75,tpos=0.65]{X}{Y}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \psset{arrowscale=2}%
 \ovalnode{X}{Xxxxx}\\[1cm]
 \circlenode{Y}{Yyyy}
 \ncbarr[angleA=20,arm=1cm,arrows=->,arrowscale=2]{X}{Y}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=3.5cm]
+\begin{showexample}[width=3.5cm]
 \psset{arrowscale=2}%
 \ovalnode{X}{Xxxxx}\\[1cm]
 \circlenode{Y}{Yyyy}
 \pcbarr[arm=1cm,arrows=->,arrowscale=2,tpos=0.3](Y)(X)
-\end{example}
+\end{showexample}
+
+%--------------------------------------------------------------------------------------
+\section{\CMD{nccircle}}
+%--------------------------------------------------------------------------------------
+The changes to the code of \verb+psarc@v+ now allows to draw node loops with
+\verb+\pscircle+ (\verb+\pst-node+) clockwise below a node.
+
+\begin{showexample}[width=8cm]
+  \psscalebox{1.5}{
+  \circlenode{A}{A}
+  \nccircle{->}{A}{1.5em}
+  \nbput{foo}
+  \nccircle{<-}{A}{-1.5em}
+  \naput{bar}}
+%
+  \hspace*{2cm}
+  \psscalebox{1.5}{
+  \circlenode{A}{A}
+  \nccircle{<-}{A}{1.5em}
+  \nbput{foo}
+  \nccircle{->}{A}{-1.5em}
+  \naput{bar}}
+\end{showexample}
 
 
 %--------------------------------------------------------------------------------------
@@ -279,7 +303,7 @@ The following two figures show the same, the first one with a scaling different 
 this is the reason why the end points are on an ellipse and not on a circle like in the
 second figure.
 
-\begin{example}[width=5.5cm]
+\begin{showexample}[width=5.5cm]
 \psset{yunit=2,xunit=1}
 \begin{pspicture}(-2,-2)(3,2)
 \psgrid[subgriddiv=2,subgriddots=10,gridcolor=lightgray]
@@ -294,9 +318,9 @@ second figure.
 \psRelLine[linecolor=magenta,angle=-90](A)(B){0.5}{EndNode}
 \qdisk(EndNode){2pt}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=5.5cm]
+\begin{showexample}[width=5.5cm]
 \begin{pspicture}(-2,-2)(3,2)
 \psgrid[subgriddiv=2,subgriddots=10,gridcolor=lightgray]
 \pnode(-1,0){A}\pnode(3,2){B}
@@ -311,14 +335,14 @@ second figure.
 \psRelLine[linecolor=magenta,angle=-90](A)(B){0.5}{EndNode}
 \qdisk(EndNode){2pt}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 
 The following figure has also a different scaling, but has set the option \verb+trueAngle+,
 all angles depends to what "you see".
 
-\begin{example}[width=6.5cm]
+\begin{showexample}[width=6.5cm]
 \psset{yunit=2,xunit=1}
 \begin{pspicture}(-3,-1)(3,2)\psgrid[subgridcolor=lightgray]
 \pnode(-1,0){A}\pnode(3,2){B}
@@ -333,13 +357,13 @@ all angles depends to what "you see".
 \psRelLine[linecolor=magenta,angle=-90,trueAngle](A)(B){0.5}{EndNode}
 \qdisk(EndNode){2pt}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 Two examples with using \verb+\multido+ to show the behaviour of the options \verb+trueAngle+
 and \verb+angle+.
 
 \medskip
-\begin{example}[width=8cm]
+\begin{showexample}[width=8cm]
 \psset{yunit=4,xunit=2}
 \begin{pspicture}(-1,0)(3,2)\psgrid[subgridcolor=lightgray]
 \pnode(-1,0){A}\pnode(1,1){B}
@@ -349,9 +373,9 @@ and \verb+angle+.
   \qdisk(EndNode){2pt}
 }
 \end{pspicture}
-\end{example}
+\end{showexample}
 
-\begin{example}[width=8cm]
+\begin{showexample}[width=8cm]
 \psset{yunit=4,xunit=2}
 \begin{pspicture}(-1,0)(3,2)\psgrid[subgridcolor=lightgray]
 \pnode(-1,0){A}\pnode(1,1){B}
@@ -360,10 +384,10 @@ and \verb+angle+.
   \psRelLine[linecolor=magenta,angle=\iA,trueAngle]{->}(B)(A){-0.5}{EndNode}
 }
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
-\begin{example}[pos=a]
+\begin{showexample}[pos=a]
 \psset{xunit=\linewidth,yunit=\linewidth,trueAngle}%
 \begin{pspicture}(1,0.6)%\psgrid
   \pnode(.3,.35){Vk} \pnode(.375,.35){D}
@@ -394,7 +418,7 @@ and \verb+angle+.
   \uput{.1}[90](Fn){\color{red!75!green}$F_{N}$}
   \uput{.25}[-90](FtE){\color{red!75!green}$F_{T}$}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 %--------------------------------------------------------------------------------------
@@ -412,7 +436,7 @@ The line starts at $P_2$, is parallel to $\overline{P_0P_1}$ and the length of t
 parallel line depends to the length factor. The end node name must
 be a valid nodename and shouldn't contain any of the special PostScript characters.
 
-\begin{example}
+\begin{showexample}
 \begin{pspicture*}(-5,-4)(5,3.5)
   \psgrid[subgriddiv=0,griddots=5]
   \pnode(2,-2){FF}\qdisk(FF){1.5pt}
@@ -429,7 +453,7 @@ be a valid nodename and shouldn't contain any of the special PostScript characte
      \psline[linewidth=2pt,arrows=->](F')(FF)
   }%
 \end{pspicture*}
-\end{example}
+\end{showexample}
 
 
 %--------------------------------------------------------------------------------------
@@ -441,7 +465,7 @@ There is no special parameter here.
 \psIntersectionPoint(<P0>)(<P1>)(<P2>)(<P3>){<node name>}
 \end{verbatim}
 
-\begin{example}[width=5.5cm]
+\begin{showexample}[width=5.5cm]
 \psset{unit=0.5cm}
 \begin{pspicture}(-5,-4)(5,5)
   \psaxes{->}(0,0)(-5,-4)(5,5)
@@ -455,7 +479,7 @@ There is no special parameter here.
   \qdisk(IP){5pt}\uput{0.3}[90](IP){IP}
   \psline[linestyle=dashed](IP|0,0)(IP)(0,0|IP)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 %--------------------------------------------------------------------------------------
 \section{\CMD{psLNode} and \CMD{psLCNode}}
@@ -467,7 +491,7 @@ point. The syntax is
 \setLNode(P1)(P2){value}{Node name}
 \end{verbatim}
 
-\begin{example}[width=5cm]
+\begin{showexample}[width=5cm]
 \begin{pspicture}(5,5)
 \psgrid[subgriddiv=0,griddots=10]
 \psset{linecolor=red}
@@ -479,7 +503,7 @@ point. The syntax is
 \setLNode(4,3)(2,5){-0.5}{PII}
 \qdisk(PII){4pt}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 \bigskip
@@ -492,7 +516,7 @@ the new vector as a node. All vectors start at $(0,0)$, so a \verb+\rput+ maybe 
 \end{verbatim}
 
 
-\begin{example}[width=5cm]
+\begin{showexample}[width=5cm]
 \begin{pspicture}(5,5)
 \psgrid[subgriddiv=0,griddots=10]
 \psset{linecolor=black}
@@ -506,7 +530,7 @@ the new vector as a node. All vectors start at $(0,0)$, so a \verb+\rput+ maybe 
 \psline[linestyle=dashed](3,1.5)(PI)
 \psline[linestyle=dashed](0.375,1.5)(PI)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
 %--------------------------------------------------------------------------------------
@@ -514,47 +538,47 @@ the new vector as a node. All vectors start at $(0,0)$, so a \verb+\rput+ maybe 
 %--------------------------------------------------------------------------------------
 
 % Lines (\pcline macro)
-\begin{example}[width=2.5cm]
+\begin{showexample}[width=2.5cm]
 \begin{pspicture}(2,1)
 \psset{arrowscale=2}
 \Cnode(0,0){A}\Cnode(2,1){B}
 \ncline[ArrowInside=->]{A}{B}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
-\begin{example}[width=2.5cm]
+\begin{showexample}[width=2.5cm]
 \begin{pspicture}(2,1)
 \psset{arrowscale=2}
 \Cnode(0,0){A}\Cnode(2,1){B}
 \pcline[ArrowInside=->]{<->}(A)(B)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
-\begin{example}[width=2.5cm]
+\begin{showexample}[width=2.5cm]
 \begin{pspicture}(2,1)
 \psset{arrowscale=2}
 \Cnode(0,0){A}\Cnode(2,1){B}
 \ncline[ArrowInside=-|,ArrowInsidePos=0.75]{|-|}{A}{B}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
-\begin{example}[width=2.5cm]
+\begin{showexample}[width=2.5cm]
 \psset{arrowscale=2}
 \Cnode(0,0){A}\Cnode(2,1){B}
 \pcline[ArrowInside=->,ArrowInsidePos=0.65]{*-*}(A)(B)
 \naput[labelsep=0.3]{\large$g$}
-\end{example}
+\end{showexample}
 
 
-\begin{example}[width=2.5cm]
+\begin{showexample}[width=2.5cm]
 \psset{arrowscale=2}
 \Cnode(0,0){A}\Cnode(2,0){B}
 \ncline[ArrowInside=->,ArrowInsidePos=10]{|-|}{A}{B}
 \naput[labelsep=0.3]{\large$l$}
-\end{example}
+\end{showexample}
 
 
 %--------------------------------------------------------------------------------------
@@ -562,47 +586,47 @@ the new vector as a node. All vectors start at $(0,0)$, so a \verb+\rput+ maybe 
 %--------------------------------------------------------------------------------------
 
 % Lines (\pcline macro)
-\begin{example}[width=2.5cm]
+\begin{showexample}[width=2.5cm]
 \begin{pspicture}(2,1)
 \psset{arrowscale=2}
 \Cnode(0,0){A}\Cnode(2,1){B}
 \nccurve[ArrowInside=->,angleA=-90,angleB=90]{A}{B}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
-\begin{example}[width=2.5cm]
+\begin{showexample}[width=2.5cm]
 \begin{pspicture}(2,1)
 \psset{arrowscale=2}
 \Cnode(0,0){A}\Cnode(2,1){B}
 \pccurve[ArrowInside=->,angleA=-90,angleB=90]{<->}(A)(B)
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
-\begin{example}[width=2.5cm]
+\begin{showexample}[width=2.5cm]
 \begin{pspicture}(2,1)
 \psset{arrowscale=2}
 \Cnode(0,0){A}\Cnode(2,1){B}
 \nccurve[ArrowInside=-|,ArrowInsidePos=0.75,angleA=-90,angleB=90]{|-|}{A}{B}
 \end{pspicture}
-\end{example}
+\end{showexample}
 
 
-\begin{example}[width=2.5cm]
+\begin{showexample}[width=2.5cm]
 \psset{arrowscale=2}
 \Cnode(0,0){A}\Cnode(2,1){B}
 \pccurve[ArrowInside=->,ArrowInsidePos=0.65,angleA=-90,angleB=90]{*-*}(A)(B)
 \naput[labelsep=0.3]{\large$g$}
-\end{example}
+\end{showexample}
 
 
-\begin{example}[width=2.5cm]
+\begin{showexample}[width=2.5cm]
 \psset{arrowscale=2}
 \Cnode(0,0){A}\Cnode(2,0){B}
 \nccurve[ArrowInside=->,ArrowInsidePos=10,angleA=-90,angleB=90]{|-|}{A}{B}
 \naput[labelsep=0.3]{\large$l$}
-\end{example}
+\end{showexample}
 
 
 
