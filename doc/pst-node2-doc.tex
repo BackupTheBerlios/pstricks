@@ -254,8 +254,8 @@ symmetrical to the distance of the two nodes and can be set with the option \ver
 %--------------------------------------------------------------------------------------
 \section{\CMD{nccircle}}
 %--------------------------------------------------------------------------------------
-The changes to the code of \verb+psarc@v+ now allows to draw node loops with
-\verb+\pscircle+ (\verb+\pst-node+) clockwise below a node.
+The changes to the code of \verb+psarc@v+ (\verb+pstricks.tex+) now allows to draw node loops with
+\verb+\nccircle+ clockwise below a node, which needs a negative radius.
 
 \begin{showexample}[width=8cm]
   \psscalebox{1.5}{
@@ -567,22 +567,26 @@ the new vector as a node. All vectors start at $(0,0)$, so a \verb+\rput+ maybe 
 
 \begin{showexample}[width=2.5cm]
 \psset{arrowscale=2}
+\begin{pspicture}(2,1)
 \Cnode(0,0){A}\Cnode(2,1){B}
 \pcline[ArrowInside=->,ArrowInsidePos=0.65]{*-*}(A)(B)
 \naput[labelsep=0.3]{\large$g$}
+\end{pspicture}
 \end{showexample}
 
 
 \begin{showexample}[width=2.5cm]
 \psset{arrowscale=2}
+\begin{pspicture}(2,1)
 \Cnode(0,0){A}\Cnode(2,0){B}
 \ncline[ArrowInside=->,ArrowInsidePos=10]{|-|}{A}{B}
 \naput[labelsep=0.3]{\large$l$}
+\end{pspicture}
 \end{showexample}
 
 
 %--------------------------------------------------------------------------------------
-\section{\CMD{nccurve}, \CMD{pccurve} and inside errors}
+\section{\CMD{nccurve}, \CMD{pccurve} and inside arrows}
 %--------------------------------------------------------------------------------------
 
 % Lines (\pcline macro)
@@ -615,17 +619,21 @@ the new vector as a node. All vectors start at $(0,0)$, so a \verb+\rput+ maybe 
 
 \begin{showexample}[width=2.5cm]
 \psset{arrowscale=2}
+\begin{pspicture}(2,1)
 \Cnode(0,0){A}\Cnode(2,1){B}
 \pccurve[ArrowInside=->,ArrowInsidePos=0.65,angleA=-90,angleB=90]{*-*}(A)(B)
 \naput[labelsep=0.3]{\large$g$}
+\end{pspicture}
 \end{showexample}
 
 
 \begin{showexample}[width=2.5cm]
 \psset{arrowscale=2}
+\begin{pspicture}(2,1)
 \Cnode(0,0){A}\Cnode(2,0){B}
 \nccurve[ArrowInside=->,ArrowInsidePos=10,angleA=-90,angleB=90]{|-|}{A}{B}
 \naput[labelsep=0.3]{\large$l$}
+\end{pspicture}
 \end{showexample}
 
 
