@@ -401,13 +401,13 @@ If the line begins with a right hook then the line ends with a left hook and vic
 \end{showexample}
 
 \begin{showexample}[width=7.25cm]
-$\begin{psmatrix}
-E&W_i(X)&&Y\\
-&&W_j(X)
-\psset{arrows=->,nodesep=3pt,linewidth=2pt}
 \everypsbox{\scriptstyle}
+$\begin{psmatrix}
+  E & W_i(X) && Y\\
+  & & W_j(X)
+\psset{arrows=->,nodesep=3pt,linewidth=2pt}
 \ncline[linecolor=red,arrows=H->,%
-  hooklength=4mm,hookwidth=2mm]{1,1}{1,2}       
+  hooklength=4mm,hookwidth=2mm]{1,1}{1,2}
 \ncline{1,2}{1,4}^{\tilde{t}}
 \ncline{1,2}{2,3}<{W_{ij}}
 \ncline{2,3}{1,4}>{\tilde{s}}
@@ -510,34 +510,45 @@ are overpainted with the line.
 \resetPSTOptions
 
 \begin{showexample}[width=3.5cm]
-\psset{arrowscale=3}
-\psline[linecolor=red,arrowinset=0]{<->}(0,0)(3,0)
+\begin{pspicture}(0,-0.2)(3,0.2)
+\psline[linecolor=red,arrowscale=3,arrowinset=0]{<->}(0,0)(3,0)
+\end{pspicture}
 \end{showexample}
 
 \begin{showexample}[width=3.5cm]
-\psset{arrowscale=3}
-\psline[linecolor=red,arrowinset=0,ArrowFill=false]{<->}(0,0)(3,0)
+\begin{pspicture}(0,-0.2)(3,0.2)
+\psline[linecolor=red,arrowscale=3,arrowinset=0,ArrowFill=false]{<->}(0,0)(3,0)
+\end{pspicture}
 \end{showexample}
 
 \begin{showexample}[width=3.5cm]
-\psline[linecolor=red,arrowinset=0,arrowsize=0.5,ArrowFill=false]{<->}(0,0)(3,0)
+\begin{pspicture}(0,-0.2)(3,0.2)
+\psline[linecolor=red,arrowscale=3,arrowinset=0,arrowsize=0.5,ArrowFill=false]{<->}(0,0)(3,0)
+\end{pspicture}
 \end{showexample}
 
 \begin{showexample}[width=3.5cm]
+\begin{pspicture}(0,-0.2)(3,0.2)
 \psline[linecolor=blue,arrowscale=3,ArrowFill=true]{>>->>}(0,0)(3,0)
+\end{pspicture}
 \end{showexample}
 
 \begin{showexample}[width=3.5cm]
+\begin{pspicture}(0,-0.2)(3,0.2)
 \psline[linecolor=blue,arrowscale=3,ArrowFill=false]{>>->>}(0,0)(3,0)
-\rule{3cm}{0pt}\\[30pt]
+\end{pspicture}
 \end{showexample}
 
 \begin{showexample}[width=3.5cm]
+\begin{pspicture}(0,-0.2)(3,0.2)
 \psline[linecolor=blue,arrowscale=3,ArrowFill=true]{>|->|}(0,0)(3,0)
+\end{pspicture}
 \end{showexample}
 
 \begin{showexample}[width=3.5cm]
+\begin{pspicture}(0,-0.2)(3,0.2)
 \psline[linecolor=blue,arrowscale=3,ArrowFill=false]{>|->|}(0,0)(3,0)%
+\end{pspicture}
 \end{showexample}
 
 
@@ -644,7 +655,8 @@ All examples are printed with \verb|\psset{arrowscale=2,linecolor=red}|.
 \begin{showexample}[width=6.5cm]
 \begin{pspicture}(6,2)
 \psset{arrowscale=2,ArrowFill=true}
-\psline[linearc=0.5,ArrowInside=-|]{<->}(0,2)(2,0)(3,2)(4,0)(6,2)
+\psline[linearc=0.5,ArrowInside={-|}]{<->}%
+    (0,2)(2,0)(3,2)(4,0)(6,2)
 \end{pspicture}
 \end{showexample}
 

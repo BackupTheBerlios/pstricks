@@ -1,17 +1,18 @@
 %!
 % PostScript prologue for pst-eqdf.tex.
-% Version 2005.02, 2005/02/25
+% Version 2005.03, 2005/05/20
 % For distribution, see pstricks.tex.
 %
 %       HISTORY
+% 2005/05/20 : small (unimportant) changes (hv)
+% 2005/02/25 : white space removal from expression
+% 2004/12/16 : addition of SUM and IFTE
 % 2004/11/14 : correction of a priority problem
 %              ^ before unary - (new rule FS)
-% 2004/12/16 : addition of SUM and IFTE
-% 2005/02/25 : white space removal from expression
 /tx@EqdfDict 400 dict def tx@EqdfDict begin
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Pi
-/Pi 3.14159265359 def
+%% Pi and Euer are defined in pstricks.pro
+/PIdiv2 1.57079632680 def
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -556,8 +557,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% NEW FUNC
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-/PI     3.14155265359 def
-/PIdiv2 1.57079632680 def
 %% Make a discrete sum
 %% var n begin end expr ->
 /SUM {} def

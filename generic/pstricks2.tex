@@ -455,96 +455,103 @@ moveto}
 \def\pst@getcoor#1#2{\pst@@getcoor{#1}\let#2\pst@coor}
 \def\pst@coor{0 0 }
 \def\pst@getcoors#1#2{%
-\def\pst@aftercoors{\addto@pscode{#1 \pst@coors }#2}%
-\def\pst@coors{}%
-\pst@@getcoors}
-\def\pst@@getcoors(#1){%
-\pst@@getcoor{#1}%
-\edef\pst@coors{\pst@coor\pst@coors}%
-\@ifnextchar({\pst@@getcoors}{\pst@aftercoors}}
+  \def\pst@aftercoors{\addto@pscode{#1 \pst@coors }#2}%
+  \def\pst@coors{}%
+  \pst@@getcoors}
+\def\pst@@getcoors(#1){%	read a (..)(..)(..)... sequence
+  \pst@@getcoor{#1}%
+  \edef\pst@coors{\pst@coor\pst@coors}%
+  \@ifnextchar({\pst@@getcoors}{\pst@aftercoors}}
 \def\pst@getangle#1#2{\pst@@getangle{#1}\let#2\pst@angle}
 \def\pst@angle{0 }
 \def\cartesian@coor#1,#2,#3\@nil{%
-\pssetxlength\pst@dimg{#1}%
-\pssetylength\pst@dimh{#2}%
-\edef\pst@coor{\pst@number\pst@dimg \pst@number\pst@dimh}}
+  \pssetxlength\pst@dimg{#1}%
+  \pssetylength\pst@dimh{#2}%
+  \edef\pst@coor{\pst@number\pst@dimg \pst@number\pst@dimh}}
 \def\NormalCoor{%
-\def\pst@@getcoor##1{\pst@expandafter\cartesian@coor{##1},\relax,\@nil}%
-\def\pst@@getangle##1{%
-\pst@checknum{##1}\pst@angle
-\edef\pst@angle{\pst@angle \pst@angleunit}}%
-\def\psput@##1{\pst@@getcoor{##1}\leavevmode\psput@cartesian}}
-\NormalCoor
+  \def\pst@@getcoor##1{\pst@expandafter\cartesian@coor{##1},\relax,\@nil}%
+  \def\pst@@getangle##1{%
+    \pst@checknum{##1}\pst@angle
+    \edef\pst@angle{\pst@angle \pst@angleunit}}%
+  \def\psput@##1{\pst@@getcoor{##1}\leavevmode\psput@cartesian}}
+% 
+%   there is no real need _not_ to choose \SpecialCoor as default  (hv 20050515)
+%\NormalCoor
+%
 \def\degrees{\@ifnextchar[{\@degrees}{\def\pst@angleunit{}}}
 \def\@degrees[#1]{%
-\pst@checknum{#1}\pst@tempg
-\edef\pst@angleunit{360 \pst@tempg div mul }%
-\ignorespaces}
+  \pst@checknum{#1}\pst@tempg
+  \edef\pst@angleunit{360 \pst@tempg div mul }%
+  \ignorespaces}
 \def\radians{\def\pst@angleunit{57.2956 mul }}
 \def\pst@angleunit{}
 \def\SpecialCoor{%
-\def\pst@@getcoor##1{%
-\begingroup
-\pst@activecoor
-\xdef\pst@tempg{##1}%
-\endgroup
-\expandafter\special@coor\pst@tempg||\@nil}%
-\def\pst@@getangle##1{%
-\begingroup
-\pst@activecoor
-\xdef\pst@tempg{##1}%
-\endgroup
-\expandafter\special@angle\pst@tempg\@empty)\@nil}%
-\def\psput@##1{\pst@@getcoor{##1}\leavevmode\psput@special}}
+  \def\pst@@getcoor##1{%
+    \begingroup
+    \pst@activecoor
+    \xdef\pst@tempg{##1}%
+    \endgroup
+    \expandafter\special@coor\pst@tempg||\@nil}%
+  \def\pst@@getangle##1{%
+    \begingroup
+    \pst@activecoor
+    \xdef\pst@tempg{##1}%
+    \endgroup
+    \expandafter\special@angle\pst@tempg\@empty)\@nil}%
+  \def\psput@##1{\pst@@getcoor{##1}\leavevmode\psput@special}}
+%
+% We noe have the hardware power to choose \SpecialCoor as default (hv 20050514)
+\SpecialCoor
+%
 \begingroup
 \catcode`\|=13
 \catcode`\;=13
 \catcode`\!=13
-\gdef\pst@activecoor{%
-\def|{\string|}%
-\def;{\string;}%
-\def!{\string!}}
+\gdef\pst@activecoor{%		define the shortcuts for special coordinates
+  \def|{\string|}%		| double
+  \def;{\string;}%		; polar
+  \def!{\string!}}%		! PS
 \endgroup
 \def\special@coor#1|#2|#3\@nil{%
-\ifx#3|\relax
-\mixed@coor{#1}{#2}%
-\else
-\special@@coor#1;;\@nil
-\fi}
+  \ifx#3|\relax 
+    \mixed@coor{#1}{#2}%
+  \else
+    \special@@coor#1;;\@nil
+  \fi}
 \def\special@@coor#1{%
-\ifcat#1a\relax
-\def\next{\node@coor#1}%
-\else
-\ifx#1[\relax
-\def\next{\Node@coor[}%
-\else
-\ifx#1!\relax
-\def\next{\raw@coor}%
-\else
-\def\next{\special@@@coor#1}%
-\fi
-\fi
-\fi
-\next}
+  \ifcat#1a\relax
+    \def\next{\node@coor#1}%
+  \else
+    \ifx#1[\relax
+      \def\next{\Node@coor[}%
+    \else
+      \ifx#1!\relax
+        \def\next{\raw@coor}%
+      \else
+        \def\next{\special@@@coor#1}%
+      \fi
+    \fi
+  \fi
+  \next}
 \def\special@@@coor#1;#2;#3\@nil{%
-\ifx#3;\relax
-\polar@coor{#1}{#2}%
-\else
-\cartesian@coor#1,\relax,\@nil
-\fi}
+  \ifx#3;\relax
+    \polar@coor{#1}{#2}%
+  \else
+    \cartesian@coor#1,\relax,\@nil
+  \fi}
 \def\mixed@coor#1#2{%
-\begingroup
+  \begingroup
 % DG/SR modification begin - Oct. 27, 1997 - Patch 6
 %\specialcoor@ii#1;;\@nil
 %\let\pst@tempa\pst@coor
 %\specialcoor@ii#2;;\@nil
-\special@@coor#1;;\@nil
-\let\pst@tempa\pst@coor
-\special@@coor#2;;\@nil
+  \special@@coor#1;;\@nil
+  \let\pst@tempa\pst@coor
+  \special@@coor#2;;\@nil
 % DG/SR modification end
-\xdef\pst@tempg{\pst@tempa pop \pst@coor exch pop }%
-\endgroup
-\let\pst@coor\pst@tempg}
+  \xdef\pst@tempg{\pst@tempa pop \pst@coor exch pop }%
+  \endgroup
+  \let\pst@coor\pst@tempg}
 \def\polar@coor#1#2{%
 \pssetlength\pst@dimg{#1}%
 \pst@@getangle{#2}%
@@ -1779,7 +1786,8 @@ n { transform floor .5 add exch floor .5 add exch itransform Dot } repeat}
   \else
     /Lineto /lineto load def
   \fi
-  \ifshowpoints true \else false \fi}
+  \ifshowpoints true \else false \fi
+}
 \def\qline(#1)(#2){%
   \def\pst@par{}%
   \begin@SpecialObj
@@ -3334,7 +3342,7 @@ closepath}%
        ArrowInsideNo=1,ArrowInsideOffset=0,
        arrows=-,
        liftpen=0,
-       linetype=2,% otherwise there is a problem when using e.g.
+       linetype=2,% otherwise there maybe a problem when dashed lines
        gangle=0,
        curvature=1 .1 0,
        dotsize=2pt 2,
